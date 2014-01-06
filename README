@@ -1,1 +1,12 @@
 ZotQuery
+
+Search your Zotero data from the comfort of your keyboard. 
+
+ZotQuery is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 
+
+There are 2 main functions:
+
+1. Search
+2. Cache
+
+
