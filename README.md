@@ -1,8 +1,8 @@
-ZotQuery
+# ZotQuery
 
-Search your Zotero data from the comfort of your keyboard. 
+### Search your Zotero data from the comfort of your keyboard. 
 
-ZotQuery is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 
+**ZotQuery** is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 
 
 There are 2 main functions:
 
@@ -31,6 +31,8 @@ The `Tag` search is launched by `z:tag`. This allows you to search through all o
 
 The `Collection` search is similar. It is launched by `z:col`, which begins a search for all of your Zotero collections. Once you choose a particular collection, Alfred will initiate the `zot:c` search, which will search within that particular collection. As above, the `zot:c` search functions just like the simple `zot` search. 
 
-Finally, there is also the Caching function. All of the query scripts are querying a JSON cache of your Zotero database. This file is created and then updated with the keyword `z:cache`. This function will find your Zotero sqlite database, read its contents, and create a JSON cache of the pertinent information. Since it is directly reading your Zotero database, the Zotero app **must** be closed when you run this function. Otherwise, the database will be locked and unreadable. This provides the reason for separating the caching and the querying functions: if every query read the sqlite database, you could only use the Alfred workflow when the Zotero app was closed. Since the queries read the JSON cache instead, you can run the workflow in any environment. You must still, however, update the cache with the Zotero app closed. 
+- - - 
+
+Finally, there is also the Caching function. All of the query scripts are querying a JSON cache of your Zotero database. This file is created and then updated with the keyword `z:cache`. This function will find your Zotero sqlite database, read its contents, and create a JSON cache of the pertinent information. Since it is directly reading your Zotero database, the Zotero app **MUST** be closed when you run this function. Otherwise, the database will be locked and unreadable. This provides the reason for separating the caching and the querying functions: if every query read the sqlite database, you could only use the Alfred workflow when the Zotero app was closed. Since the queries read the JSON cache instead, you can run the workflow in any environment. You must still, however, update the cache with the Zotero app closed. 
 
 
