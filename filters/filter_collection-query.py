@@ -81,9 +81,9 @@ for item in final:
 	elif item['type'] == 'chapter':
 		res_dict.update({'icon': 'icons/n_chapter.png'})
 	elif item['type'] == 'paper-conference':
-		res_dict.update({'icon': 'icons/n_conference2.png'})
-	else:
 		res_dict.update({'icon': 'icons/n_conference.png'})
+	else:
+		res_dict.update({'icon': 'icons/n_written.png'})
 
 	res_item = alp.Item(**res_dict)
 	xml_res.append(res_item)
