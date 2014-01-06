@@ -219,8 +219,7 @@ for x in zot_data:
 		citation_final = creator_final + ' ' + date_final + ' ' + title_final + ' ' + pub_final 
 		if not citation_final[-1] == '.':
 			citation_final = citation_final + '.'
-		print citation_final
-		print '\n'
+		
 		
 	## If CHAPTER type
 	# Keys for Chapters: [u'publisher', u'note', u'ISBN', u'language', u'shortTitle', u'title', u'URL', u'abstract', u'volume', u'event-place', u'source', u'date', u'accessed', u'collection-title', u'page']	

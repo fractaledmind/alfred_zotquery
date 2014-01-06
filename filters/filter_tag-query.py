@@ -72,7 +72,7 @@ for item in final:
 	title = item['data']['title']
 	sub = info[0] + ' ' + info[1]
 	
-	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['id'])}
+	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
 	# Export items to Alfred xml with appropriate icons
 	if item['type'] == 'article-journal':
 		res_dict.update({'icon': 'icons/n_article.png'})

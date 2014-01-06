@@ -4,6 +4,8 @@ import sqlite3
 import json
 import collections
 import alp
+import os
+import shutil
 import _mappings
 from _zotquery import get_zotero_db, to_unicode
 
@@ -22,15 +24,17 @@ All of the steps are wrapped in try-blocks, each of which has a unique log. So, 
 ### INITIAL SETUP
 
 try:
-	# Set path to Zotero sqlite database
+	# Create a copy of the user's Zotero database 
 	zotero_path = get_zotero_db()
+	clone_database = os.path.join(alp.cache(), "zotquery.sqlite")
+	shutil.copyfile(zotero_path, clone_database)
 except:
 	alp.log("Setup Failed! Cannot locate Zotero database.")
 	print "Setup Failed! Cannot locate Zotero database."
 
 try:
 	# Connect to Zotero database
-	conn = sqlite3.connect(zotero_path)
+	conn = sqlite3.connect(clone_database)
 	cur = conn.cursor()	
 except:
 	alp.log("Database Backup Failed! Zotero database locked.")
@@ -57,7 +61,7 @@ This script creates a JSON cache of the pertinent information in the user's Zote
 try:		
 	# This query retrieves tuples containing (id, type, last name, first name, creator type, field name, and field value) for each item in the user's Zotero database
 	info_query = """
-	select items.itemID, itemTypes.typeName, creatorData.lastName, creatorData.firstName, creatorTypes.creatorType, fields.fieldName, itemDataValues.value
+	select items.itemID, items.key, itemTypes.typeName, creatorData.lastName, creatorData.firstName, creatorTypes.creatorType, fields.fieldName, itemDataValues.value
 		from items, itemTypes, creatorData, creatorTypes, fields,  itemDataValues, itemCreators, creators, itemData
 		where
 			items.itemID = itemData.itemID
@@ -86,6 +90,7 @@ try:
 	sub_creator = []
 	# Prepare lists to contain item ids, item types, and creator last names
 	id_l = [] 
+	key_l = []
 	type_l = []
 	last_l = [] 
 	
@@ -95,28 +100,31 @@ try:
 			# If first item
 			if i == 0:
 				
-				# Create main 4 dictionaries: id, type, creator, and data
+				# Create main 5 dictionaries: id, key, type, creator, and data
 				id = {'id': to_unicode(item[0], encoding='utf-8')}
 				id_l.append(id)
+
+				key = {'key': to_unicode(item[1], encoding='utf-8')}
+				key_l.append(key)
 				
 				# Uses the Zotero to CSL-JSON _mappings for item types
-				csl_type = _mappings.trans_types(item[1])
+				csl_type = _mappings.trans_types(item[2])
 				type = {'type':csl_type}
 				type_l.append(type)
 				
 				# Uses the Zotero to CSL-JSON _mappings for creator types
-				c_type = _mappings.trans_creators(item[4])
-				creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[2], encoding='utf-8')), ('given', to_unicode(item[3], encoding='utf-8'))])
-				last_l.append({'family':item[2]})
+				c_type = _mappings.trans_creators(item[5])
+				creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
+				last_l.append({'family':item[3]})
 				# Add this item's creator to the sub_creator list
 				sub_creator.append(creator)
 
 				# Uses the Zotero to CSL-JSON _mappings for field names
-				val = _mappings.trans_fields(item[5])
+				val = _mappings.trans_fields(item[6])
 				if val == "issued":
-					v = to_unicode(item[6][0:4], encoding='utf-8')
+					v = to_unicode(item[7][0:4], encoding='utf-8')
 				else:
-					v = to_unicode(item[6], encoding='utf-8')
+					v = to_unicode(item[7], encoding='utf-8')
 				data = {val:v}
 				# Add this item's data to the sub_data dictionary
 				sub_data.update(data)
@@ -124,35 +132,37 @@ try:
 			# If not the last item
 			elif i > 0 and i < (len(info) - 1):
 					
-				# Create main two dictionaries
+				# Create main three dictionaries
 				id = {'id': to_unicode(item[0], encoding='utf-8')}
+
+				key = {'key': to_unicode(item[1], encoding='utf-8')}
 					
-				csl_type = _mappings.trans_types(item[1])
+				csl_type = _mappings.trans_types(item[2])
 				type = {'type':csl_type}
 					
 				# If old id
 				if id == id_l[-1]:
 					
 					# If old author
-					if {'family':item[2]} == last_l[-1]:
+					if {'family':item[3]} == last_l[-1]:
 					
 						# Place metadata in the dictionary with proper keys
-						val = _mappings.trans_fields(item[5])
+						val = _mappings.trans_fields(item[6])
 						if val == "issued":
-							v = to_unicode(item[6][0:4], encoding='utf-8')
+							v = to_unicode(item[7][0:4], encoding='utf-8')
 						else:
-							v = to_unicode(item[6], encoding='utf-8')
+							v = to_unicode(item[7], encoding='utf-8')
 						data = {val:v}
 						# Add this item's data to the sub_data dictionary
 						sub_data.update(data)
 
 					# If new author for old id
 					else:
-						c_type = _mappings.trans_creators(item[4])
-						creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[2], encoding='utf-8')), ('given', to_unicode(item[3], encoding='utf-8'))])
+						c_type = _mappings.trans_creators(item[5])
+						creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
 						# Add this item's creator to the sub_creator list
 						sub_creator.append(creator)
-						last_l.append({'family':item[2]})
+						last_l.append({'family':item[3]})
 							
 				# If new id
 				else:
@@ -161,6 +171,8 @@ try:
 					d = collections.OrderedDict()
 					id1 = id_l.pop()
 					d['id'] = id1['id']
+					key1 = key_l.pop()
+					d['key'] = key1['key']
 					type1 = type_l.pop()
 					d['type'] = type1['type']
 					d['creators'] = sub_creator
@@ -172,23 +184,24 @@ try:
 					
 					# Restart all relevant lists
 					id_l.append(id)	
-					last_l.append({'family':item[2]})
+					key_l.append(key)
+					last_l.append({'family':item[3]})
 					type_l.append(type)
 					sub_data = {}
 					sub_creator = []
 						
 					# Load data into lists	
-					c_type = _mappings.trans_creators(item[4])
-					creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[2], encoding='utf-8')), ('given', to_unicode(item[3], encoding='utf-8'))])
+					c_type = _mappings.trans_creators(item[5])
+					creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
 					# Add this item's creator to the sub_creator list
 					sub_creator.append(creator)
 						
 					# Place metadata in the dictionary with proper keys
-					val = _mappings.trans_fields(item[5])
+					val = _mappings.trans_fields(item[6])
 					if val == "issued":
-						v = to_unicode(item[6][0:4], encoding='utf-8')
+						v = to_unicode(item[7][0:4], encoding='utf-8')
 					else:
-						v = to_unicode(item[6], encoding='utf-8')
+						v = to_unicode(item[7], encoding='utf-8')
 					data = {val:v}
 					# Add this item's data to the sub_data dictionary
 					sub_data.update(data)
@@ -199,6 +212,8 @@ try:
 				d = collections.OrderedDict()
 				id1 = id_l.pop()
 				d['id'] = id1['id']
+				key1 = key_l.pop()
+				d['key'] = key1['key']
 				type1 = type_l.pop()
 				d['type'] = type1['type']	
 				d['creators'] = sub_creator
@@ -225,7 +240,7 @@ This script creates a cache of your Zotero collection data.
 """
 
 try:
-	conn = sqlite3.connect(zotero_path)
+	conn = sqlite3.connect(clone_database)
 	cur = conn.cursor()	
 	# Retrieve collection data from Zotero database
 	collection_query = """
@@ -302,7 +317,7 @@ This script creates a cache of your Zotero tag data.
 """
 
 try:
-	conn = sqlite3.connect(zotero_path)
+	conn = sqlite3.connect(clone_database)
 	cur = conn.cursor()	
 	tag_query = """
 			select items.itemID, tags.name

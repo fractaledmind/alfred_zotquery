@@ -3,14 +3,14 @@
 import sqlite3
 import alp
 import sys
-from _zotquery import get_zotero_db
+import os
 
 """
 This script queries your Zotero collections for any matches of the input query.
 """ 
 
-zotero_path = get_zotero_db()
-conn = sqlite3.connect(zotero_path)
+clone_database = os.path.join(alp.cache(), "zotquery.sqlite")
+conn = sqlite3.connect(clone_database)
 cur = conn.cursor()	
 # Retrieve collection data from Zotero database
 collection_query = """
