@@ -34,32 +34,24 @@ for item in results:
 	info = info_format(item)
 	
 	# Prepare data for Alfred
-	last_name = info[0]
-	year = info[1]
 	title = item['data']['title']
-	sub = last_name + ' ' + year
+	sub = info[0] + ' ' + info[1]
 	
+	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['id'])}
 	# Export items to Alfred xml with appropriate icons
 	if item['type'] == 'article-journal':
-		res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['id']), 'icon': 'icons/article.png'}
-		res_item = alp.Item(**res_dict)
-		xml_res.append(res_item)
+		res_dict.update({'icon': 'icons/n_article.png'})
 	elif item['type'] == 'book':
-		res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['id']), 'icon': 'icons/book.png'}
-		res_item = alp.Item(**res_dict)
-		xml_res.append(res_item)
+		res_dict.update({'icon': 'icons/n_book.png'})
 	elif item['type'] == 'chapter':
-		res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['id']), 'icon': 'icons/chapter.png'}
-		res_item = alp.Item(**res_dict)
-		xml_res.append(res_item)
+		res_dict.update({'icon': 'icons/n_chapter.png'})
 	elif item['type'] == 'paper-conference':
-		res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['id']), 'icon': 'icons/conference.png'}
-		res_item = alp.Item(**res_dict)
-		xml_res.append(res_item)
+		res_dict.update({'icon': 'icons/n_conference2.png'})
 	else:
-		res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['id']), 'icon': 'icons/library.png'}
-		res_item = alp.Item(**res_dict)
-		xml_res.append(res_item)
+		res_dict.update({'icon': 'icons/n_conference.png'})
+
+	res_item = alp.Item(**res_dict)
+	xml_res.append(res_item)
 		
 alp.feedback(xml_res)
 

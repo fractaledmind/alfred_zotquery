@@ -28,7 +28,7 @@ for i, item in enumerate(tag_data):
 	
 	if query.lower() in item[0].lower():
 		
-		res_dict = {'title': item[0], 'subtitle': 'Tag', 'valid': True, 'arg': item[0]}
+		res_dict = {'title': item[0], 'subtitle': 'Tag', 'valid': True, 'arg': item[0], 'icon': 'icons/n_tag.png'}
 		res_item = alp.Item(**res_dict)
 		xml_res.append(res_item)
 
