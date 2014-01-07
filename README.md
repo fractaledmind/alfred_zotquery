@@ -29,11 +29,16 @@ This will search your entire Zotero database for any use of the query provided. 
 
 Once you complete your query, and the script catches up with you, you will see a list of all of your Zotero items that match the query. For ease of use, the workflow also provides unique icons for the various item types:
 
-* article ![article](/icons/n_article.png)
-* book ![book](/icons/n_book.png)
-* chapter ![chapter](/icons/n_chapter.png)
-* conference paper ![conference](/icons/n_conference.png)
-* etc. ![others](/icons/n_written.png)
+* article 
+![article](/icons/n_article.png)
+* book 
+![book](/icons/n_book.png)
+* chapter 
+![chapter](/icons/n_chapter.png)
+* conference paper
+![conference](/icons/n_conference.png)
+* etc. 
+![others](/icons/n_written.png)
 
 ![A list of items](/screenshots/zotquery_zot.png)
 
