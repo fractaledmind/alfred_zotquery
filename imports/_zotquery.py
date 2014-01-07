@@ -85,28 +85,25 @@ def get_zotero_db():
 ###
 def check_cache():
 	
-	"""Check if user's Zotero sqlite database has been modified since last cache was created."""
+	"""Does the cache need to be updated?"""
 	
-	try:
-		# Get the cache path and its modification date
-		cache_path = alp.cache(join='zotero_db.json')
-		cache_mod = time.ctime(os.path.getmtime(cache_path))
-	except:
-		alp.log("Zotero cache not found.")
-		
-	try:
-		# Get the Zotero database path and its modification date
-		zotero_path = getZoteroDB()
-		zotero_mod = time.ctime(os.path.getmtime(zotero_path))
-	except:
-		alp.log("Backup Failed! Zotero database locked.")
-				
-	if zotero_mod > cache_mod:
-		return False # Zotero is newer, so Cache needs to update
+	update = False
+
+	### Step One: Check if cloned .sqlite database is up-to-date with Zotero database
+	zotero_mod = os.stat(get_zotero_db())[8]
+	clone_mod = os.stat(os.path.join(alp.cache(), "zotquery.sqlite"))[8]
+
+	if zotero_mod > clone_mod:
+		update = True
+		alp.log("Cloned db needs to be updated")
+
+	# Step Two: Check if JSON cache is up-to-date with the cloned database
+	cache_mod = os.stat(alp.cache(join='zotero_db.json'))[8]
+	if (cache_mod - clone_mod) > 10:
+		update = True
 		alp.log("Cache needs to be updated")
-	elif zotero_mod < cache_mod:
-		return True # Cache is newer
-		alp.log("Cache is up-to-date")
+
+	return update
 		
 ###		
 def zotquery(query, zot_data, sort='none'):

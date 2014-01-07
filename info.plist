@@ -17,11 +17,22 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>3166AFE5-2F5A-430E-B2C8-6EE19253411E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>35209636-0007-425C-AFFD-6A044F32292D</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>8C18187E-3285-4E2D-8F2C-A96D95973D39</string>
+				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -43,7 +54,15 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>1FA5775F-E88F-4082-BB2C-865BABEE60C1</string>
+				<string>22685B3B-6DAD-4F71-840D-99BF83908B7A</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Post notification</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -54,7 +73,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>8C18187E-3285-4E2D-8F2C-A96D95973D39</string>
+				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -65,7 +84,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>1FA5775F-E88F-4082-BB2C-865BABEE60C1</string>
+				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -109,7 +128,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>1FA5775F-E88F-4082-BB2C-865BABEE60C1</string>
+				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -170,6 +189,31 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Title</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>22685B3B-6DAD-4F71-840D-99BF83908B7A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -199,25 +243,34 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>output</key>
-				<integer>0</integer>
-				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>Result ID</string>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<key>type</key>
+				<integer>6</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>1FA5775F-E88F-4082-BB2C-865BABEE60C1</string>
+			<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -254,77 +307,51 @@
 			<key>config</key>
 			<dict>
 				<key>argumenttype</key>
-				<integer>2</integer>
+				<integer>0</integer>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>keyword</key>
-				<string>z:cache</string>
-				<key>runningsubtext</key>
-				<string>Updating...</string>
+				<string>zot:c</string>
 				<key>script</key>
-				<string>cat &lt;&lt; CODE
-&lt;?xml version="1.0"?&gt;
-&lt;items&gt;
-&lt;item uid="db_cache" arg="1" valid="yes"&gt;
-&lt;title&gt;Update Zotero database&lt;/title&gt;
-&lt;subtitle&gt;Do you want to update your Zotero database cache?&lt;/subtitle&gt;
-&lt;icon&gt;icon.png&lt;/icon&gt;
-&lt;/item&gt;
-&lt;/items&gt;
-CODE</string>
+				<string>python filter_collection-query.py "{query}"</string>
 				<key>title</key>
-				<string>Update your ZotQuery cache</string>
+				<string>Search within your chosen Zotero collection</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</string>
+			<string>7687E6B6-51B2-4721-A693-1B009E726974</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
 				<key>escaping</key>
 				<integer>127</integer>
+				<key>keyword</key>
+				<string>zot:tag</string>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
 				<key>script</key>
-				<string>python action_update-caches.py</string>
+				<string>python filter_tag-query.py "{query}"</string>
+				<key>title</key>
+				<string>Search within your chosen tag</string>
 				<key>type</key>
 				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>E89AAF55-EA37-4520-9604-CB7F9906D59A</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>output</key>
-				<integer>0</integer>
-				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>Result</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>260BAE78-0771-4A61-91DE-D39A18E49D43</string>
+			<string>35209636-0007-425C-AFFD-6A044F32292D</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -392,56 +419,6 @@ CODE</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>output</key>
-				<integer>0</integer>
-				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>Result ID</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>8C18187E-3285-4E2D-8F2C-A96D95973D39</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>zot:c</string>
-				<key>script</key>
-				<string>python filter_collection-query.py "{query}"</string>
-				<key>title</key>
-				<string>Search within your chosen Zotero collection</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>7687E6B6-51B2-4721-A693-1B009E726974</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
@@ -503,27 +480,78 @@ CODE</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
 				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Result</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>260BAE78-0771-4A61-91DE-D39A18E49D43</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>keyword</key>
-				<string>zot:tag</string>
+				<string>z:cache</string>
 				<key>runningsubtext</key>
-				<string>Searching...</string>
+				<string>Updating...</string>
 				<key>script</key>
-				<string>python filter_tag-query.py "{query}"</string>
+				<string>cat &lt;&lt; CODE
+&lt;?xml version="1.0"?&gt;
+&lt;items&gt;
+&lt;item uid="db_cache" arg="1" valid="yes"&gt;
+&lt;title&gt;Update Zotero database&lt;/title&gt;
+&lt;subtitle&gt;Do you want to update your Zotero database cache?&lt;/subtitle&gt;
+&lt;icon&gt;icons/n_update.png&lt;/icon&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+CODE</string>
 				<key>title</key>
-				<string>Search within your chosen tag</string>
+				<string>Update your ZotQuery cache</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>35209636-0007-425C-AFFD-6A044F32292D</string>
+			<string>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E89AAF55-EA37-4520-9604-CB7F9906D59A</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -535,27 +563,32 @@ CODE</string>
 		<key>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</key>
 		<dict>
 			<key>ypos</key>
-			<real>350</real>
+			<real>770</real>
 		</dict>
-		<key>1FA5775F-E88F-4082-BB2C-865BABEE60C1</key>
+		<key>22685B3B-6DAD-4F71-840D-99BF83908B7A</key>
 		<dict>
 			<key>ypos</key>
-			<real>110</real>
+			<real>10</real>
 		</dict>
 		<key>260BAE78-0771-4A61-91DE-D39A18E49D43</key>
 		<dict>
 			<key>ypos</key>
-			<real>350</real>
+			<real>770</real>
+		</dict>
+		<key>3166AFE5-2F5A-430E-B2C8-6EE19253411E</key>
+		<dict>
+			<key>ypos</key>
+			<real>210</real>
 		</dict>
 		<key>35209636-0007-425C-AFFD-6A044F32292D</key>
 		<dict>
 			<key>ypos</key>
-			<real>810</real>
+			<real>410</real>
 		</dict>
 		<key>53372942-F4C7-4770-BA94-C31F4CFB30D7</key>
 		<dict>
 			<key>ypos</key>
-			<real>710</real>
+			<real>630</real>
 		</dict>
 		<key>71C4224F-1D97-40F5-AFE7-4BB9294BB865</key>
 		<dict>
@@ -565,22 +598,22 @@ CODE</string>
 		<key>7299C725-F65A-4E18-A82A-D28E381A2921</key>
 		<dict>
 			<key>ypos</key>
-			<real>490</real>
+			<real>530</real>
 		</dict>
 		<key>7687E6B6-51B2-4721-A693-1B009E726974</key>
 		<dict>
 			<key>ypos</key>
-			<real>590</real>
-		</dict>
-		<key>8C18187E-3285-4E2D-8F2C-A96D95973D39</key>
-		<dict>
-			<key>ypos</key>
-			<real>590</real>
+			<real>310</real>
 		</dict>
 		<key>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</key>
 		<dict>
 			<key>ypos</key>
-			<real>710</real>
+			<real>630</real>
+		</dict>
+		<key>9FAF6DF5-7CC4-492A-950E-2719D3574536</key>
+		<dict>
+			<key>ypos</key>
+			<real>210</real>
 		</dict>
 		<key>BD93AD49-C70B-45EE-8817-CD0801540534</key>
 		<dict>
@@ -590,17 +623,17 @@ CODE</string>
 		<key>C131748D-B1E2-48EF-ACB3-715DF55AECC0</key>
 		<dict>
 			<key>ypos</key>
-			<real>490</real>
+			<real>530</real>
 		</dict>
 		<key>E2AAD880-BB36-40D8-8755-7F96F2BFAD6C</key>
 		<dict>
 			<key>ypos</key>
-			<real>490</real>
+			<real>530</real>
 		</dict>
 		<key>E37263DD-A00C-43DA-870B-75FD5144AF6F</key>
 		<dict>
 			<key>ypos</key>
-			<real>710</real>
+			<real>630</real>
 		</dict>
 		<key>E565C2AB-EABC-4804-8449-D18A38DC0BBF</key>
 		<dict>
@@ -610,7 +643,7 @@ CODE</string>
 		<key>E89AAF55-EA37-4520-9604-CB7F9906D59A</key>
 		<dict>
 			<key>ypos</key>
-			<real>350</real>
+			<real>770</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>
