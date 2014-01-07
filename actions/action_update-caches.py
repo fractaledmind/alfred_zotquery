@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from dependencies import alp
 import sqlite3
 import json
 import collections
-import alp
 import os
 import shutil
 import _mappings

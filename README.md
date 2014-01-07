@@ -4,10 +4,38 @@
 
 **ZotQuery** is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 
 
-There are 2 main functions:
+### REQUIREMENTS ###
+
+This workflow utilizes the Zotero API to export citations of chosen items. In order for the user to utilize these functions, they must have and set up a Zotero private key. To do so, the user must sign into their Zotero account at [zotero.org](www.zotero.org) and go to the "Feeds/API" tab. Here they will find something like so:
+
+![The API tab](/screenshots/Zotero___Settings___Feeds_API.png)
+
+This shows a user who has two API keys set up, one for personal use and one for the iOS app [PaperShip](http://www.papershipapp.com/ "PaperShip - Manage, Annotate, and Share your Papers On The Go ..."). If you do not have a Personal API key, you can easily set one up by clicking the "Create new private key" link. 
+
+Once you have set up a personal api key, you will need this key and the userID (Library ID) to set-up the ZotQuery workflow. The necessary steps are as follows:
+
+1. Open the workflow folder by going into the Alfred preferences, selecting any of the script in the ZotQuery workflow and pressing this button:
+
+![Open workflow folder](/screenshots/Alfred_Preferences-5.png)
+
+2. Find the `setting.json` file:
+
+![Find settings](/screenshots/find-settings.png)
+
+3. Open that file and replace the "user_id" and "api_key" values with the appropriate data:
+
+![Modify settings](/screenshots/settings_json.png)
+
+The workflow reads this `settings.json` file whenever it attempts to connect to the Zotero API, so if you don't alter it properly, the Export Citation and Export Reference functions will not work.
+
+
+### FUNCTIONS
+
+There are 3 main functions:
 
 1. Search
-2. Cache
+2. Export
+3. Cache
 
 Under `Search` there are 5 options:
 
@@ -82,6 +110,23 @@ Once you choose a particular collection, Alfred will initiate the `zot:c` search
 As above, the `zot:c` search functions just like the simple `zot` search. 
 
 - - - 
+Once you select an item, there are 3 options:
+
+1. Open Zotero to that item.
+
+2. Export an author-date reference to that item.
+
+3. Export a Markdown citation of that item.
+
+
+If you merely hit `return` on your chosen item, option 1 will occur and Zotero will open to that item. If you hit `option+return` when you choose your item, you will export an author-date reference. If you hit `control+return`, you will export a full citation of the item in Markdown format. 
+
+The workflow defaults to APA style. If you wish to use another of Zotero's CSL styles, you need merely change `style` key for the zot.item call in the action_export-md-format.py and the action_export-ref.py scripts. Here's what the code will look like and what you need to change:
+
+![Updating the cache](/screenshots/action_export-ref_py-6.png)
+
+
+- - -
 
 Finally, there is also the Caching function. All of the query scripts are querying a JSON cache of your Zotero database. This file is created and then updated with the keyword `z:cache`. 
 

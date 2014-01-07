@@ -6,6 +6,17 @@
 	<string>com.hackademic.zotquery</string>
 	<key>connections</key>
 	<dict>
+		<key>0406E92A-2F84-48D5-82F2-333E22D5ED93</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CA18956A-C349-4A46-9E5E-211EC824BDE8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</key>
 		<array>
 			<dict>
@@ -32,6 +43,22 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
+				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Markdown Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -54,11 +81,19 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>22685B3B-6DAD-4F71-840D-99BF83908B7A</string>
+				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
 				<key>modifiers</key>
 				<integer>262144</integer>
 				<key>modifiersubtext</key>
-				<string>Post notification</string>
+				<string>Export Markdown Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
@@ -73,6 +108,22 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
+				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Markdown Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -82,6 +133,22 @@
 		</array>
 		<key>BD93AD49-C70B-45EE-8817-CD0801540534</key>
 		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Markdown Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
 			<dict>
 				<key>destinationuid</key>
 				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
@@ -128,6 +195,22 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
+				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Markdown Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -140,6 +223,17 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>260BAE78-0771-4A61-91DE-D39A18E49D43</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>612EB44D-D8FA-466F-B429-737EB9965027</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -202,12 +296,29 @@
 				<key>text</key>
 				<string>{query}</string>
 				<key>title</key>
-				<string>Title</string>
+				<string>Citation</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>22685B3B-6DAD-4F71-840D-99BF83908B7A</string>
+			<string>CA18956A-C349-4A46-9E5E-211EC824BDE8</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-md-format.py "{query}"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -246,31 +357,39 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<string>python action_export-ref.py "{query}"</string>
 				<key>type</key>
-				<integer>6</integer>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
+			<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_update-caches.py</string>
-				<key>type</key>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
 				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Reference</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.script</string>
+			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
+			<string>612EB44D-D8FA-466F-B429-737EB9965027</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -331,6 +450,23 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -352,6 +488,23 @@
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>35209636-0007-425C-AFFD-6A044F32292D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -419,23 +572,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>tell application "Alfred 2" to search "zot:tag "</string>
-				<key>type</key>
-				<integer>6</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.script</string>
-			<key>uid</key>
-			<string>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -466,6 +602,23 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
+				<string>tell application "Alfred 2" to search "zot:tag "</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
 				<string>python action_save-tag.py "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
@@ -474,31 +627,6 @@
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>E37263DD-A00C-43DA-870B-75FD5144AF6F</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>output</key>
-				<integer>0</integer>
-				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>Result</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>260BAE78-0771-4A61-91DE-D39A18E49D43</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -541,6 +669,31 @@ CODE</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Result</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>260BAE78-0771-4A61-91DE-D39A18E49D43</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
@@ -560,15 +713,15 @@ CODE</string>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>0406E92A-2F84-48D5-82F2-333E22D5ED93</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
 		<key>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</key>
 		<dict>
 			<key>ypos</key>
 			<real>770</real>
-		</dict>
-		<key>22685B3B-6DAD-4F71-840D-99BF83908B7A</key>
-		<dict>
-			<key>ypos</key>
-			<real>10</real>
 		</dict>
 		<key>260BAE78-0771-4A61-91DE-D39A18E49D43</key>
 		<dict>
@@ -578,7 +731,7 @@ CODE</string>
 		<key>3166AFE5-2F5A-430E-B2C8-6EE19253411E</key>
 		<dict>
 			<key>ypos</key>
-			<real>210</real>
+			<real>410</real>
 		</dict>
 		<key>35209636-0007-425C-AFFD-6A044F32292D</key>
 		<dict>
@@ -589,6 +742,11 @@ CODE</string>
 		<dict>
 			<key>ypos</key>
 			<real>630</real>
+		</dict>
+		<key>612EB44D-D8FA-466F-B429-737EB9965027</key>
+		<dict>
+			<key>ypos</key>
+			<real>210</real>
 		</dict>
 		<key>71C4224F-1D97-40F5-AFE7-4BB9294BB865</key>
 		<dict>
@@ -613,7 +771,7 @@ CODE</string>
 		<key>9FAF6DF5-7CC4-492A-950E-2719D3574536</key>
 		<dict>
 			<key>ypos</key>
-			<real>210</real>
+			<real>410</real>
 		</dict>
 		<key>BD93AD49-C70B-45EE-8817-CD0801540534</key>
 		<dict>
@@ -624,6 +782,11 @@ CODE</string>
 		<dict>
 			<key>ypos</key>
 			<real>530</real>
+		</dict>
+		<key>CA18956A-C349-4A46-9E5E-211EC824BDE8</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
 		</dict>
 		<key>E2AAD880-BB36-40D8-8755-7F96F2BFAD6C</key>
 		<dict>
@@ -644,6 +807,11 @@ CODE</string>
 		<dict>
 			<key>ypos</key>
 			<real>770</real>
+		</dict>
+		<key>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</key>
+		<dict>
+			<key>ypos</key>
+			<real>210</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>

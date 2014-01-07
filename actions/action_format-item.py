@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from dependencies import alp
 import re
-import alp
 import json
 
 # Get Zotero data from JSON cache

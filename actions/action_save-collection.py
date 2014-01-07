@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from dependencies import alp
 import json
-import alp
 import sys
 from _zotquery import to_unicode
 

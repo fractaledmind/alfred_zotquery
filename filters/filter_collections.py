@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from dependencies import alp
 import sqlite3
-import alp
 import sys
 import os
 

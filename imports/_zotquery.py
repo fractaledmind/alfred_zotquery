@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from dependencies import alp
 import glob
 import json
 import os
-import alp
 import os.path
 import time
 import sys
