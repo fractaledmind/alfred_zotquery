@@ -132,6 +132,4 @@ Finally, there is also the Caching function. All of the query scripts are queryi
 
 ![Updating the cache](/screenshots/zotquery_cache.png)
 
-This function will find your Zotero sqlite database, read its contents, and create a JSON cache of the pertinent information. Since it is directly reading your Zotero database, the Zotero app **MUST** be closed when you run this function. Otherwise, the database will be locked and unreadable. This provides the reason for separating the caching and the querying functions: if every query read the sqlite database, you could only use the Alfred workflow when the Zotero app was closed. Since the queries read the JSON cache instead, you can run the workflow in any environment. You must still, however, update the cache with the Zotero app closed. 
-
-
+This function will find your Zotero sqlite database, read its contents, and create a JSON cache of the pertinent information. 
