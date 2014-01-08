@@ -47,7 +47,7 @@ Under `Search` there are 5 options:
 
 Note that all searches coerce both the query and the data into lowercase, so you can search using lowercase queries and still get matches. 
 
-The `General` search is launched by the keyword `zot`. 
+The **General** search is launched by the keyword `zot`. 
 
 ![A general search](/screenshots/zotquery_init.png)
 
@@ -72,11 +72,11 @@ Once you complete your query, and the script catches up with you, you will see a
 
 When you select an item, Zotero will open to that item.
 
-The `Author` search is launched by `zot:a`. This search only queries the last names of the authors of your Zotero data. For example: `zot:a thomas` will return all the items that have an author (or editor, translator, etc.) with the last name "Thomas". 
+The **Author** search is launched by `zot:a`. This search only queries the last names of the authors of your Zotero data. For example: `zot:a thomas` will return all the items that have an author (or editor, translator, etc.) with the last name "Thomas". 
 
 ![An author-specific search](/screenshots/zotquery_author_search.png)
 
-The `Title` search is launched by `zot:t`. 
+The **Title** search is launched by `zot:t`. 
 
 ![A title-specific search](/screenshots/zotquery_title_init.png)
 
@@ -87,7 +87,7 @@ This search only queries the title fields of your Zotero data. For example: `zot
 
 The final two searches (Tag and Collection) are two-step searches. In step-one, you search for a particular Tag or Collection; in step-two you search within that particular Tag or Collection for your query. 
 
-The `Tag` search is launched by `z:tag`. 
+The **Tag** search is launched by `z:tag`. 
 
 ![A tag-specific search](/screenshots/zotquery_tag_init.png)
 
@@ -99,7 +99,7 @@ Once you select a tag, Alfred will automatically initiate the `zot:tag` search, 
 
 ![Searching within a tag](/screenshots/zotquery_in-tag_search.png)
 
-The `Collection` search is similar. It is launched by `z:col`, which begins a search for all of your Zotero collections. 
+The **Collection** search is similar. It is launched by `z:col`, which begins a search for all of your Zotero collections. 
 
 ![A collection-specific search](/screenshots/zotquery_collection_search.png)
 
@@ -113,13 +113,16 @@ As above, the `zot:c` search functions just like the simple `zot` search.
 Once you select an item, there are 3 options:
 
 1. Open Zotero to that item.
-
 2. Export an author-date reference to that item.
-
 3. Export a Markdown citation of that item.
+4. Append a Markdown citation to a temporary bibliography.
 
+If you merely hit `return` on your chosen item, option 1 will occur and Zotero will open to that item.   
+If you hit `option+return` when you choose your item, you will export an author-date reference.   
+If you hit `control+return`, you will export a full citation of the item in Markdown format.  
+If you hit `fn+return`, you will append a full citation of the item in Markdown format to a cached bibliography text file. Once you have filled your bibliography, you can use the command `z:bib` to export the entire bibliography to the clipboard. This export will order the citations in alphabetical order and place a WORKS CITED header at the top. It will then wipe and restart the `bibliography.txt` file. This feature allows you to dynamically build bibliographies for your papers without all of the fuss.
 
-If you merely hit `return` on your chosen item, option 1 will occur and Zotero will open to that item. If you hit `option+return` when you choose your item, you will export an author-date reference. If you hit `control+return`, you will export a full citation of the item in Markdown format. 
+These final three options use Zotero’s web API, and so they require an internet connection. If you are not connected to the internet, both will fail gracefully. 
 
 The workflow defaults to Chicago (author-date) style. If you wish to use another of Zotero's CSL styles, you need merely change `style` key for the zot.item call in the action_export-md-format.py and the action_export-ref.py scripts. Here's what the code will look like and what you need to change:
 

@@ -2,11 +2,11 @@ ZotQuery TODO
 
 * Order filter results by:
 	* date (newest to oldest)
+
 * With Alfred action modifiers, there are 6 possible actions the workflow can take on an item:
 	[x] open Zotero to item
 	[x] copy full citation
-	[x] copy short citation
-	- WHAT ARE THE OTHER 3?
-		* add to bibliography?
-		* open attachment
-		* ??
+	[x] copy short reference
+	[x] add citation to bibliography
+	* open attachment
+	* ??
