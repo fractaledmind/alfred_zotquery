@@ -4,30 +4,35 @@
 
 **ZotQuery** is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 
 
+To download, simply open the `ZotQuery.alfredworkflow` file, and then click `View Raw`. The file will then automatically download. All you need to do is open it and Alfred will import the workflow.
+
+	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
+
 ### REQUIREMENTS ###
 
-This workflow utilizes the Zotero API to export citations of chosen items. In order for the user to utilize these functions, they must have and set up a Zotero private key. To do so, the user must sign into their Zotero account at [zotero.org](www.zotero.org) and go to the "Feeds/API" tab. Here they will find something like so:
+This workflow utilizes the Zotero API to export citations of chosen items. In order for the user to utilize these functions, you must have and set up a Zotero private key. To do so, the user must sign into their Zotero account at [zotero.org](www.zotero.org) and go to the "Feeds/API" tab. Here you will find something like so:
 
 ![The API tab](/screenshots/Zotero___Settings___Feeds_API.png)
 
 This shows a user who has two API keys set up, one for personal use and one for the iOS app [PaperShip](http://www.papershipapp.com/ "PaperShip - Manage, Annotate, and Share your Papers On The Go ..."). If you do not have a Personal API key, you can easily set one up by clicking the "Create new private key" link. 
 
-Once you have set up a personal api key, you will need this key and the userID (Library ID) to set-up the ZotQuery workflow. The necessary steps are as follows:
+Once you have set up a personal API key, you will need this key and the userID (Library ID) to set-up the ZotQuery workflow. The necessary steps are as follows:
 
-1. Open the workflow folder by going into the Alfred preferences, selecting any of the script in the ZotQuery workflow and pressing this button:
+* Open the workflow folder by going into the Alfred preferences, selecting any of the script in the ZotQuery workflow and pressing this button:
 
 ![Open workflow folder](/screenshots/Alfred_Preferences-5.png)
 
-2. Find the `setting.json` file:
+* Find the `setting.json` file:
 
 ![Find settings](/screenshots/find-settings.png)
 
-3. Open that file and replace the "user_id" and "api_key" values with the appropriate data:
+* Open that file and replace the "user_id" and "api_key" values with the appropriate data:
 
 ![Modify settings](/screenshots/settings_json.png)
 
-The workflow reads this `settings.json` file whenever it attempts to connect to the Zotero API, so if you don't alter it properly, the Export Citation and Export Reference functions will not work.
+The workflow reads this `settings.json` file whenever it attempts to connect to the Zotero API, so if you don't alter it properly, the Export Citation and Export Reference functions **will not work**.
 
+- - -  
 
 ### FUNCTIONS
 
@@ -47,7 +52,7 @@ Under `Search` there are 5 options:
 
 Note that all searches coerce both the query and the data into lowercase, so you can search using lowercase queries and still get matches. 
 
-The **General** search is launched by the keyword `zot`. 
+* The **General** search is launched by the keyword `zot`. 
 
 ![A general search](/screenshots/zotquery_init.png)
 
@@ -72,11 +77,11 @@ Once you complete your query, and the script catches up with you, you will see a
 
 When you select an item, Zotero will open to that item.
 
-The **Author** search is launched by `zot:a`. This search only queries the last names of the authors of your Zotero data. For example: `zot:a thomas` will return all the items that have an author (or editor, translator, etc.) with the last name "Thomas". 
+* The **Author** search is launched by `zot:a`. This search only queries the last names of the authors of your Zotero data. For example: `zot:a thomas` will return all the items that have an author (or editor, translator, etc.) with the last name "Thomas". 
 
 ![An author-specific search](/screenshots/zotquery_author_search.png)
 
-The **Title** search is launched by `zot:t`. 
+* The **Title** search is launched by `zot:t`. 
 
 ![A title-specific search](/screenshots/zotquery_title_init.png)
 
@@ -87,7 +92,7 @@ This search only queries the title fields of your Zotero data. For example: `zot
 
 The final two searches (Tag and Collection) are two-step searches. In step-one, you search for a particular Tag or Collection; in step-two you search within that particular Tag or Collection for your query. 
 
-The **Tag** search is launched by `z:tag`. 
+* The **Tag** search is launched by `z:tag`. 
 
 ![A tag-specific search](/screenshots/zotquery_tag_init.png)
 
@@ -99,7 +104,7 @@ Once you select a tag, Alfred will automatically initiate the `zot:tag` search, 
 
 ![Searching within a tag](/screenshots/zotquery_in-tag_search.png)
 
-The **Collection** search is similar. It is launched by `z:col`, which begins a search for all of your Zotero collections. 
+* The **Collection** search is similar. It is launched by `z:col`, which begins a search for all of your Zotero collections. 
 
 ![A collection-specific search](/screenshots/zotquery_collection_search.png)
 
@@ -109,6 +114,8 @@ Once you choose a particular collection, Alfred will initiate the `zot:c` search
 
 As above, the `zot:c` search functions just like the simple `zot` search. 
 
+Tip: Both the Tag and Collection searches save the chosen tag or collection to a cached file which the next step reads and searches within. If you use either tags or collections to organize your writing projects, you can search for that tag or collection once, and then simply jump straight to the `zot:tag` or `zot:c` search to continue searching within that tag or collection. 
+
 - - - 
 Once you select an item, there are 3 options:
 
@@ -117,17 +124,18 @@ Once you select an item, there are 3 options:
 3. Export a Markdown citation of that item.
 4. Append a Markdown citation to a temporary bibliography.
 
-If you merely hit `return` on your chosen item, option 1 will occur and Zotero will open to that item.   
-If you hit `option+return` when you choose your item, you will export an author-date reference.   
-If you hit `control+return`, you will export a full citation of the item in Markdown format.  
-If you hit `fn+return`, you will append a full citation of the item in Markdown format to a cached bibliography text file. Once you have filled your bibliography, you can use the command `z:bib` to export the entire bibliography to the clipboard. This export will order the citations in alphabetical order and place a WORKS CITED header at the top. It will then wipe and restart the `bibliography.txt` file. This feature allows you to dynamically build bibliographies for your papers without all of the fuss.
+* If you merely hit `return` on your chosen item, option 1 will occur and Zotero will open to that item.   
+* If you hit `option+return` when you choose your item, you will export an author-date reference.   
+* If you hit `control+return`, you will export a full citation of the item in Markdown format.  
+* If you hit `fn+return`, you will append a full citation of the item in Markdown format to a cached bibliography text file. Once you have filled your bibliography, you can use the command `z:bib` to export the entire bibliography to the clipboard. 
+
+This last export will order the citations in alphabetical order and place a WORKS CITED header at the top. It will then wipe and restart the `bibliography.txt` file. This feature allows you to dynamically build bibliographies for your papers without all of the fuss.
 
 These final three options use Zotero’s web API, and so they require an internet connection. If you are not connected to the internet, both will fail gracefully. 
 
 The workflow defaults to Chicago (author-date) style. If you wish to use another of Zotero's CSL styles, you need merely change `style` key for the zot.item call in the action_export-md-format.py and the action_export-ref.py scripts. Here's what the code will look like and what you need to change:
 
 ![Updating the cache](/screenshots/action_export-ref_py-6.png)
-
 
 - - -
 
@@ -136,3 +144,11 @@ Finally, there is also the Caching function. All of the query scripts are queryi
 ![Updating the cache](/screenshots/zotquery_cache.png)
 
 This function will find your Zotero sqlite database, read its contents, and create a JSON cache of the pertinent information. 
+
+Note, however, that current versions of the workflow will automatically update after each use of the workflow. This means, if you do a general `zot` search and select an item, once you are done, the workflow will automatically check if the cache is up-to-date, and if not, it will then update. This means that you won't likely have to manually update the cache, but if you ever feel like you do, the `z:cache` function will remain in the workflow.
+
+- - - 
+
+So that's all there is to it. If you are interested in certain feature requests, leave a comment and I will see if it is feasible or possible. 
+
+Enjoy! 
