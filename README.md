@@ -121,7 +121,7 @@ Once you select an item, there are 3 options:
 
 If you merely hit `return` on your chosen item, option 1 will occur and Zotero will open to that item. If you hit `option+return` when you choose your item, you will export an author-date reference. If you hit `control+return`, you will export a full citation of the item in Markdown format. 
 
-The workflow defaults to APA style. If you wish to use another of Zotero's CSL styles, you need merely change `style` key for the zot.item call in the action_export-md-format.py and the action_export-ref.py scripts. Here's what the code will look like and what you need to change:
+The workflow defaults to Chicago (author-date) style. If you wish to use another of Zotero's CSL styles, you need merely change `style` key for the zot.item call in the action_export-md-format.py and the action_export-ref.py scripts. Here's what the code will look like and what you need to change:
 
 ![Updating the cache](/screenshots/action_export-ref_py-6.png)
 

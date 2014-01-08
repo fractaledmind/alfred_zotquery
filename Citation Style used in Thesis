@@ -1,0 +1,878 @@
+Citation Style used in Thesis
+
++ BOOK (book, manuscript, or thesis):
+
+	[Last, First]. [YYYY]. *[Title]*. [Pub. Loc.]: [Publisher].
+
++ ARTICLE (article-journal, article-magazine, article-newspaper, or paper-conference):
+
+	[Last, First]. [YYYY]. "[Title]." *[Journal]* [Vol.]: [Pages].
+	[Last, First]. [YYYY]. "[Title]." *[Journal]* [Vol.].[Iss.]: [Pages].
+
++ BOOK CHAPTER (chapter, entry-encyclopedia, or entry-dictionary):
+
+	[Last, First]. [YYYY]. "[Title]." In *[Book Title]*, edited by [Editors]. [Pages]. [Pub. Loc.]: [Publisher].
+	[Last, First]. [YYYY]. "[Title]." In *[Book Title]*. [Pages]. [Pub. Loc.]: [Publisher].
+
+
++ VARIABLES:
+
+	If repeat author == [two em-dashes — -]
+	If (.) at end of Name or Title, don't add another period.
+	If ("") in Title, replace with ('')
+
++ CREATOR SUFFIXES:
+	
+	"author" : ""
+	"editor" : "ed." or "eds."
+	"container-author" : ""
+	"composer" : ""
+	"director" : ""
+	"interviewer" : ""
+	"recipient" : ""
+	"reviewed-author" : ""
+	"collection-editor" : ""
+	"translator" : "trans."
+
++ ITEM TYPES:
+
+	"book" : "BOOK"
+	"chapter" : "CHAPTER"
+	"article-journal" : "ARTICLE"
+	"article-magazine" : "ARTICLE"
+	"article-newspaper" : "ARTICLE"
+	"thesis" : "BOOK"
+	"entry-encyclopedia" : "CHAPTER"
+	"entry-dictionary" : "CHAPTER"
+	"paper-conference" : "ARTICLE"
+	"manuscript" : "BOOK"
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+BOOKS:
+
+Lateiner, Donald. 1989. "The Historical Method Ef Herodotus." xxx: University of Toronto Press.
+
+
+Nestle, Wilhelm. 1908. "Herodots Verhältnis zur Philosophie und Sophistik..." xxx: Druck der Stuttgarter Vereinsbuchdruckerei.
+
+
+Fehling, Detlev and J. G. Howie. 1990. "Herodotus and His' Sources': Citation, Invention, and Narrative Art." xxx: Francis Cairns.
+
+
+Jouanna, Jacques. 1996. "Hippocrate Tome II: Airs, Eaux, Lieux." xxx: Paris: Les Belles lettres.
+
+
+Herodotus, xxx and C. Hude, eds. 1927. "Historiae." Oxford Classical Texts. Oxford: Clarendon.
+
+
+Giannantoni, Gabriele and Marcello Gigante et al. 1996. "Epicureismo greco e romano: atti del congresso internazionale: Napoli, 19-26 maggio 1993 / a cura di Gabriele Giannantoni e Marcello Gigante." Napoli: Bibliopolis.
+
+
+Lloyd, A. B. 1975. "Herodotus, Book II. Vol. 1, Introduction." Leiden, The Netherlands: Brill.
+
+
+Mandelbrot, Benoit B. 1983. "The Fractal Geometry of Nature." xxx: Macmillan.
+
+
+Sedley, David N. 1998. "Lucretius and the Transformation of Greek Wisdom." Cambridge: Cambridge University Press.
+
+
+Gale, Monica R. 2007. "Lucretius." xxx: Wiley Online Library.
+
+
+Suits, David B. and Dane R. Gordon, eds. 2003. "Epicurus: His Continuing Influence and Contemporary Relevance." xxx: RIT Cary Graphic Arts Press.
+
+
+Philodemus, xxx and Theodor Gomperz. 1865. "Über Induktionsschlüsse." xxx: Teubner.
+
+
+Armstrong, David and Marilyn Skinner et al., eds. 2004. "Vergil, Philodemus, and the Augustans." xxx: Austin.
+
+
+Myres, J. L. 1953. "Herodotus: Father of history." Oxford: Oxford Univ. Press.
+
+
+Gale, Monica R. 2000. "Virgil on the nature of things: the Georgics, Lucretius and the didactic tradition." xxx: Cambridge University Press.
+
+
+Cicero, Marcus Tullius and Julia Annas et al., eds. 2001. "Cicero: On Moral Ends." xxx: Cambridge University Press.
+
+
+Vergil, xxx and Peter Fallon. 2006. "Virgil: Georgics." xxx: Oxford.
+
+
+Conington, John and Henry Nettleship. 1858. "P. Vergili Maronis opera: The Eclogues and Georgics. 1858." xxx: Whittaker.
+
+
+Nappa, Christopher. 2005. "Reading After Actium: Vergil's Georgics, Octavian, and Rome." xxx: University of Michigan Press.
+
+
+Volk, Katharina. 2008. "Vergil's Georgics." xxx: OUP Oxford.
+
+
+Lloyd, Geoffrey Ernest Richard. 1966. "Polarity and analogy: two types of argumentation in early Greek thought." xxx: Cambridge Univ Press.
+
+
+Farrell, Joseph. 1991. "Vergil's Georgics and the traditions of ancient epic: the art of allusion in literary history." xxx: Oxford University Press New York and Oxford.
+
+
+Conington, J. and Publius Vergilius Maro et al., eds. 1858. "P. Vergili Maronis opera. The works of Virgil, with a comm. by J. Conington (H. Nettleship)." xxx: xxx.
+
+
+Falconer, Kenneth. 2004. "Fractal Geometry: Mathematical Foundations and Applications." xxx: John Wiley & Sons.
+
+
+Ross, David O. 1987. "Virgil's Elements: Physics and Poetry in the Georgics." xxx: Princeton University Press Princeton.
+
+
+Pellegrin, Pierre and Renate Wittern. 1996. "Medizin in der Antike I. Hippokratische Medizin und antike Philosophie.: Verhandlungen des VIII. Internationalen Hippokrates-Kolloquiums in Kloster Banz/Staffelstein September 1993." xxx: Georg Olms Verlag AG.
+
+
+Sanders, Kirk R. and Jeffrey Fish, eds. 2011. "Epicurus and the Epicurean Tradition." xxx: Cambridge University Press.
+
+
+Giannantoni, Gabriele and Marcello Gigante et al. 1996. "Epicureismo greco e romano: atti del congresso internazionale: Napoli, 19-26 maggio 1993 / a cura di Gabriele Giannantoni e Marcello Gigante." Napoli: Bibliopolis.
+
+
+Clay, Diskin. 1998. "Paradosis & Survival: Three Chapters in the History of Epicurean Philosophy." xxx: University of Michigan Press.
+
+
+Mitsis, Phillip. 1989. "Epicurus' Ethical Theory: The Pleasures of Invulnerability." xxx: Cornell University Press.
+
+
+Vlastos, Gregory. 1996. "Studies in Greek Philosophy: The Presocratics." xxx: Princeton University Press.
+
+
+Bichler, Reinhold and Robert Rollinger. 2000. "Herodot." Hildesheim, Germany, Germany: Olms.
+
+
+Fornara, Charles W. 1971. "Herodotus: An interpretative essay." Oxford: Oxford Univ. Press.
+
+
+Gentzler, Jyl. 2001. "Method in ancient philosophy." xxx: Oxford University Press.
+
+
+Annas, Julia. 1995. "The morality of happiness." xxx: Oxford University Press, USA.
+
+
+Usener, Hermann. 1887. "Epicurea." Leipzig: Teubner.
+
+
+Gould, John. 1989. "Herodotus." London: Weidenfeld and Nicolson.
+
+
+Immerwahr, Henry R. 1966. "Form and thought in Herodotus." APA Philological Monographs 23. Cleveland, OH: Press of Western Reserve Univ.
+
+
+Lateiner, Donald. 1989. "The historical method of Herodotus." Toronto: Univ. of Toronto Press.
+
+
+Evans, J. A. S. 1982. "Herodotus." Boston: Twayne.
+
+
+Baltussen, Han. 2013. "Greek and Roman consolations: eight studies of a tradition and its afterlife." xxx: Classic Press of Wales.
+
+
+Allen, James V. 2001. "Inference from Signs: Ancient debates about the nature of evidence." xxx: Oxford University Press.
+
+
+Marincola, John. 2001. "Greek historians." Greece and Rome New Surveys in the Classics 31. Oxford: Oxford Univ. Press.
+
+
+Romm, James S. 1998. "Herodotus." New Haven, CT: Yale Univ. Press.
+
+
+Strassler, Robert B. 2007. "The Landmark Herodotus: The Histories." New York: Pantheon.
+
+
+Waters, Kenneth H. 1985. "Herodotus the historian: His problems, methods and originality." London: Croom Helm.
+
+
+Herodotus, xxx and P. E. Legrand, eds. 1932. "Histoires." Paris: Les Belles Lettres.
+
+
+Herodotus, xxx and Haiim B. Rosén, eds. 1987. "Historiae." Stuttgart and Leipzig: Teubner.
+
+
+Powell, J. Enoch. 1938. "A lexicon to Herodotus." Cambridge, UK: Cambridge Univ. Press.
+
+
+Strasburger, Gisela. 1984. "Lexicon zur frühgriechischen Geschichte: Auf der Grundlage von Herodots Werk verfasst." Zurich and Munich: Artemis.
+
+
+Bubel, Frank. 1991. "Herodot-Bibliographie 1980–1988." Hildesheim, Germany: Olms-Weidmann.
+
+
+Marincola, John and Carolyn Dewald, eds. 2006. "The Cambridge companion to Herodotus." Cambridge, UK: Cambridge Univ. Press.
+
+
+Asheri, David and A. B. Lloyd et al. 2007. "A commentary on Herodotus I–IV." Oxford: Oxford Univ. Press.
+
+
+How, W. W. and J. Wells. 1936. "A commentary on Herodotus." Oxford: Clarendon.
+
+
+Lloyd, A. B. 1975. "Herodotus Book II: Introduction and commentary." Leiden, The Netherlands: Brill.
+
+
+Macan, R. W. 1895. "Herodotus: The fourth, fifth, and sixth books." London and New York: Macmillan.
+
+
+Macan, R. W. 1908. "Herodotus: The seventh, eighth, and ninth books." London: Macmillan.
+
+
+Sayce, A. H. 1883. "The ancient empires of the East: Herodotus I.–III." London: Macmillan.
+
+
+Scott, Lionel. 2005. "Historical commentary on Herodotus Book 6." Leiden, The Netherlands: Brill.
+
+
+Bowie, Angus M. 2007. "Herodotus: Histories Book VIII." Cambridge, UK: Cambridge Univ. Press.
+
+
+Marincola, John and Michael A. Flower. 2002. "Herodotus: Histories Book IX." Cambridge, UK: Cambridge Univ. Press.
+
+
+Newmyer, S. T. 1986. "Herodotus, Book III." Bryn Mawr, PA: Thomas Library, Bryn Mawr College.
+
+
+Sheets, George A. 1993. "Herodotus, Book I." Bryn Mawr, PA: Department of Greek, Bryn Mawr College.
+
+
+Stein, Heinrich. 1881. "Herodotos, erklärt von H. Stein." Berlin: Weidmann.
+
+
+Herodotus, xxx. 1858. "The history of Herodotus." xxx: xxx.
+
+
+Herodotus, xxx. 1890. "The history of Herodotus." London: Macmillan.
+
+
+Herodotus, xxx. 1921. "Works." Loeb Classical Library. New York: G. P. Putnam’s Sons.
+
+
+Herodotus, xxx. 1954. "The histories." Harmondsworth, UK: Penguin.
+
+
+Herodotus, xxx. 1987. "The history." Chicago: Univ. of Chicago Press.
+
+
+Herodotus, xxx. 1992. "The histories." New York: Norton.
+
+
+Herodotus, xxx. 1998. "The histories." Oxford World’s Classics. Oxford: Oxford Univ. Press.
+
+
+Bakker, Egbert J. and Irene J. F. De Jong et al., eds. 2002. "Brill’s companion to Herodotus." Leiden, The Netherlands: Brill.
+
+
+Derow, Peter and Robert Parker. 2003. "Herodotus and his world." Oxford: Oxford Univ. Press.
+
+
+Irwin, Elizabeth and Emily Greenwood. 2007. "Reading Herodotus: A study of the logoi in Book 5 of Herodotus’ Histories." Cambridge, UK: Cambridge Univ. Press.
+
+
+Karageorges, Basos and I. Taifakos. 2004. "The world of Herodotus: Proceedings of an international conference held at the Foundation Anastasios G. Leventis, Nicosia, September 18–21, 2003." Nicosia, Cyprus: Foundation Anastasios G. Leventis.
+
+
+Luraghi, Nino. 2001. "The historian’s craft in the age of Herodotus." Oxford: Oxford Univ. Press.
+
+
+Marg, Walter. 1982. "Herodot: Eine Auswahl aus der neueren Forschung." Darmstadt: Wissenschaftliche Buchgesellschaft.
+
+
+Erbse, Hartmut. 1992. "Studien zum Verständnis Herodots." Berlin and New York: de Gruyter.
+
+
+Evans, J. A. S. 2006. "The beginnings of history: Herodotus and the Persian wars." Campbellville, ON: Edgar Kent.
+
+
+Strasburger, Hermann. 1982. "Studien zur alten Geschichte." Hildesheim, Germany: Olms.
+
+
+Darbo-Peschanski, Catherine. 1987. "Le discours du particulier: Essai sur l’enquête hérodotéenne." Paris: Éditions du Seuil.
+
+
+Halliwell, Stephen. 1986. "Aristotle's poetics." xxx: University of Chicago Press.
+
+
+Doe, John. 2005. "First Book." Cambridge: Cambridge University Press.
+
+
+Warren, Thomas Herbert and xxx Robarts - University of Toronto. 1907. "The death of Virgil, a dramatic narrative." xxx: Oxford Blackwell.
+
+
+Margheim, Stephen. 2012. "Banking on Friendship: Mercantile Language and Epicureanism in Horace's Odes Concerning Vergil." xxx: xxx.
+
+
+Lear, Jonathan. 1988. "Aristotle: the desire to understand." Cambridge [Cambridgeshire]; New York: Cambridge University Press.
+
+
+Ward, Ann. 2008. "Herodotus and the Philosophy of Empire." xxx: Baylor University Press.
+
+
+Barnes, Jonathan. 2001. "Early greek philosophy." xxx: Penguin.
+
+
+Harrison, Thomas. 2000. "Divinity and history: The religion of Herodotus." Oxford: Oxford Univ. Press.
+
+
+Thomas, Rosalind. 2000. "Herodotus in context: Ethnography, science and the art of persuasion." Cambridge, UK: Cambridge Univ. Press.
+
+
+Strasburger, Hermann. 1972. "Homer und die Geschichtsschreibung." Sitzungsberichte der Heidelberger Akademie der Wissenschaften, Philosophisch–historische Klasse. Heidelberg: Carl Winter.
+
+
+Blösel, Wolfgang. 2004. "Themistokles bei Herodot: Spiegel Athens im fünften Jahrhundert. Studien zur Geschichte und historiographischen Konstruktion des griechischen Freiheitskampfes 480 v. Chr." Historia Einzelschriften 183. Stuttgart: Steiner.
+
+
+Flory, Stewart. 1987. "The archaic smile of Herodotus." Detroit: Wayne State Univ. Press.
+
+
+Armayor, O. Kimball. 1985. "Herodotus’ autopsy of the Fayoum: Lake Moeris and the Labyrinth of Egypt." Amsterdam: Gieben.
+
+
+Fehling, Detlev. 1971. "Die Quellenangaben bei Herodot: Studien zur Erzählkunst Herodots." Berlin: de Gruyter.
+
+
+Pritchett, William Kendrick. 1993. "The Liar School of Herodotos." Amsterdam: Gieben.
+
+
+Shrimpton, Gordon S. 1997. "History and memory in ancient Greece." Montreal: McGill–Queen’s Univ. Press.
+
+
+Evans, J. A. S. 1991. "Herodotus, explorer of the past: Three essays." Princeton, NJ: Princeton Univ. Press.
+
+
+Giangiulio, Maurizio. 2005. "Erodoto e il “modello erodoteo”: Formazione e trasmissione delle tradizioni storiche in Grecia." Trento, Italy: Dipartimento di Scienze Filologiche e Storiche, Università degli Studi di Trento.
+
+
+Thomas, Rosalind. 1989. "Oral tradition and written record in Classical Athens." Cambridge, UK: Cambridge Univ. Press.
+
+
+Boardman, John and N. Hammond. 1982. "The Cambridge ancient history. Vol. 3, part 3: The expansion of the Greek world, eighth to sixth centuries B.C." Cambridge, UK: Cambridge Univ. Press.
+
+
+Hart, John. 1982. "Herodotus and Greek history." London: Croom Helm.
+
+
+Kurke, Leslie. 1999. "Coins, bodies, games, and gold: The politics of meaning in Archaic Greece." Princeton, NJ: Princeton Univ. Press.
+
+
+Lazenby, J. F. 1993. "The defence of Greece 490–479 BC." Warminster, UK: Aris and Phillips.
+
+
+Malkin, Irad. 2001. "Ancient perceptions of Greek ethnicity." Cambridge, MA: Harvard Univ. Press.
+
+
+Tozzi, Pierluigi. 1978. "La rivolta ionica." Pisa: Giardini.
+
+
+Balcer, Jack Martin. 1987. "Herodotus and Bisitun: Problems in ancient Persian historiography." Stuttgart: Steiner.
+
+
+Briant, Pierre. 1996. "Histoire de l’empire perse: De Cyrus à Alexandre." Paris: Fayard.
+
+
+Cawkwell, George. 2005. "The Greek wars: The failure of Persia." Oxford: Oxford Univ. Press.
+
+
+Drews, Robert. 1973. "The Greek accounts of Eastern history." Cambridge, MA: Harvard Univ. Press.
+
+
+Olmstead, A. T. 1959. "History of the Persian Empire." Chicago: Univ. of Chicago Press.
+
+
+Hartog, François. 1980. "Le miroir d’Hérodote: Essai sur la représentation de l’autre." Paris: Gallimard.
+
+
+Hunter, Virginia J. 1982. "Past and process in Herodotus and Thucydides." Princeton, NJ: Princeton Univ. Press.
+
+
+Schepens, Guido. 1980. "L’Autopsie dans la méthode des historiens grecs du Ve siècle avant J.–C." Verhandelingen van de Koninklijke Academie voor Wetenschappen, Letteren en schone Kunsten van België 93. Brussels: Koninklijke Academie voor Wetenschappen.
+
+
+Baragwanath, Emily. 2008. "Motivation and narrative in Herodotus." Oxford: Oxford Univ. Press.
+
+
+Munson, Rosaria Vignolo. 2001. "Telling wonders: Ethnographic and political discourse in the work of Herodotus." Ann Arbor: Univ. of Michigan Press.
+
+
+Munson, Rosaria Vignolo. 2005. "Black doves speak: Herodotus and the languages of barbarians." Cambridge, MA: Center for Hellenic Studies and Harvard Univ. Press.
+
+
+Beck, Ingrid. 1971. "Die Ringkomposition bei Herodot und ihre Bedeutung für die Beweistechnik." Hildesheim, Germany: Olms.
+
+
+Cobet, Justus. 1971. "Herodots Exkurse und die Frage der Einheit seines Werkes." Historia Einzelschriften 17. Wiesbaden, Germany: Steiner.
+
+
+Long, Timothy. 1987. "Repetition and variation in the short stories of Herodotus." Beiträge zur Klassischen Philologie 179. Frankfurt am Main: Athenäum.
+
+
+Van der Veen, Jan Ebele. 1996. "The significant and the insignificant: Five studies in Herodotus’ view of history." Amsterdam: Gieben.
+
+
+Bakker, Stéphanie J. 2009. "The noun phrase in Ancient Greek: A functional analysis of the order and articulation of NP constituents in Herodotus." Leiden, The Netherlands: Brill.
+
+
+Dik, Helma. 1995. "Word order in Ancient Greek: A pragmatic account of word order variation in Herodotus." Amsterdam: Gieben.
+
+
+De Bakker, M. P. 2007. "Speech and authority in Herodotus’ Histories." xxx: xxx.
+
+
+Heni, Rudolf. 1976. "Die Gespräche bei Herodot." Heidelberg: Heillbron.
+
+
+Hohti, Paavo. 1976. "The interrelation of speech and action in the Histories of Herodotus." Commentationes humanarum litterarum 57. Helsinki: Societas Scientiarum Fennica.
+
+
+Lang, Mabel L. 1984. "Herodotean narrative and discourse." Cambridge, MA: Harvard Univ. Press.
+
+
+Scardino, Carlo. 2007. "Gestaltung und Funktion der Reden bei Herodot und Thukydides." Beiträge zur Altertumskunde 250. Berlin: de Gruyter.
+
+
+Apffel, Helmut. 1957. "Die Verfassungsdebatte bei Herodot (3,80–82)." xxx: xxx.
+
+
+Thompson, Norma. 1996. "Herodotus and the origins of the political community: Arion’s leap." New Haven, CT: Yale Univ. Press.
+
+
+Bichler, Reinhold. 2000. "Herodots Welt: Der Aufbau der Historie am Bild der fremden Länder und Völker, ihrer Zivilisation und ihrer Geschichte." Berlin: Akademie Verlag.
+
+
+Vasunia, Phiroze. 2001. "The gift of the Nile: Hellenizing Egypt from Aeschylus to Alexander." Berkeley: Univ. of California Press.
+
+
+Isaac, Benjamin H. 2004. "The invention of racism in Classical Antiquity." Princeton, NJ: Princeton Univ. Press.
+
+
+Nenci, Giuseppe and Walter Burkert et al. 1990. "Hérodote et les peuples non grecs: Neuf exposés suivis de discussions." Geneva: Fondation Hardt.
+
+
+Brosius, Maria. 1998. "Women in ancient Persia, 559–331 BC." Oxford: Oxford Univ. Press.
+
+
+Sourvinou-Inwood, Christiane. 1991. "“Reading” Greek culture: Texts and images, rituals and myths." Oxford: Clarendon.
+
+
+Vandiver, Elizabeth. 1991. "Heroes in Herodotus: The interaction of myth and history." Studien zur klassischen Philologie 56. Frankfurt am Main: Lang.
+
+
+Williams, B. A. O. 2002. "Truth and truthfulness: An essay in genealogy." Princeton, NJ: Princeton Univ. Press.
+
+
+Mikalson, Jon D. 2003. "Herodotus and religion in the Persian wars." Chapel Hill: Univ. of North Carolina Press.
+
+
+Shimron, Binyamin. 1989. "Politics and belief in Herodotus." Historia Einzelschriften 58. Stuttgart: Steiner.
+
+
+Waters, Kenneth H. 1971. "Herodotos on tyrants and despots: A study in objectivity." Historia Einzelschriften 15. Wiesbaden, Germany: Steiner.
+
+
+Bischoff, Heinrich. xxx. "Der Warner bei Herodot." xxx: xxx.
+
+
+Rhodes, P. J. and Emma Bridges et al. 2007. "Cultural responses to the Persian wars: Antiquity to the third millennium." Oxford: Oxford Univ. Press.
+
+
+Marincola, John. 1997. "Authority and tradition in ancient historiography." Cambridge, UK: Cambridge Univ. Press.
+
+
+Momigliano, Arnaldo. 1990. "The classical foundations of modern historiography." Berkeley: Univ. of California Press.
+
+
+Pohlenz, Max. 1937. "Herodot: der erste Geschichtschreiber des Abendlandes." xxx: Verlag und Druck von BG Teubner.
+
+
+Corcella, Aldo. 1984. "Erodoto e l'analogia." xxx: Sellerio.
+
+
+Robarts - University of Toronto, xxx and Johann Wachtler. 1896. "De Alcmaeone Crotoniata." xxx: Lipsiae In aedibus B.G. Teubneri.
+
+
+- - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+ARTICLES:
+
+Dihle, Albrecht. 1962. "Herodot und die Sophistik." *Philologus* 106.1062: 207–220.
+
+
+Dihle, A. 1962. "Aus Herodots Gedankenwelt." *Gymnasium* 69: 22.
+
+
+Fowler, Robert L. 1996. "Herodotos and his Contemporaries." *Journal of Hellenic Studies* xxx: 62–87.
+
+
+Armayor, O. K. 1978. "Did Herodotus ever go to the Black Sea?" *Harvard Studies in Classical Philology* 82: 45-62.
+
+
+Forrest, W. G. 1984. "Herodotos and Athens." *Phoenix* 38: 1-11.
+
+
+Isager, Signe. 1999. "The pride of Halicarnassus: Editio princeps of an inscription from Salmakis." *Zeitschrift für Papyrologie und Epigraphik* 123: 1-23.
+
+
+Mitchell, B. M. 1975. "Herodotus and Samos." *Journal of Hellenic Studies* 95: 113-122.
+
+
+Armstrong, John M. 1997. "Epicurean Justice." *Phronesis* 42.3: 324-334.
+
+
+Boyle, A.J. 1974. "Plato's Divided Line: Appendix: The Function and Significance of the Line." *Apeiron: A Journal for Ancient Philosophy and Science* 8.1: 19-21.
+
+
+Nelis, Damien. 2010. "Georgics 2.458–542: Virgil, Aratus and Empedocles." *Dictynna. Revue de poétique latine* xxx.1: xxx.
+
+
+Smith, Nicholas. 1996. "Plato's Divided Line." *Ancient Philosophy* 16: 25-46.
+
+
+Annas, Julia. 2011. "Epicurean emotions." *Greek, Roman, and Byzantine Studies* 30.2: 145–164.
+
+
+Thomas, Rosalind. 1998. "Ethnography, proof and argument in Herodotus' Histories." *The Cambridge Classical Journal* 43: 128-48.
+
+
+O'Keefe, Tim. 2001. "Is Epicurean friendship altruistic?" *Apeiron: A Journal for Ancient Philosophy and Science* 34.4: 269–306.
+
+
+Thibodeau, Philip. 2003. "Can Vergil Cry? Epicureanism in Horace Odes 1.24." *The Classical Journal* 98.3: 243-256.
+
+
+Snyder, Jane McIntosh. 1973. "The Poetry of Philodemus the Epicurean." *The Classical Journal* 68.4: 346-353.
+
+
+O'Connor, David K. 2011. "The Invulnerable Pleasures of Epicurean Friendship." *Greek, Roman, and Byzantine Studies* 30.2: 165–186.
+
+
+Allen, Walter, Jr. 1938. "On the Friendship of Lucretius with Memmius." *Classical Philology* 33.2: 167-181.
+
+
+Kronenberg, Leah J. 2000. "The Poet's Fiction: Virgil's Praise of the Farmer, Philosopher, and Poet at the End of' Georgics 2'." *Harvard Studies in Classical Philology* 100: 341–360.
+
+
+Diels, Hermann. 1917. "Philodemos Über Die Götter: Drittes Buch (text)." *Abhandlungen der Koniglich Preussischen Akademie der Wissenschaften* 4: xxx.
+
+
+McAdon, Brad. 2004. "Two Irreconcilable Conceptions of Rhetorical Proofs in Aristotle's Rhetoric." *Rhetorica* 22.4: 307-325.
+
+
+Foley, Richard. 2008. "Plato's Undividable Line: Contradiction and Method in Republic VI." *Journal of the History of Philosophy* 46.1: 1-23.
+
+
+De Lacy, Phillip Howard. 1948. "Lucretius and the History of Epicureanism." *xxx* xxx: 12–23.
+
+
+Morrison, John Sinclair. 1956. "Airs, waters, places, XVI." *Classical Review* 1956.VI, N.S.: 102-1.
+
+
+Noël, Marie-Pierre. 2011. "Isocrates and the Rhetoric to Alexander: Meaning and Uses of Tekmerion." *Rhetorica: A Journal of the History of Rhetoric* 29.3: 319-335.
+
+
+Dominick, Yancy Hughes. 2009. "Seeing Through Images: The Bottom of Plato’s Divided Line." *Journal of the History of Philosophy* 48.1: 1-13.
+
+
+McAdon, Brad. 2003. "Probabilities, Signs, Necessary Signs, Idia, and Topoi: The Confusing Discussion of Materials for Enthymemes in the 'Rhetoric'." *Philosophy & Rhetoric* 36.3: 223-247.
+
+
+DeWitt, Norman W. 1937. "The Epicurean Doctrine of Gratitude." *The American Journal of Philology* 58.3: 320-328.
+
+
+Stern-Gillet, Suzanne. 1989. "Epicurus and Friendship." *Dialogue: Canadian Philosophical Review/Revue canadienne de philosophie* 28.02: 275-288.
+
+
+Ostwald, Martin. 1991. "Herodotus and Athens." *Illinois Classical Studies* 16: 137-148.
+
+
+Balashov, Yuri. 1994. "Should Plato's Line be Divided in the Mean and Extreme Ratio?" *Ancient Philosophy* 14: 283-295.
+
+
+Verdenius W. J., xxx. 1955. "Notes on Hippocrates Airs waters places." *Mnemosyne* 1955.VIII: 14-5.
+
+
+Vermeulen, C. F. M. 2000. "Text Structure and Proof Structure." *Journal of Logic, Language and Information* 9.3: 273-311.
+
+
+Young, Arthur M. 1948. "The Message of Vergil's' Georgics'." *The Classical Weekly* 42.4: 57–59.
+
+
+Grimaldi, W. M. A. 1980. "Semeion, Tekmerion, Eikos in Aristotle's Rhetoric." *The American Journal of Philology* 101.4: 383.
+
+
+Griffiths, Paul J. 1999. "How Epistemology Matters to Theology." *The Journal of Religion* 79.1: 1-18.
+
+
+Reguero, M. Carmen Encinas. 2009. "La evolución de algunos conceptos retóricos. Semeion y tekmerion del s. V al IV a.C." *Rhetorica* 27.4: 373-403.
+
+
+Arrighetti, Graziano. 1958. "Filodemo, De dis III, col. X - XI." *Studi classici e orientali* 7: 83-99.
+
+
+De Lacy, Phillip. 1957. "Process and Value: an Epicurean Dilemma." *xxx* 88: 114–126.
+
+
+Montefusco, Lucia Calboli. 1998. "Omnis autem argumentatio...aut probabilis aut necessaria esse debebit (Cic. Inv. 1.44)." *Rhetorica* 16.1: 1-24.
+
+
+Thomas, Richard F. 1986. "Virgil's Georgics and the Art of Reference." *Harvard Studies in Classical Philology* 90: 171–198.
+
+
+Porter, James I. 2003. "Epicurean attachments: life, pleasure, beauty, friendship, and piety." *Cronache ercolanesi* 2003.33: 205-23.
+
+
+Farrington, B. 1954. "Lucretius and Manilius on Friendship." *Hermathena* xxx.83: 10-16.
+
+
+Arrighetti, Graziano. 1961. "Filodemo, De dis III, col. XII - XIII,20." *Studi classici e orientali* 10: 112-21.
+
+
+Rist, John M. 1980. "Epicurus on Friendship." *Classical Philology* 75.2: 121-129.
+
+
+Smith, Nicholas. 1981. "The Objects of 'dianoia' in Plato's Divided Line." *Apeiron: A Journal for Ancient Philosophy and Science* 15.2: 129-137.
+
+
+Brown, Eric. 2002. "Epicurus on the Value of Friendship ('Sententia Vaticana' 23)." *Classical Philology* 97.1: 68-80.
+
+
+Pender, Stephen. 2005. "Between Medicine and Rhetoric." *Early Science and Medicine* 10.1: 36-64.
+
+
+LLoyd, Geoffrey. 1987. "The Alleged Fallacy of Hippocrates of Chios." *Apeiron: A Journal for Ancient Philosophy and Science* 20.2: 103-128.
+
+
+Diels, Hermann. 1917. "Philodemos Über Die Götter: Drittes Buch (commentary)." *Abhandlungen der Koniglich Preussischen Akademie der Wissenschaften* 6: xxx.
+
+
+DeWitt, Norman W. 1936. "Epicurean Contubernium." *Transactions and Proceedings of the American Philological Association* 67: 55-63.
+
+
+Keith, Arthur L. 1929. "Cicero's Idea of Friendship." *The Sewanee Review* 37.1: 51-58.
+
+
+Hall, Clayton M. 1935. "Some Epicureans at Rome." *The Classical Weekly* 28.15: 113-115.
+
+
+Reinhardt, Tobias. 2008. "Epicurus and Lucretius on the origins of language." *The Classical Quarterly (New Series)* 58.01: 127–140.
+
+
+Boyle, A.J. 1974. "Plato's Divided Line: Essay II: Mathematics and Dialectic." *Apeiron: A Journal for Ancient Philosophy and Science* 8.1: 7-18.
+
+
+Turner, J. Hilton. 1947. "Epicurus and Friendship." *The Classical Journal* 42.6: 351–356.
+
+
+Nappa, Christopher. 2003. "Fire and human error in Vergil's second Georgic." *American Journal of Philology* 124.1: 39–56.
+
+
+Boyle, A.J. 1973. "Plato's Divided Line: Essay I: The Problem of Dianoia." *Apeiron: A Journal for Ancient Philosophy and Science* 7.2: 1-11.
+
+
+Cooper, John M. 1995. "Eudaimonism and the Appeal to Nature in the Morality of Happiness: Comments on Julia Annas, The Morality of Happiness." *Philosophy and Phenomenological Research* 55.3: 587–598.
+
+
+Evans, Matthew. 2004. "Can Epicureans be friends?" *Ancient Philosophy* 24.2: 407–424.
+
+
+Morrison, J. S. 1977. "Two Unresolved Difficulties in the Line and Cave." *Phronesis* 22.3: 212-231.
+
+
+Farrell, Joseph and Ralph M Rosen. 1986. "Acontius, Milanion, and Gallus: Vergil, Ecl. 10.52-61." *Transactions of the American Philological Association (1974-)* 116: 241–254.
+
+
+Farrell, Joseph. 1997. "The Virgilian Intertext." *The Cambridge Companion to Virgil* xxx: 222–38.
+
+
+Bergson, Leif. 1966. "Herodotus 1937–60." *Lustrum* 11: 71-138.
+
+
+Marincola, John and Carolyn Dewald. 1987. "A selective introduction to Herodotean studies. In Herodotus and the invention of history." *Arethusa* 20: 9-40.
+
+
+J, Verdenius W. 1955. "Notes on Hippocrates Airs waters places." *Mnemosyne* 1955.VIII: 14–5.
+
+
+Boedeker, Deborah D. and J. Peradotto. 1987. "Herodotus and the invention of history." *Arethusa* 20: xxx.
+
+
+Baltussen, Han. 2009. "A grief observed: Cicero on remembering Tullia." *Mortality* 14.4: 355–369.
+
+
+Lateiner, Donald. 1986. "The empirical element in the methods of early Greek medical writers and Herodotus: a shared epistemological response." *Antichthon* 20: 1.
+
+
+Commager, Steele. 1957. "The function of wine in Horace's odes." *xxx* 88: 68–80.
+
+
+Clay, J. S. 2002. "Sweet Folly: Horace, Odes 4.12 and the Evocation of Virgil." *Horace and Greek Lyric Poetry, Heraklion* xxx: 129–140.
+
+
+Kirby, John T. 1985. "Vergilian Echoes in Horace Carm. 4.12: A Computer Study." *Vergilius (1959-)* xxx.31: 30–39.
+
+
+Doe, John. 2006. "Article." *Journal of Generic Studies* 6: 33-34.
+
+
+Graham, Daniel W. 2003. "Philosophy on the Nile: Herodotus and Ionian research." *Apeiron* 36.4: 291–310.
+
+
+Fowler, R. L. 1996. "Herodotus and his contemporaries." *Journal of Hellenic Studies* 116: 62-87.
+
+
+Meier, C. 1987. "Historical answers to historical questions: The origins of history in ancient Greece." *Arethusa* 20: 41-57.
+
+
+Nagy, Gregory. 1987. "Herodotus the logios." *Arethusa* 20: 175-184.
+
+
+Marincola, John. 2007. "Odysseus and the historians." *Syllecta Classica* 18: 1-79.
+
+
+Chiasson, Charles C. 1982. "Tragic diction in Herodotus: Some possibilities." *Phoenix* 36: 156-161.
+
+
+Chiasson, Charles C. 2003. "Herodotus’ use of Attic tragedy in the Lydian logos." *Classical Antiquity* 22: 5-36.
+
+
+Johnson, William A. 1994. "Oral performance and the composition of Herodotus’ Histories." *Greek, Roman, and Byzantine Studies* 35: 229-254.
+
+
+West, Stephanie. 1991. "Herodotus’ portrait of Hecataeus." *Journal of Hellenic Studies* 111: 140-160.
+
+
+Forsdyke, Sara. 2001. "Athenian democratic ideology and Herodotus’ Histories." *American Journal of Philology* 122: 329-358.
+
+
+Stadter, Philip. 1992. "Herodotus and the Athenian arche." *Annali della Scuola Normale Superiore di Pisa, 3d series* 22: 781-809.
+
+
+Strasburger, Hermann. 1955. "Herodot und das perikleische Athen." *Historia* 4: 1-25.
+
+
+Dillery, John. 1996. "Reconfiguring the past: Thyrea, Thermopylae and narrative patterns in Herodotus." *American Journal of Philology* 117: 317-354.
+
+
+West, Stephanie. 1985. "Herodotus’ epigraphical interests." *Classical Quarterly* 35.n.s.: 278-305.
+
+
+Erbse, Hartmut. 1991. "Fiktion und Wahrheit im Werke Herodots." *Nachrichten der Akademie der Wissenschaften in Göttingen* 1991: 131-150.
+
+
+Cobet, Justus. 1974. "Review of D. Fehling, Die Quellenangaben bei Herodot. Studien zur Erzählkunst Herodots (Berlin: de Gruyter, 1971)." *Gnomon* 46: 737-746.
+
+
+Ceccarelli, Paola. 1993. "La fable des poissons de Cyrus (Hérodote 1.141): Son origine et sa fonction dans l’économie des Histoires d’Hérodote." *Métis* 8: 29-57.
+
+
+Christ, M. R. 1994. "Herodotean kings and historical inquiry." *Classical Antiquity* 13: 167-202.
+
+
+Dewald, Carolyn. 1987. "Narrative surface and authorial voice in Herodotus’ Histories." *Arethusa* 20: 147-170.
+
+
+Marincola, John. 1987. "Herodotean narrative and the narrator’s presence." *Arethusa* 20: 121-137.
+
+
+Rösler, Wolfgang. 1991. "Die “Selbsthistorisierung” des Autors: Zur Stellung Herodots zwischen Mündlichkeit und Schriftlichkeit." *Philologus* 135: 215-220.
+
+
+De Jong, Irene J. F. 1999. "Aspects narratologiques des Histoires d’Hérodote." *Lalies: Actes des sessions de linguistique et de littérature* 19: 217-275.
+
+
+Munson, Rosaria Vignolo. 1993. "Herodotus’ use of prospective sentences and the story of Rhampsinitus and the thief in the Histories." *American Journal of Philology* 114: 27-44.
+
+
+Romilly, De. 1971. "La vengeance comme explication historique dans l’oeuvre d’Hérodote." *Revue des Études Grecques* 84: 314-337.
+
+
+Immerwahr, Henry R. 1956. "Aspects of historical causation in Herodotus." *Transactions of the American Philological Association* 87: 241-280.
+
+
+Munson, Rosaria Vignolo. 2001. "ANANKE in Herodotus." *Journal of Hellenic Studies* 121: 30-50.
+
+
+Bringmann, Klaus. 1976. "Die Verfassungsdebatte bei Herodot 3,80–82 und Dareios’ Aufstieg zur Königsherrschaft." *Hermes* 104: 266-279.
+
+
+Lasserre, Frédéric. 1976. "Hérodote et Protagoras: Le débat sur les constitutions." *Museum Helveticum* 33.2: 65-84.
+
+
+Lateiner, Donald. 1984. "Herodotean historiographical patterning: “The Constitutional Debate”." *Quaderni di Storia* 20: 257-284.
+
+
+Pelling, C. B. R. 2002. "Speech and action: Herodotus’ Debate on the Constitutions." *Proceedings of the Cambridge Philological Society* 48: 123-158.
+
+
+Raaflaub, K. A. 1987. "Herodotus’ political thought and the meaning of history." *Arethusa* 20: 221-248.
+
+
+Redfield, James. 1985. "Herodotus the tourist." *Classical Philology* 80: 97-118.
+
+
+Moyer, Ian S. 2002. "Herodotus and an Egyptian mirage: The genealogies of the Theban priests." *Journal of Hellenic Studies* 122: 70-90.
+
+
+Gray, Vivienne. 1995. "Herodotus and the rhetoric of otherness." *American Journal of Philology* 116: 185-211.
+
+
+Munson, Rosaria Vignolo. 1988. "Artemisia in Herodotus." *Classical Antiquity* 7: 91-106.
+
+
+Saïd, Suzanne and Michèle Rosellini. 1978. "Usages des femmes et autres nomoi chez les “sauvages” d’Hérodote: essai de lecture structurale." *Annali della Scuola Normale Superiore di Pisa* 8: 949-1005.
+
+
+Wolff, E. 1964. "Das Weib des Masistes." *Hermes* 92: 51-81.
+
+
+Boedeker, Deborah D. 1987. "The two faces of Demaratus." *Arethusa* 20: 185-207.
+
+
+Boedeker, Deborah D. 1988. "Protesilaos and the end of Herodotus’ Histories." *Classical Antiquity* 7: 30-48.
+
+
+Duplouy, Alain. 1999. "L’utilisation de la figure de Crésus dans l’idéologie aristocratique athénienne: Solon, Alcméon, Miltiade et le dernier roi de Lydie." *L’Antiquité Classique* 68: 1-22.
+
+
+Gray, Vivienne J. 1996. "Herodotus and the images of tyranny: The tyrants of Corinth." *American Journal of Philology* 117: 361-389.
+
+
+Pelling, C. B. R. 2006. "Educating Croesus: Talking and learning in Herodotus’ Lydian logos." *Classical Antiquity* 25: 141-177.
+
+
+Snell, Bruno. 1973. "Gyges und Kroisos als Tragödien–Figuren." *Zeitschrift für Papyrologie und Epigraphik* 12: 197-205.
+
+
+Stahl, Hans-Peter. 1968. "Herodots Gyges–Tragödie." *Hermes* 96: 385-400.
+
+
+Stahl, Hans-Peter. 1975. "Learning through suffering? Croesus’ conversations in the History of Herodotus." *Yale Classical Studies* 24: 1-36.
+
+
+Chiasson, Charles C. 1986. "The Herodotean Solon." *Greek, Roman, and Byzantine Studies* 27: 249-262.
+
+
+Lattimore, Richmond. 1939. "The wise adviser in Herodotus." *Classical Philology* 34: 24-35.
+
+
+Shapiro, Susan O. 1996. "Herodotus and Solon." *Classical Antiquity* 15: 348-362.
+
+
+Evans, J. A. S. 1968. "Father of history or father of lies: The reputation of Herodotus." *Classical Journal* 64: 11-17.
+
+
+Marincola, John. 1994. "Plutarch’s refutation of Herodotus." *Ancient World* 25: 191-203.
+
+- - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+CHAPTERS:
+
+
+
+
+
+
