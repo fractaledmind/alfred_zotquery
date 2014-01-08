@@ -8,10 +8,10 @@ To download, simply open the `ZotQuery.alfredworkflow` file, and then click `Vie
 
 	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
 
-v. 1.1: Added feature to export bibliography of Collections or Tags.
-v. 1.0: Added features to export formatted citations and references of items
-v. 0.9: Added new script filters
-v. 0.8: First public release of ZotQuery.
+v. 1.1: Added feature to export bibliography of Collections or Tags.  
+v. 1.0: Added features to export formatted citations and references of items.  
+v. 0.9: Added new script filters.  
+v. 0.8: First public release of ZotQuery.  
 
 ### REQUIREMENTS ###
 
