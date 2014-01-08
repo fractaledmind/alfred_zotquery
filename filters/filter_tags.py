@@ -14,7 +14,7 @@ conn = sqlite3.connect(clone_database)
 cur = conn.cursor()	
 # Retrieve collection data from Zotero database
 tag_query = """
-		select tags.name
+		select tags.name, tags.key
 		from tags
 		"""
 tag_data = cur.execute(tag_query).fetchall()
@@ -22,13 +22,12 @@ tag_data = cur.execute(tag_query).fetchall()
 query = sys.argv[1]
 #query = 'sem'
 
-
 xml_res = []
 for i, item in enumerate(tag_data):
 	
 	if query.lower() in item[0].lower():
 		
-		res_dict = {'title': item[0], 'subtitle': 'Tag', 'valid': True, 'arg': item[0], 'icon': 'icons/n_tag.png'}
+		res_dict = {'title': item[0], 'subtitle': 'Tag', 'valid': True, 'arg': 't:' + item[0], 'icon': 'icons/n_tag.png'}
 		res_item = alp.Item(**res_dict)
 		xml_res.append(res_item)
 

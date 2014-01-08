@@ -8,6 +8,11 @@ To download, simply open the `ZotQuery.alfredworkflow` file, and then click `Vie
 
 	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
 
+v. 1.1: Added feature to export bibliography of Collections or Tags.
+v. 1.0: Added features to export formatted citations and references of items
+v. 0.9: Added new script filters
+v. 0.8: First public release of ZotQuery.
+
 ### REQUIREMENTS ###
 
 This workflow utilizes the Zotero API to export citations of chosen items. In order for the user to utilize these functions, you must have and set up a Zotero private key. To do so, the user must sign into their Zotero account at [zotero.org](www.zotero.org) and go to the "Feeds/API" tab. Here you will find something like so:
@@ -114,10 +119,15 @@ Once you choose a particular collection, Alfred will initiate the `zot:c` search
 
 As above, the `zot:c` search functions just like the simple `zot` search. 
 
-Tip: Both the Tag and Collection searches save the chosen tag or collection to a cached file which the next step reads and searches within. If you use either tags or collections to organize your writing projects, you can search for that tag or collection once, and then simply jump straight to the `zot:tag` or `zot:c` search to continue searching within that tag or collection. 
+**TIP**: Both the Tag and Collection searches save the chosen tag or collection to a cached file which the next step reads and searches within. If you use either tags or collections to organize your writing projects, you can search for that tag or collection once, and then simply jump straight to the `zot:tag` or `zot:c` search to continue searching within that tag or collection. 
 
 - - - 
-Once you select an item, there are 3 options:
+Under `Export` there are 2 options:
+
+1. Export an Item.
+2. Export a Set of items.
+
+Once you select an **individual item** after a `zot` search of any kind (general, author, title, tag, collection), there are 4 options:
 
 1. Open Zotero to that item.
 2. Export an author-date reference to that item.
@@ -131,11 +141,31 @@ Once you select an item, there are 3 options:
 
 This last export will order the citations in alphabetical order and place a WORKS CITED header at the top. It will then wipe and restart the `bibliography.txt` file. This feature allows you to dynamically build bibliographies for your papers without all of the fuss.
 
+After you select either a Collection or a Tag after a `z:tag` or `z:col`, you have 2 options:
+
+1. You can search within that Tag or Collection.
+2. You can export a Markdown-formatted bibliography of all the items within that Tag or Collection
+
+* To simply search within that Tag or Collection for a particular item, hit `return`.
+* To export a Bibliography, hit `control+return`. When you hold down `control`, the subtitle of the item will change, letting you know that you have a different option.
+
+![Export bib](/screenshots/export_bib_screenshot.png)
+
+The exported Bibliography will be formatted in Markdown, and like the appended bibliography, it will automatically be alphabetically ordered and have a WORKS CITED header. A notification will let you know when the bibliography has been copied to the clipboard:
+
+![Notification](/screenshots/copy_screenshot.png)
+
+**TIP**: This feature comes in handy if you use either Collections or Tags to organize citations for particular writing projects. Once you feel you have all of the citations for a particular paper stored within a Collection or Tag, ZotQuery can create you bibliography for you. Using this feature in tandem with the `Export Reference` feature, you can easily generate and insert individual references and whole bibliographies into your papers. 
+
+For reference, here's what a Markdown bibliography in Chicago (author-date) style would look like:
+
+![Sample bib](/screenshots/WORKS_CITED.png)
+
 These final three options use Zotero’s web API, and so they require an internet connection. If you are not connected to the internet, both will fail gracefully. 
 
 The workflow defaults to Chicago (author-date) style. If you wish to use another of Zotero's CSL styles, you need merely change `style` key for the zot.item call in the action_export-md-format.py and the action_export-ref.py scripts. Here's what the code will look like and what you need to change:
 
-![Updating the cache](/screenshots/action_export-ref_py-6.png)
+![The code](/screenshots/action_export-ref_py-6.png)
 
 - - -
 

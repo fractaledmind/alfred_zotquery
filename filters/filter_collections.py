@@ -14,7 +14,7 @@ conn = sqlite3.connect(clone_database)
 cur = conn.cursor()	
 # Retrieve collection data from Zotero database
 collection_query = """
-		select collections.collectionName
+		select collections.collectionName, collections.key
 		from collections
 		"""
 coll_data = cur.execute(collection_query).fetchall()
@@ -27,7 +27,7 @@ for i, item in enumerate(coll_data):
 	
 	if query.lower() in item[0].lower():
 		
-		res_dict = {'title': item[0], 'subtitle': 'Collection', 'valid': True, 'arg': item[0], 'icon': 'icons/n_collection.png'}
+		res_dict = {'title': item[0], 'subtitle': 'Collection', 'valid': True, 'arg': 'c:' + item[1], 'icon': 'icons/n_collection.png'}
 		res_item = alp.Item(**res_dict)
 		xml_res.append(res_item)
 

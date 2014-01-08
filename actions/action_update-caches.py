@@ -249,12 +249,12 @@ if check_cache():
 		cur = conn.cursor()	
 		# Retrieve collection data from Zotero database
 		collection_query = """
-				select items.itemID, collections.collectionName
+				select items.itemID, collections.collectionName, collections.key
 				from items, collections, collectionItems
 				where
 					items.itemID = collectionItems.itemID
 					and collections.collectionID = collectionItems.collectionID
-				order by collections.collectionName
+				order by collections.key
 				"""
 		colls = cur.execute(collection_query).fetchall()
 	except:
@@ -272,36 +272,36 @@ if check_cache():
 				# If first item
 				if i == 0:
 					sub.append(to_unicode(item[0], encoding='utf-8'))
-					coll_l.append(item[1])
+					coll_l.append([item[1], item[2]])
 					
 				# If not the last item
 				elif i > 0 and i < (len(colls) - 1):
 					
 					# If old collection
-					if item[1] == coll_l[-1]:
+					if item[1] == coll_l[-1][0]:
 						sub.append(to_unicode(item[0], encoding='utf-8'))
 						
 					# If new collection
 					else:
 						# Add old data
 						d = collections.OrderedDict()
-						coll_name = coll_l.pop()
-						d['zot-collection'] = to_unicode(coll_name, encoding='utf-8')
+						coll = coll_l.pop()
+						d['zot-collection'] = {'name': to_unicode(coll[0], encoding='utf-8'), 'key': to_unicode(coll[1], encoding='utf-8')}
 						d['items'] = sub
 						coll_res.append(d)		
 						
-						# Restart all relevant lists
+						# Restart relevant list
 						sub = []
 						
 						# Load data into lists
 						sub.append(to_unicode(item[0], encoding='utf-8'))
-						coll_l.append(item[1])
+						coll_l.append([item[1], item[2]])
 				
 				# If last item
 				elif i == (len(colls) - 1):	
 					d = collections.OrderedDict()
-					coll_name = coll_l.pop()
-					d['zot-collection'] = to_unicode(coll_name, encoding='utf-8')
+					coll = coll_l.pop()
+					d['zot-collection'] = {'name': to_unicode(coll[0], encoding='utf-8'), 'key': to_unicode(coll[1], encoding='utf-8')}
 					d['items'] = sub
 					coll_res.append(d)	
 
@@ -325,12 +325,12 @@ if check_cache():
 		conn = sqlite3.connect(clone_database)
 		cur = conn.cursor()	
 		tag_query = """
-				select items.itemID, tags.name
+				select items.itemID, tags.name, tags.key
 				from items, tags, itemTags
 				where
 					items.itemID = itemTags.itemID
 					and tags.tagID = itemTags.tagID
-				order by tags.name
+				order by tags.key
 				"""
 		tags = cur.execute(tag_query).fetchall()
 	except:
@@ -338,7 +338,7 @@ if check_cache():
 			print "Tags Backup Failed! Script cannot access Zotero's tags."
 
 	try:
-		l = []
+		tag_l = []
 		sub = []
 		tag_res = []
 		for i, item in enumerate(tags):
@@ -348,20 +348,20 @@ if check_cache():
 				# If first item
 				if i == 0:
 					sub.append(to_unicode(item[0], encoding='utf-8'))
-					l.append(item[1])
+					tag_l.append([item[1], item[2]])
 				
 				# If not the last item
 				elif i > 0 and i < (len(tags) - 1):
 					
 					# If old collection
-					if item[1] == l[-1]:
+					if item[1] == tag_l[-1][0]:
 						sub.append(to_unicode(item[0], encoding='utf-8'))
 					# If new collection
 					else:
 						# Add old data
 						d = collections.OrderedDict()
-						tag_name = l.pop()
-						d['zot-tag'] = to_unicode(tag_name, encoding='utf-8')
+						tag = tag_l.pop()
+						d['zot-tag'] = {'name': to_unicode(tag[0], encoding='utf-8'), 'key': to_unicode(tag[1], encoding='utf-8')}
 						d['items'] = sub
 						tag_res.append(d)	
 						
@@ -370,13 +370,13 @@ if check_cache():
 						
 						# Load data into lists
 						sub.append(to_unicode(item[0], encoding='utf-8'))
-						l.append(item[1])
+						tag_l.append([item[1], item[2]])
 						
 				# If last item
 				elif i == (len(tags) - 1):	
 					d = collections.OrderedDict()
-					tag_name = l.pop()
-					d['zot-tag'] = to_unicode(tag_name, encoding='utf-8')
+					tag = tag_l.pop()
+					d['zot-tag'] = {'name': to_unicode(tag[0], encoding='utf-8'), 'key': to_unicode(tag[1], encoding='utf-8')}
 					d['items'] = sub
 					tag_res.append(d)
 			
@@ -419,6 +419,8 @@ if check_cache():
 		cache_file.write(final_json.encode('utf-8'))
 		cache_file.close()
 		
+		#print final_json
+
 		# Log the result
 		alp.log("Final Success! Created JSON cache of Zotero database.")
 		print "Final Success! Created JSON cache of Zotero database."

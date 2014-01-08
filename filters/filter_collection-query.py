@@ -26,28 +26,29 @@ zot_data = json.load(json_data)
 json_data.close()
 
 query = sys.argv[1]
-#query = 'lucretius'
+#query = 'hero'
 
 matches = []
 for i, item in enumerate(zot_data):
-	if result in item['zot-collections']:
-	
-		for key, val in item.items():
-			if key == 'data':
-				for sub_key, sub_val in val.items():
-					if sub_key in ['title', 'container-title', 'collection-title']:
-						if query.lower() in sub_val.lower():
-							matches.insert(0, item)
-					elif sub_key in ['note', 'event-place', 'source', 'publisher', 'abstract']:
-						if query.lower() in sub_val.lower():
-							matches.append(item)
-						
-			# Since the creator key contains a list
-			elif key == 'creator':
-				for i in val:
-					for key1, val1 in i.items():
-						if query.lower() in val1.lower():
-							matches.insert(0, item)
+	for jtem in item['zot-collections']:
+		if result == jtem['name']:
+		
+			for key, val in item.items():
+				if key == 'data':
+					for sub_key, sub_val in val.items():
+						if sub_key in ['title', 'container-title', 'collection-title']:
+							if query.lower() in sub_val.lower():
+								matches.insert(0, item)
+						elif sub_key in ['note', 'event-place', 'source', 'publisher', 'abstract']:
+							if query.lower() in sub_val.lower():
+								matches.append(item)
+							
+				# Since the creator key contains a list
+				elif key == 'creator':
+					for i in val:
+						for key1, val1 in i.items():
+							if query.lower() in val1.lower():
+								matches.insert(0, item)
 
 # Clean up any duplicate results
 if not matches == []:
