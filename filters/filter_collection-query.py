@@ -3,7 +3,6 @@
 from dependencies import alp
 import json
 import sys
-import re
 from _zotquery import info_format
 
 """
@@ -16,8 +15,8 @@ file = open(temp, 'r')
 collection = file.read().decode('utf-8')
 file.close()
 
-# Remove the forward-slash space delimiters
-result = re.sub(r"\\\s", " ", collection)
+# Remove the 'c:' tag
+result = collection.split(':')[1]
 
 # Get Zotero data from JSON cache
 cache = alp.cache(join='zotero_db.json')
@@ -31,7 +30,7 @@ query = sys.argv[1]
 matches = []
 for i, item in enumerate(zot_data):
 	for jtem in item['zot-collections']:
-		if result == jtem['name']:
+		if result == jtem['key']:
 		
 			for key, val in item.items():
 				if key == 'data':

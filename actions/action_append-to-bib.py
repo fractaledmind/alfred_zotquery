@@ -11,7 +11,7 @@ inp = sys.argv[1]
 
 # Append final, formatted input to biblio file
 bib = alp.cache(join='bibliography.txt')
-bib_file = open(bib, 'w')
+bib_file = open(bib, 'a')
 bib_file.write(inp)
 bib_file.write('')
 bib_file.close()

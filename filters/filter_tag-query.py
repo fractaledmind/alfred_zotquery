@@ -13,11 +13,13 @@ This script searches within the tag chosen in the previous step (z:tag) for the 
 # Read the inputted Collection name to a temporary file
 temp = alp.cache(join='tag_query_result.txt')
 file = open(temp, 'r')
-collection = file.read().decode('utf-8')
+tag = file.read().decode('utf-8')
 file.close()
 
+# Remove the 't:' tag
+result = tag.split(':')[1]
 # Remove the forward-slash space delimiters
-result = re.sub(r"\\\s", " ", collection)
+result = re.sub(r"\\\s", " ", result)
 
 # Get Zotero data from JSON cache
 cache = alp.cache(join='zotero_db.json')
@@ -25,8 +27,8 @@ json_data = open(cache, 'r')
 zot_data = json.load(json_data)
 json_data.close()
 
-#query = sys.argv[1]
-query = 'n'
+query = sys.argv[1]
+#query = 'n'
 
 matches = []
 for i, item in enumerate(zot_data):
