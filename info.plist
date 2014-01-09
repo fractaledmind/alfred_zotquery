@@ -67,6 +67,14 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
@@ -132,6 +140,14 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
@@ -164,6 +180,14 @@
 				<integer>262144</integer>
 				<key>modifiersubtext</key>
 				<string>Export Markdown Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
@@ -278,6 +302,14 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
@@ -381,6 +413,14 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
@@ -456,29 +496,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
 				<key>escaping</key>
-				<integer>126</integer>
-				<key>keyword</key>
-				<string>zot</string>
-				<key>runningsubtext</key>
-				<string>Searching Zotero...</string>
+				<integer>127</integer>
 				<key>script</key>
-				<string>python filter_zot-general.py "{query}"</string>
-				<key>subtext</key>
-				<string>General Query</string>
-				<key>title</key>
-				<string>Search your Zotero database</string>
+				<string>python action_export-md-format.py "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>71C4224F-1D97-40F5-AFE7-4BB9294BB865</string>
+			<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -510,17 +538,29 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
 				<key>escaping</key>
-				<integer>127</integer>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>zot</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python action_export-md-format.py "{query}"</string>
+				<string>python filter_zot-general.py "{query}"</string>
+				<key>subtext</key>
+				<string>General Query</string>
+				<key>title</key>
+				<string>Search your Zotero database</string>
 				<key>type</key>
 				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
+			<string>71C4224F-1D97-40F5-AFE7-4BB9294BB865</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -536,6 +576,23 @@
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
 			<string>BB3151A8-F09A-4856-9C6F-6B980A6211CE</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_open-attachment.py "{query}"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -582,6 +639,35 @@
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>zot:t</string>
+				<key>runningsubtext</key>
+				<string>Searching for title...</string>
+				<key>script</key>
+				<string>python filter_zot-complex.py "{query}" "title"</string>
+				<key>subtext</key>
+				<string>Title Query</string>
+				<key>title</key>
+				<string>Search your Zotero database</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>BD93AD49-C70B-45EE-8817-CD0801540534</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -638,46 +724,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>zot:t</string>
-				<key>runningsubtext</key>
-				<string>Searching for title...</string>
-				<key>script</key>
-				<string>python filter_zot-complex.py "{query}" "title"</string>
-				<key>subtext</key>
-				<string>Title Query</string>
-				<key>title</key>
-				<string>Search your Zotero database</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>BD93AD49-C70B-45EE-8817-CD0801540534</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<string>python action_update-caches.py False</string>
 				<key>type</key>
-				<integer>6</integer>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.output.script</string>
 			<key>uid</key>
-			<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
+			<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -712,31 +769,14 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_update-caches.py</string>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>6</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.script</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.script</string>
-			<key>uid</key>
-			<string>F3102C3F-9D40-4B41-8083-25E50D66607E</string>
+			<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -754,6 +794,23 @@
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_append-to-bib.py "{query}"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>F3102C3F-9D40-4B41-8083-25E50D66607E</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -812,6 +869,23 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_save-collection.py "{query}"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C131748D-B1E2-48EF-ACB3-715DF55AECC0</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -856,17 +930,15 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_save-collection.py "{query}"</string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>C131748D-B1E2-48EF-ACB3-715DF55AECC0</string>
+			<string>D2598FEF-CDF3-403F-8527-431DBA491760</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -884,21 +956,6 @@
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>958FBDF3-853D-451B-A289-3EAF1864E2C0</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>D2598FEF-CDF3-403F-8527-431DBA491760</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -935,23 +992,6 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>tell application "Alfred 2" to search "zot:tag "</string>
-				<key>type</key>
-				<integer>6</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.script</string>
-			<key>uid</key>
-			<string>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
 				<string>python action_save-tag.py "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
@@ -966,21 +1006,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>z:bib</string>
-				<key>subtext</key>
-				<string>Copy the cached Bibliography to the clipboard?</string>
-				<key>text</key>
-				<string>Markdown Bibliography</string>
-				<key>withspace</key>
-				<false/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>tell application "Alfred 2" to search "zot:tag "</string>
+				<key>type</key>
+				<integer>6</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
+			<string>alfred.workflow.output.script</string>
 			<key>uid</key>
-			<string>7B595D39-6C1A-45BD-ACF2-2FA14AED0DF4</string>
+			<string>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1012,17 +1048,21 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_read-restart-bib.py</string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>z:bib</string>
+				<key>subtext</key>
+				<string>Copy the cached Bibliography to the clipboard?</string>
+				<key>text</key>
+				<string>Markdown Bibliography</string>
+				<key>withspace</key>
+				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.input.keyword</string>
 			<key>uid</key>
-			<string>A4BC7578-3E3A-45E4-9137-3BCCB3925879</string>
+			<string>7B595D39-6C1A-45BD-ACF2-2FA14AED0DF4</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1048,6 +1088,23 @@
 			<string>alfred.workflow.trigger.hotkey</string>
 			<key>uid</key>
 			<string>694DF83D-F77D-4AA0-8D2A-B89D6B5F02B3</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_read-restart-bib.py</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>A4BC7578-3E3A-45E4-9137-3BCCB3925879</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1133,7 +1190,7 @@ CODE</string>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_update-caches.py</string>
+				<string>python action_update-caches.py True</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1192,7 +1249,7 @@ CODE</string>
 		<key>694DF83D-F77D-4AA0-8D2A-B89D6B5F02B3</key>
 		<dict>
 			<key>ypos</key>
-			<real>940</real>
+			<real>990</real>
 		</dict>
 		<key>71C4224F-1D97-40F5-AFE7-4BB9294BB865</key>
 		<dict>
@@ -1212,7 +1269,12 @@ CODE</string>
 		<key>7B595D39-6C1A-45BD-ACF2-2FA14AED0DF4</key>
 		<dict>
 			<key>ypos</key>
-			<real>940</real>
+			<real>990</real>
+		</dict>
+		<key>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</key>
+		<dict>
+			<key>ypos</key>
+			<real>110</real>
 		</dict>
 		<key>958FBDF3-853D-451B-A289-3EAF1864E2C0</key>
 		<dict>
@@ -1237,7 +1299,7 @@ CODE</string>
 		<key>A4BC7578-3E3A-45E4-9137-3BCCB3925879</key>
 		<dict>
 			<key>ypos</key>
-			<real>940</real>
+			<real>990</real>
 		</dict>
 		<key>BB3151A8-F09A-4856-9C6F-6B980A6211CE</key>
 		<dict>

@@ -6,7 +6,8 @@ import sys
 from _zotquery import info_format
 
 """
-This script searches within the collection chosen in the previous step (z:col) for the queried term.
+This script searches within the collection chosen in the previous step (z:col) 
+for the queried term.
 """ 
 
 # Read the inputted Collection name to a temporary file
@@ -71,8 +72,12 @@ for item in final:
 	# Prepare data for Alfred
 	title = item['data']['title']
 	sub = info[0] + ' ' + info[1]
+	if item['attachments'] != []:
+		sub = sub + ' Attachments: ' + str(len(item['attachments'])) 
 	
+	# Create dictionary of necessary Alred result info.
 	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
+	
 	# Export items to Alfred xml with appropriate icons
 	if item['type'] == 'article-journal':
 		res_dict.update({'icon': 'icons/n_article.png'})

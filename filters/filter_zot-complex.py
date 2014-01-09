@@ -16,6 +16,7 @@ json_data.close()
 
 # prepare specific query list: [key, value]
 query = [sys.argv[2], sys.argv[1]]
+#query = ['family', 'griff']
 
 try:
 	# Search the Zotero data for matches
@@ -36,8 +37,12 @@ for item in results:
 	# Prepare data for Alfred
 	title = item['data']['title']
 	sub = info[0] + ' ' + info[1]
+	if item['attachments'] != []:
+		sub = sub + ' Attachments: ' + str(len(item['attachments'])) 
 	
+	# Create dictionary of necessary Alred result info.
 	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
+	
 	# Export items to Alfred xml with appropriate icons
 	if item['type'] == 'article-journal':
 		res_dict.update({'icon': 'icons/n_article.png'})

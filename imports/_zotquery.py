@@ -18,6 +18,18 @@ def to_unicode(obj, encoding='utf-8'):
 			obj = unicode(obj, encoding)
 	return obj
 
+def get_profile(path):
+	# Read the profiles file
+	prof = path + 'profiles.ini'
+	file = open(prof, 'r')
+	data = file.read()
+	file.close()
+
+	# Find the Profile sub-directory	
+	prof = re.search(r"(?<=^Path=)(.*?)$", data, re.M).group()
+	prof_path = path + prof
+	return prof_path
+
 ###
 def get_zotero_db():
 	
@@ -25,62 +37,26 @@ def get_zotero_db():
 
 	home = os.environ["HOME"]
 
-	zf_path = home + "/Library/Application Support/Firefox/"
-
-	if os.path.exists(zf_path + 'profiles.ini'):
-		# Read the profiles file
-		prof = zf_path + 'profiles.ini'
-		file = open(prof, 'r')
-		data = file.read()
-		file.close()
-		# Find the Profile sub-directory	
-		prof = re.search(r"(?<=^Path=)(.*?)$", data, re.M).group()
-		prof_path = zf_path + prof
+	# First check if user has Zotero Standalone
+	zot_path = home + '/Library/Application Support/Zotero/'
+	if os.path.exists(zot_path + 'profiles.ini'):
+		prof_path = get_profile(zot_path)
+	else: 
+		# If not, check Firefox
+		zf_path = home + "/Library/Application Support/Firefox/"
+		if os.path.exists(zf_path + 'profiles.ini'):
+			prof_path = get_profile(zf_path)
+		else:
+			alp.log('Error! Zotero app not found.')
 		
-		if os.path.exists(prof_path + '/prefs.js'):
-			# Read the preferences file
-			prefs = prof_path + '/prefs.js'
-			file = open(prefs, 'r')
-			pr_data = file.read()
-			file.close()
-			# Find the directory for Zotero data
-			zot_path = re.search("(?<=^user_pref\\(\"extensions.zotero.dataDir\", \")(.*?)(?=\"\\);$)", pr_data, re.M).group()
-			
-			if os.path.exists(zot_path + '/zotero.sqlite'):
-				db_path = zot_path + '/zotero.sqlite'
-				return db_path
-				alp.log("Found the user's Zotero database.")
+	for root, dirs, files in os.walk(prof_path):
+		for file in files:
+			if file.endswith('zotero.sqlite'):
+				db_path = os.path.join(root, file)
+				if os.path.exists(db_path):
+					return db_path 
 			else:
-				alp.log("Could not find Zotero sqlite database.")
-				
-		else:
-			alp.log("Could not find Zotero's Firefox preferences.")
-
-	else:
-		zotero_path = home + '/Library/Application Support/Zotero/'
-		# Check Zotero main folder exists
-		if os.path.exists(zotero_path) == True:
-			for root, dirs, files in os.walk(zotero_path):
-				for file in files:
-					if file.endswith('zotero.sqlite'):
-						db_path = os.path.join(root, file)
-			# Check if zotero.sqlite file is found	
-			if 'db_path' in locals():
-				return db_path
-				# Log the results
-				alp.log("Found the user's Zotero database.")
-			else:
-				alp.log("Could not find Zotero sqlite database.")
-				
-		else:
-			for root, dirs, files in os.walk(home):
-				for file in files:
-					if file.endswith('zotero.sqlite'):
-						db_path = os.path.join(root, file)
-			# Check if zotero.sqlite file is found	
-			if 'db_path' in locals():
-				return db_path
-				alp.log("Found the user's Zotero database.")
+				alp.log('Error! Could not find database in Profile path.')
 		
 ###
 def check_cache():
@@ -248,4 +224,92 @@ def info_format(x):
 		title_final = '\"xxx.\"'
 
 	return [creator_ref, date_final, title_final]
+
+def get_zotero_storage():
 	
+	"""Find the user's Zotero storage path."""
+
+	home = os.environ["HOME"]
+
+	# First check if user has Zotero Standalone
+	zot_path = home + '/Library/Application Support/Zotero/'
+	if os.path.exists(zot_path + 'profiles.ini'):
+		prof_path = get_profile(zot_path)
+	else: 
+		# If not, check Firefox
+		zf_path = home + "/Library/Application Support/Firefox/"
+		if os.path.exists(zf_path + 'profiles.ini'):
+			prof_path = get_profile(zf_path)
+		else:
+			alp.log('Error! Zotero app not found.')
+		
+	for root, dirs, files in os.walk(prof_path):
+		for dir in dirs:
+			if dir.endswith('storage'):
+				storage_path = os.path.join(root, dir)
+				if os.path.exists(storage_path):
+					return storage_path 
+			else:
+				alp.log('Error! Could not find storage directory in Profile path.')
+
+def get_zotero_basedir():
+	
+	"""Find the user's base directory for linked attachments."""
+
+	home = os.environ["HOME"]
+
+	zot_path = home + '/Library/Application Support/Zotero/'
+
+	if os.path.exists(zot_path + 'profiles.ini'):
+		prof_path = get_profile(zot_path)
+		
+		if os.path.exists(prof_path + '/prefs.js'):
+			# Read the preferences file
+			prefs = prof_path + '/prefs.js'
+			file = open(prefs, 'r')
+			pr_data = file.read()
+			file.close()
+			# Find the directory for Zotero data
+			zot_path = re.search("user_pref\\(\"extensions\\.zotero\\.baseAttachmentPath\",\\s\"(.*?)\"\\);", pr_data)
+
+			if zot_path != None:
+				return zot_path.group(1)
+			else:
+				alp.log('Error! Could not fine Base Directory in Zotero prefs.')
+				zf_path = home + "/Library/Application Support/Firefox/"
+				if os.path.exists(zot_path + 'profiles.ini'):
+					prof_path = get_profile(zf_path)
+					
+					if os.path.exists(prof_path + '/prefs.js'):
+						# Read the preferences file
+						prefs = prof_path + '/prefs.js'
+						file = open(prefs, 'r')
+						pr_data = file.read()
+						file.close()
+						# Find the directory for Zotero data
+						zot_path = re.search("user_pref\\(\"extensions\\.zotero\\.baseAttachmentPath\",\\s\"(.*?)\"\\);", pr_data)
+
+						if zot_path != None:
+							return zot_path.group(1)
+						else:
+							alp.log('Error! Could not fine Base Directory in Firefox prefs.')
+	else:
+		zf_path = home + "/Library/Application Support/Firefox/"
+		if os.path.exists(zot_path + 'profiles.ini'):
+			prof_path = get_profile(zf_path)
+			
+			if os.path.exists(prof_path + '/prefs.js'):
+				# Read the preferences file
+				prefs = prof_path + '/prefs.js'
+				file = open(prefs, 'r')
+				pr_data = file.read()
+				file.close()
+				# Find the directory for Zotero data
+				zot_path = re.search("user_pref\\(\"extensions\\.zotero\\.baseAttachmentPath\",\\s\"(.*?)\"\\);", pr_data)
+
+				if zot_path != None:
+					return zot_path.group(1)
+				else:
+					alp.log('Error! Could not fine Base Directory in Firefox prefs.')
+
+					

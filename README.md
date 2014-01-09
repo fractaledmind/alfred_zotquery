@@ -8,6 +8,7 @@ To **download**, simply open the `ZotQuery.alfredworkflow` file, and then click 
 
 	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
 
+v. 2.0: Add ability to open attachments.
 v. 1.2: Various bug fixes. New Notifications.
 v. 1.1: Added feature to export bibliography of Collections or Tags.  
 v. 1.0: Added features to export formatted citations and references of items.  
@@ -123,10 +124,19 @@ As above, the `zot:c` search functions just like the simple `zot` search.
 **TIP**: Both the Tag and Collection searches save the chosen tag or collection to a cached file which the next step reads and searches within. If you use either tags or collections to organize your writing projects, you can search for that tag or collection once, and then simply jump straight to the `zot:tag` or `zot:c` search to continue searching within that tag or collection. 
 
 - - - 
-Under `Export` there are 2 options:
+Under `Export` there are (now) 3 options:
 
 1. Export an Item.
 2. Export a Set of items.
+3. Open an Attachment
+
+The last one is the newest feature of ZotQuery!
+
+When you perform any of the queries, items with attachments will have in their Subtitle "Attachments: `n`.", with n representing the number of .pdf or .epub attachments for that item:
+
+![An item w/ an Attachment](/screenshots/attachment.png)
+
+In order to open this attachment, simply press `shift+return.` If the attachment is a .pdf, it will be opened in your default pdf viewer; likewise for .epubs. This feature should work both for attachments in Zotero itself as well as linked attachments. 
 
 Once you select an **individual item** after a `zot` search of any kind (general, author, title, tag, collection), there are 4 options:
 

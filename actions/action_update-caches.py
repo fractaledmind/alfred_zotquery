@@ -5,9 +5,10 @@ import sqlite3
 import json
 import collections
 import os
+import sys
 import shutil
 import _mappings
-from _zotquery import get_zotero_db, to_unicode, check_cache
+from _zotquery import get_zotero_db, to_unicode, check_cache, get_zotero_storage, get_zotero_basedir
 
 """
 This script works in 4 stages:
@@ -28,7 +29,9 @@ So, if the script fails, you can isolate the issue.
 	
 ### INITIAL SETUP
 # Only update if needed
-if check_cache():
+force = sys.argv[1]
+
+if check_cache() or force:
 	try:
 		# Create a copy of the user's Zotero database 
 		zotero_path = get_zotero_db()
@@ -171,6 +174,7 @@ if check_cache():
 										# These two lists will be filled later.
 										d['zot-collections'] = []
 										d['zot-tags'] = []
+										d['attachments'] = []
 										db_res.append(d)
 										
 										# Restart all relevant lists
@@ -212,6 +216,7 @@ if check_cache():
 									# These two lists will be filled later.
 									d['zot-collections'] = []
 									d['zot-tags'] = []
+									d['attachments'] = []
 									db_res.append(d)	
 
 						# Close sqlite connection
@@ -353,57 +358,137 @@ if check_cache():
 										alp.log("Tags Success! Completed json backup of Zotero tags data.")
 									
 
-										### STEP FOUR: MERGE ALL THREE DICTIONARIES TOGETHER
-										"""
-										This part of the script merges the Collection and Tag information with your primary Zotero JSON file.
-										"""
+										### STEP FOUR: CREATE ATTACHMENT DICTIONARIES
+										try:
+											storage_path = get_zotero_storage()
+											# These extensions are recognized as fulltext attachments
+											attachment_ext = [".pdf", "epub"]
 
-										try: 
-											for i, item in enumerate(db_res):
-												for j, jtem in enumerate(coll_res):
-													if item['id'] in jtem['items']:
-														item['zot-collections'].append(jtem['zot-collection'])
-																		
-											for i, item in enumerate(db_res):
-												for j, jtem in enumerate(tag_res):
-													if item['id'] in jtem['items']:
-														item['zot-tags'].append(jtem['zot-tag'])
-										
-											try:				
-												final_json = json.dumps(db_res, sort_keys=False, indent=4, separators=(',', ': '))
+											conn = sqlite3.connect(clone_database)
+											cur = conn.cursor()	
+											# Retrieve attachment data from Zotero database
+											attachment_query = """
+												select items.itemID, itemAttachments.path, itemAttachments.itemID
+												from items, itemAttachments
+												where items.itemID = itemAttachments.sourceItemID
+												"""
+											# Retrieve attachments
+											attachments = cur.execute(attachment_query).fetchall()
 
-												# Write final, formatted json to Alfred cache
-												cache = alp.cache(join='zotero_db.json')
-												cache_file = open(cache, 'w+')
-												cache_file.write(final_json.encode('utf-8'))
-												cache_file.close()
+											try:
+												att_res = []
+												for item in attachments:
+													item_id = item[0]
+													
+													if item[1] != None:
+														att = item[1]
+
+														# If the attachment is stored in the Zotero folder, 
+														# it is preceded by "storage:"
+														if att[:8] == "storage:":
+															item_attachment = att[8:]
+															attachment_id = item[2]
+															if item_attachment[-4:].lower() in attachment_ext:
+																cur.execute("select items.key from items where itemID = %d" % attachment_id)
+																key = cur.fetchone()[0]
+																base = os.path.join(storage_path, key).encode('utf-8')
+																att_path = os.path.join(base, item_attachment).encode('utf-8')
+
+																d = collections.OrderedDict()
+																d['attachment'] = {'name': item_attachment, 'key': key, 'path': att_path}
+																d['item'] = item_id
+																att_res.append(d)
+
+
+														# If the attachment is linked to a location, 
+														# it is preceded by "attachments:"
+														elif att[:12] == "attachments:":
+															link_attachment = att[12:]
+															attachment_id = item[2]
+															if link_attachment[-4:].lower() in attachment_ext:
+																cur.execute("select items.key from items where itemID = %d" % attachment_id)
+																key = cur.fetchone()[0]
+																base = get_zotero_basedir()
+																att_path = os.path.join(base, link_attachment).encode('utf-8')
+
+																d = collections.OrderedDict()
+																d['attachment'] = {'name': link_attachment, 'key': key, 'path': att_path}
+																d['item'] = item_id
+																att_res.append(d)
+
+														# Else, there is simply the full path to the attachment
+														else:
+															item_attachment = att
+															name = item_attachment.split('/')[-1]
+															
+															d = collections.OrderedDict()
+															d['attachment'] = {'name': name, 'key': None, 'path': item_attachment}
+															d['item'] = item_id
+															att_res.append(d)
+
+												conn.close()
+												# Log the results
+												alp.log("Attachements Success! Completed backup of Zotero attachment data.")
+
+
+												### STEP FIVE: MERGE ALL FOUR DICTIONARIES TOGETHER
+												try: 
+													for item in db_res:
+														for jtem in coll_res:
+															if item['id'] in jtem['items']:
+																item['zot-collections'].append(jtem['zot-collection'])
+																				
+													for item in db_res:
+														for jtem in tag_res:
+															if item['id'] in jtem['items']:
+																item['zot-tags'].append(jtem['zot-tag'])
+
+													for item in db_res:
+														for jtem in att_res:
+															if item['id'] == jtem['item']:
+																item['attachments'].append(jtem['attachment'])
 												
-												#print final_json
+													try:				
+														final_json = json.dumps(db_res, sort_keys=False, indent=4, separators=(',', ': '))
 
-												# Log the result
-												alp.log("Final Success! Created JSON cache of Zotero database.")
-												print "Final Success! Created JSON cache of Zotero database."
+														# Write final, formatted json to Alfred cache
+														cache = alp.cache(join='zotero_db.json')
+														cache_file = open(cache, 'w+')
+														cache_file.write(final_json.encode('utf-8'))
+														cache_file.close()
+														
+														#print final_json
+
+														# Log the result
+														alp.log("Final Success! Created JSON cache of Zotero database.")
+														print "Final Success! Created JSON cache of Zotero database."
+													except:
+														alp.log("Final Backup Failed! Script failed to render and write final JSON.")
+														print "Final Backup Failed! Script failed to render and write final JSON."
+												except:
+													alp.log("Final Backup Failed! Script failed to merge dictionaries.")
+													print "Final Backup Failed! Script failed to merge dictionaries."
 											except:
-												alp.log("Final Backup Failed! Script failed to render and write final JSON.")
-												print "Final Backup Failed! Script failed to render and write final JSON."
+												alp.log("Attachment Backup Failed! Script failed to create attachment dictionaries.")
+												print "Attachment Backup Failed! Script failed to create attachment dictionaries."
 										except:
-											alp.log("Final Backup Failed! Script failed to merge dictionaries.")
-											print "Final Backup Failed! Script failed to merge dictionaries."
+											alp.log("Attachment Backup Failed! Script cannot access Zotero's attachments")
+											print "Attachment Backup Failed! Script cannot access Zotero's attachments"
 									except:
-										alp.log("Tags Backup Failed! Script failed to render tags JSON.")
-										print "Tags Backup Failed! Script failed to render tags JSON."
+										alp.log("Tags Backup Failed! Script failed to create tags dictionaries.")
+										print "Tags Backup Failed! Script failed to create tags dictionaries."
 								except:
 									alp.log("Tags Backup Failed! Script cannot access Zotero's tags.")
 									print "Tags Backup Failed! Script cannot access Zotero's tags."
 							except:
-								alp.log("Collections Backup Failed! Script failed to render collection JSON.")
-								print "Collections Backup Failed! Script failed to render collection JSON."
+								alp.log("Collections Backup Failed! Script failed to create collection dictionaries.")
+								print "Collections Backup Failed! Script failed to create collection dictionaries."
 						except:
 							alp.log("Collections Backup Failed! Script cannot access Zotero's collections.")
 							print "Collections Backup Failed! Script cannot access Zotero's collections."
 					except:
-						alp.log("Database Backup Failed! Script failed to render JSON.")
-						print "Database Backup Failed! Script failed to render JSON."
+						alp.log("Database Backup Failed! Script failed to create item info dictionaries.")
+						print "Database Backup Failed! Script failed to create item info dictionaries."
 				except:
 					alp.log("Database Backup Failed! Script cannot access Zotero's items.")
 					print "Database Backup Failed! Script cannot access Zotero's items."
