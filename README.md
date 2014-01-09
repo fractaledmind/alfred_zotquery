@@ -4,7 +4,7 @@
 
 **ZotQuery** is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 
 
-To download, simply open the `ZotQuery.alfredworkflow` file, and then click `View Raw`. The file will then automatically download. All you need to do is open it and Alfred will import the workflow.
+To **download**, simply open the `ZotQuery.alfredworkflow` file, and then click `View Raw`. The file will then automatically download. All you need to do is open it and Alfred will import the workflow.
 
 	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
 
