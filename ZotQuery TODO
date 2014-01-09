@@ -1,6 +1,6 @@
 ZotQuery TODO
 
-* Fix Collection and Tag queries to read keys (instead of Names) when querying `zot:c` and `zot:tag`.
+[x] Fix Collection and Tag queries to read keys (instead of Names) when querying `zot:c` and `zot:tag`.
 
 * Order filter results by:
 	* date (newest to oldest)
