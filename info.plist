@@ -290,6 +290,17 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>A7447881-DE52-49E2-BFC1-9BCAD7CC363E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1B0B5A23-B1BC-45B9-97AA-C3270FFF7AE6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>BD93AD49-C70B-45EE-8817-CD0801540534</key>
 		<array>
 			<dict>
@@ -499,7 +510,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_export-md-format.py "{query}"</string>
+				<string>python action_export-md-format.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -547,7 +558,7 @@
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zot-general.py "{query}"</string>
+				<string>python filter_zot-general.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>subtext</key>
 				<string>General Query</string>
 				<key>title</key>
@@ -585,7 +596,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -608,7 +619,7 @@
 				<key>runningsubtext</key>
 				<string>Searching for author...</string>
 				<key>script</key>
-				<string>python filter_zot-complex.py "{query}" "family"</string>
+				<string>python filter_zot-complex.py "{query}" "family" 2&gt;&amp;1 | tee output.log</string>
 				<key>subtext</key>
 				<string>Author Query</string>
 				<key>title</key>
@@ -631,7 +642,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_export-ref.py "{query}"</string>
+				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -654,7 +665,7 @@
 				<key>runningsubtext</key>
 				<string>Searching for title...</string>
 				<key>script</key>
-				<string>python filter_zot-complex.py "{query}" "title"</string>
+				<string>python filter_zot-complex.py "{query}" "title" 2&gt;&amp;1 | tee output.log</string>
 				<key>subtext</key>
 				<string>Title Query</string>
 				<key>title</key>
@@ -727,7 +738,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python action_update-caches.py False 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -748,7 +759,7 @@
 				<key>keyword</key>
 				<string>zot:c</string>
 				<key>script</key>
-				<string>python filter_collection-query.py "{query}"</string>
+				<string>python filter_collection-query.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>title</key>
 				<string>Search within your chosen Zotero collection</string>
 				<key>type</key>
@@ -786,7 +797,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_export-md-format.py "{query}"</string>
+				<string>python action_export-md-format.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -803,7 +814,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
+				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -826,7 +837,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>python filter_tag-query.py "{query}"</string>
+				<string>python filter_tag-query.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>title</key>
 				<string>Search within your chosen tag</string>
 				<key>type</key>
@@ -869,10 +880,40 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>text</key>
+				<string>Search Zotero for '{query}'</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.fallback</string>
+			<key>uid</key>
+			<string>A7447881-DE52-49E2-BFC1-9BCAD7CC363E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_save-collection.py "{query}"</string>
+				<string>tell application "Alfred 2" to search "zot " &amp; "{query}"</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>1B0B5A23-B1BC-45B9-97AA-C3270FFF7AE6</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_save-collection.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -880,33 +921,6 @@
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>C131748D-B1E2-48EF-ACB3-715DF55AECC0</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>z:col</string>
-				<key>runningsubtext</key>
-				<string>Searching...</string>
-				<key>script</key>
-				<string>python filter_collections.py "{query}"</string>
-				<key>title</key>
-				<string>Search Zotero Collections</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>E2AAD880-BB36-40D8-8755-7F96F2BFAD6C</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -924,6 +938,33 @@
 			<string>alfred.workflow.output.script</string>
 			<key>uid</key>
 			<string>7299C725-F65A-4E18-A82A-D28E381A2921</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>z:col</string>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>python filter_collections.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>title</key>
+				<string>Search Zotero Collections</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E2AAD880-BB36-40D8-8755-7F96F2BFAD6C</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -948,7 +989,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_export-coll-tag-bib.py "{query}"</string>
+				<string>python action_export-coll-tag-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -971,7 +1012,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>python filter_tags.py "{query}"</string>
+				<string>python filter_tags.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>title</key>
 				<string>Search Zotero Tags</string>
 				<key>type</key>
@@ -992,7 +1033,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_save-tag.py "{query}"</string>
+				<string>python action_save-tag.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1097,7 +1138,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_read-restart-bib.py</string>
+				<string>python action_read-restart-bib.py 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1190,7 +1231,7 @@ CODE</string>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_update-caches.py True</string>
+				<string>python action_update-caches.py True 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1214,17 +1255,22 @@ CODE</string>
 		<key>0BFE4A31-78E1-4CFA-87D3-D9AB45FC9A0C</key>
 		<dict>
 			<key>ypos</key>
-			<real>1040</real>
+			<real>1110</real>
 		</dict>
 		<key>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</key>
 		<dict>
 			<key>ypos</key>
-			<real>1170</real>
+			<real>1240</real>
+		</dict>
+		<key>1B0B5A23-B1BC-45B9-97AA-C3270FFF7AE6</key>
+		<dict>
+			<key>ypos</key>
+			<real>550</real>
 		</dict>
 		<key>260BAE78-0771-4A61-91DE-D39A18E49D43</key>
 		<dict>
 			<key>ypos</key>
-			<real>1170</real>
+			<real>1240</real>
 		</dict>
 		<key>3166AFE5-2F5A-430E-B2C8-6EE19253411E</key>
 		<dict>
@@ -1239,7 +1285,7 @@ CODE</string>
 		<key>53372942-F4C7-4770-BA94-C31F4CFB30D7</key>
 		<dict>
 			<key>ypos</key>
-			<real>810</real>
+			<real>830</real>
 		</dict>
 		<key>612EB44D-D8FA-466F-B429-737EB9965027</key>
 		<dict>
@@ -1249,7 +1295,7 @@ CODE</string>
 		<key>694DF83D-F77D-4AA0-8D2A-B89D6B5F02B3</key>
 		<dict>
 			<key>ypos</key>
-			<real>990</real>
+			<real>1060</real>
 		</dict>
 		<key>71C4224F-1D97-40F5-AFE7-4BB9294BB865</key>
 		<dict>
@@ -1259,7 +1305,7 @@ CODE</string>
 		<key>7299C725-F65A-4E18-A82A-D28E381A2921</key>
 		<dict>
 			<key>ypos</key>
-			<real>610</real>
+			<real>680</real>
 		</dict>
 		<key>7687E6B6-51B2-4721-A693-1B009E726974</key>
 		<dict>
@@ -1269,7 +1315,7 @@ CODE</string>
 		<key>7B595D39-6C1A-45BD-ACF2-2FA14AED0DF4</key>
 		<dict>
 			<key>ypos</key>
-			<real>990</real>
+			<real>1060</real>
 		</dict>
 		<key>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</key>
 		<dict>
@@ -1279,7 +1325,7 @@ CODE</string>
 		<key>958FBDF3-853D-451B-A289-3EAF1864E2C0</key>
 		<dict>
 			<key>ypos</key>
-			<real>710</real>
+			<real>780</real>
 		</dict>
 		<key>999EE149-74F0-401F-AE30-623756122D31</key>
 		<dict>
@@ -1289,7 +1335,7 @@ CODE</string>
 		<key>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</key>
 		<dict>
 			<key>ypos</key>
-			<real>810</real>
+			<real>880</real>
 		</dict>
 		<key>9FAF6DF5-7CC4-492A-950E-2719D3574536</key>
 		<dict>
@@ -1299,7 +1345,12 @@ CODE</string>
 		<key>A4BC7578-3E3A-45E4-9137-3BCCB3925879</key>
 		<dict>
 			<key>ypos</key>
-			<real>990</real>
+			<real>1060</real>
+		</dict>
+		<key>A7447881-DE52-49E2-BFC1-9BCAD7CC363E</key>
+		<dict>
+			<key>ypos</key>
+			<real>550</real>
 		</dict>
 		<key>BB3151A8-F09A-4856-9C6F-6B980A6211CE</key>
 		<dict>
@@ -1314,7 +1365,7 @@ CODE</string>
 		<key>C131748D-B1E2-48EF-ACB3-715DF55AECC0</key>
 		<dict>
 			<key>ypos</key>
-			<real>610</real>
+			<real>680</real>
 		</dict>
 		<key>CA18956A-C349-4A46-9E5E-211EC824BDE8</key>
 		<dict>
@@ -1324,7 +1375,7 @@ CODE</string>
 		<key>D2598FEF-CDF3-403F-8527-431DBA491760</key>
 		<dict>
 			<key>ypos</key>
-			<real>710</real>
+			<real>780</real>
 		</dict>
 		<key>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</key>
 		<dict>
@@ -1334,17 +1385,17 @@ CODE</string>
 		<key>D4EE71E6-EBD4-413C-80F9-5B3AB54C7F7B</key>
 		<dict>
 			<key>ypos</key>
-			<real>940</real>
+			<real>1010</real>
 		</dict>
 		<key>E2AAD880-BB36-40D8-8755-7F96F2BFAD6C</key>
 		<dict>
 			<key>ypos</key>
-			<real>610</real>
+			<real>730</real>
 		</dict>
 		<key>E37263DD-A00C-43DA-870B-75FD5144AF6F</key>
 		<dict>
 			<key>ypos</key>
-			<real>810</real>
+			<real>880</real>
 		</dict>
 		<key>E565C2AB-EABC-4804-8449-D18A38DC0BBF</key>
 		<dict>
@@ -1354,7 +1405,7 @@ CODE</string>
 		<key>E89AAF55-EA37-4520-9604-CB7F9906D59A</key>
 		<dict>
 			<key>ypos</key>
-			<real>1170</real>
+			<real>1240</real>
 		</dict>
 		<key>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</key>
 		<dict>

@@ -29,9 +29,12 @@ So, if the script fails, you can isolate the issue.
 	
 ### INITIAL SETUP
 # Only update if needed
-force = sys.argv[1]
+#force = sys.argv[1]
+force = True
 
 if check_cache() or force:
+	# Log start time
+	alp.log('START: update cache process.')
 	try:
 		# Create a copy of the user's Zotero database 
 		zotero_path = get_zotero_db()
@@ -360,7 +363,6 @@ if check_cache() or force:
 
 										### STEP FOUR: CREATE ATTACHMENT DICTIONARIES
 										try:
-											storage_path = get_zotero_storage()
 											# These extensions are recognized as fulltext attachments
 											attachment_ext = [".pdf", "epub"]
 
@@ -391,6 +393,7 @@ if check_cache() or force:
 															if item_attachment[-4:].lower() in attachment_ext:
 																cur.execute("select items.key from items where itemID = %d" % attachment_id)
 																key = cur.fetchone()[0]
+																storage_path = get_zotero_storage()
 																base = os.path.join(storage_path, key).encode('utf-8')
 																att_path = os.path.join(base, item_attachment).encode('utf-8')
 
@@ -504,3 +507,6 @@ if check_cache() or force:
 else:
 	alp.log("Cache already up-to-date.")
 	print "Cache already up-to-date."
+
+# Log finish time
+alp.log('END: update cache process.')

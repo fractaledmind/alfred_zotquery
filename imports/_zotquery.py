@@ -18,6 +18,24 @@ def to_unicode(obj, encoding='utf-8'):
 			obj = unicode(obj, encoding)
 	return obj
 
+###
+def delay_execution(title, icon=None):
+	# Waits for user to end query with '.' before initiating search
+
+    query = sys.argv[1]
+
+    if icon is None:
+        icon = 'icon.png'
+
+    if query[-1] != '.':
+		res_dict = {'title': title, 'subtitle': "End query with . to execute search", 'valid': False, 'uid': None, 'icon': icon}
+		res_item = alp.Item(**res_dict)
+		alp.feedback(res_item)
+    exit()
+
+    return query[:-1]
+
+###
 def get_profile(path):
 	# Read the profiles file
 	prof = path + 'profiles.ini'
@@ -55,8 +73,8 @@ def get_zotero_db():
 				db_path = os.path.join(root, file)
 				if os.path.exists(db_path):
 					return db_path 
-			else:
-				alp.log('Error! Could not find database in Profile path.')
+				else:
+					alp.log('Error! Could not find database in Profile path.')
 		
 ###
 def check_cache():
@@ -249,8 +267,8 @@ def get_zotero_storage():
 				storage_path = os.path.join(root, dir)
 				if os.path.exists(storage_path):
 					return storage_path 
-			else:
-				alp.log('Error! Could not find storage directory in Profile path.')
+				else:
+					alp.log('Error! Could not find storage directory in Profile path.')
 
 def get_zotero_basedir():
 	
@@ -310,6 +328,6 @@ def get_zotero_basedir():
 				if zot_path != None:
 					return zot_path.group(1)
 				else:
-					alp.log('Error! Could not fine Base Directory in Firefox prefs.')
+					alp.log('Error! Could not find Base Directory in Firefox prefs.')
 
 					
