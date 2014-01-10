@@ -39,6 +39,8 @@ Once you have set up a personal API key, you will need this key and the userID (
 
 The workflow reads this `settings.json` file whenever it attempts to connect to the Zotero API, so if you don't alter it properly, the Export Citation and Export Reference functions **will not work**.
 
+**ALSO**, when you first download the workflow, you will need to run `z:cache` first to cache your Zotero data before you attempt any queries. All of the queries query the JSON cache and not your Zotero data directly (for speed reasons) and the cache auto-updates after every query, but the first time out of the box requires a manual caching. (Note also that you can always force update the cache with the `z:cache` command, which may be helpful if you've added items to Zotero since your last query.)
+
 - - -  
 
 ### FUNCTIONS
