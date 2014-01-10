@@ -18,8 +18,8 @@ json_data = open(cache, 'r')
 zot_data = json.load(json_data)
 json_data.close()
 
-#query = sys.argv[1]
-query = 'KPQW3ZPT'
+query = sys.argv[1]
+#query = 'KPQW3ZPT'
 
 # Get the item's attachement path and attachment key
 for item in zot_data:
