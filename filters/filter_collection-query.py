@@ -72,8 +72,6 @@ for item in final:
 	# Prepare data for Alfred
 	title = item['data']['title']
 	sub = info[0] + ' ' + info[1]
-	if item['attachments'] != []:
-		sub = sub + ' Attachments: ' + str(len(item['attachments'])) 
 	
 	# Create dictionary of necessary Alred result info.
 	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
@@ -89,6 +87,11 @@ for item in final:
 		res_dict.update({'icon': 'icons/n_conference.png'})
 	else:
 		res_dict.update({'icon': 'icons/n_written.png'})
+
+	# If item has an attachment
+	if item['attachments'] != []:
+		res_dict.update({'subtitle': sub + ' Attachments: ' + str(len(item['attachments']))})
+		res_dict.update({'icon': 'icons/n_attached.png'})
 
 	res_item = alp.Item(**res_dict)
 	xml_res.append(res_item)
