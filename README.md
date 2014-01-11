@@ -8,6 +8,7 @@ To **download**, simply open the `ZotQuery.alfredworkflow` file, and then click 
 
 	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
 
+v. 2.3: Fixed major bug which was crippling workflow.
 v. 2.2: New Fallback Search. Bug fixes and more error logging.
 v. 2.0: Add ability to open attachments.   
 v. 1.2: Various bug fixes. New Notifications.   

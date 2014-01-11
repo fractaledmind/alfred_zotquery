@@ -29,10 +29,10 @@ So, if the script fails, you can isolate the issue.
 	
 ### INITIAL SETUP
 # Only update if needed
-#force = sys.argv[1]
-force = True
+force = sys.argv[1]
+#force = True
 
-if check_cache() or force:
+if check_cache() or force == True:
 	# Log start time
 	alp.log('START: update cache process.')
 	try:
