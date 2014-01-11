@@ -3,7 +3,7 @@
 import alp
 import json
 import sys
-from _zotquery import info_format
+from _zotquery import zot_string, info_format
 
 """
 This script searches within the collection chosen in the previous step (z:col) 
@@ -26,7 +26,7 @@ zot_data = json.load(json_data)
 json_data.close()
 
 query = sys.argv[1]
-#query = 'hero'
+#query = 'lucr'
 
 matches = []
 for i, item in enumerate(zot_data):
@@ -39,9 +39,6 @@ for i, item in enumerate(zot_data):
 						if sub_key in ['title', 'container-title', 'collection-title']:
 							if query.lower() in sub_val.lower():
 								matches.insert(0, item)
-						elif sub_key in ['note', 'event-place', 'source', 'publisher', 'abstract']:
-							if query.lower() in sub_val.lower():
-								matches.append(item)
 							
 				# Since the creator key contains a list
 				elif key == 'creator':
@@ -62,10 +59,12 @@ if not matches == []:
 	final = clean
 else:
 	final = matches
-	
-	
+
+# Rank the results
+results = alp.fuzzy_search(query, final, key=lambda x: zot_string(x))
+		
 xml_res = []
-for item in final:
+for item in results:
 	# Format the Zotero match results
 	info = info_format(item)
 	

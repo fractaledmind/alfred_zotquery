@@ -4,7 +4,7 @@ import alp
 import json
 import sys
 import re
-from _zotquery import info_format
+from _zotquery import zot_string, info_format
 
 """
 This script searches within the tag chosen in the previous step (z:tag) for the queried term.
@@ -28,7 +28,7 @@ zot_data = json.load(json_data)
 json_data.close()
 
 query = sys.argv[1]
-#query = 'n'
+#query = 'note'
 
 matches = []
 for i, item in enumerate(zot_data):
@@ -64,10 +64,12 @@ if not matches == []:
 	final = clean
 else:
 	final = matches
-	
+
+# Rank the results
+results = alp.fuzzy_search(query, final, key=lambda x: zot_string(x))
 	
 xml_res = []
-for item in final:
+for item in results:
 	# Format the Zotero match results
 	info = info_format(item)
 	

@@ -3,7 +3,7 @@
 import alp
 import json
 import sys
-from _zotquery import zotquery, info_format
+from _zotquery import zot_string, info_format
 
 """
 This script queries the JSON cache of your Zotero database for any matches of the query.
@@ -21,13 +21,14 @@ query = sys.argv[1]
 
 try:
 	# Search the Zotero data for matches
-	results = zotquery(query, zot_data, sort='author')
+	results = alp.fuzzy_search(query, zot_data, key=lambda x: zot_string(x))
 # On a failure	
 except:
 	alp.log("Error! Query failed.")
 	iDict = dict(title="Error!", subtitle="Query failed.", valid=True)
 	i = alp.Item(**iDict)
 	alp.feedback(i)
+
 
 xml_res = []
 for item in results:

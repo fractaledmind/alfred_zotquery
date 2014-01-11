@@ -3,7 +3,7 @@
 import alp
 import json
 import sys
-from _zotquery import zotquery, info_format
+from _zotquery import zotquery, zot_string, info_format
 
 """
 This script queries the JSON cache of your Zotero database for matches of the query 
@@ -16,12 +16,12 @@ zot_data = json.load(json_data)
 json_data.close()
 
 # prepare specific query list: [key, value]
-query = [sys.argv[2], sys.argv[1]]
-#query = ['family', 'griff']
+#query = [sys.argv[2], sys.argv[1]]
+query = ['family', 'griff']
 
 try:
 	# Search the Zotero data for matches
-	results = zotquery(query, zot_data, sort='author')
+	res = zotquery(query, zot_data, sort='author')
 # On a failure	
 except:
 	alp.log("Error! Query failed.")
@@ -29,6 +29,8 @@ except:
 	i = alp.Item(**iDict)
 	alp.feedback(i)
 
+# Rank the results
+results = alp.fuzzy_search(query[1], res, key=lambda x: zot_string(x))
 
 xml_res = []
 for item in results:
