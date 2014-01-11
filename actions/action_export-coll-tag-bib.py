@@ -52,7 +52,7 @@ try:
 					# Sort that list alphabetically
 					sorted_md = sorted(md_cites)
 					# Begin with WORKS CITED header
-					sorted_md.insert(0, 'WORKS CITED')
+					sorted_md.insert(0, 'WORKS CITED\n')
 
 					# Output the result as a well-formatted string
 					print '\n'.join(sorted_md)
@@ -91,7 +91,7 @@ try:
 					# Sort that list alphabetically
 					sorted_md = sorted(md_cites)
 					# Begin with WORKS CITED header
-					sorted_md.insert(0, 'WORKS CITED')
+					sorted_md.insert(0, 'WORKS CITED\n')
 
 					# Output the result as a well-formatted string
 					print '\n'.join(sorted_md)
