@@ -16,8 +16,8 @@ zot_data = json.load(json_data)
 json_data.close()
 
 # prepare specific query list: [key, value]
-#query = [sys.argv[2], sys.argv[1]]
-query = ['family', 'griff']
+query = [sys.argv[2], sys.argv[1]]
+#query = ['family', 'griff']
 
 try:
 	# Search the Zotero data for matches
