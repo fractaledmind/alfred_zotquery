@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import alp
 import sys
-from dependencies import alp
 
 """
 This script appends the formatted citation to a bibliography file.

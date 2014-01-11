@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from dependencies import alp, applescript
+import alp
+from dependencies import applescript
 import sys
 import json
 import os.path

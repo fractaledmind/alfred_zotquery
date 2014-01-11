@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from dependencies import alp
+import alp
 import json
 import sys
 from _zotquery import info_format

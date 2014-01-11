@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import alp
 import sys
 import json
 import re
 from dependencies.pyzotero import zotero
-from dependencies import html2md, alp
+from dependencies import html2md
 
 
 """

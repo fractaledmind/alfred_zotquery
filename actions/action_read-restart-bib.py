@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import alp
 import sys
 import re
-from dependencies import alp
 
 """
 This script reads, formats, outputs, and restarts the cached bibliography file.

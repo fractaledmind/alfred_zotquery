@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import alp
 import sys
 import json
 import re
 from dependencies.pyzotero import zotero
-from dependencies import alp
 
 """
 This script exports a Markdown formatted, APA-style reference (i.e. Author Date) of the selected item.
