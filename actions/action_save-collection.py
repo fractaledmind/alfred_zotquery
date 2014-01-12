@@ -9,8 +9,8 @@ This script writes the key of the Collection chosen in z:col to a file for readi
 """
 
 try:
-	input = sys.argv[1]
-	final = to_unicode(input, encoding='utf-8')
+	inp = sys.argv[1]
+	final = to_unicode(inp, encoding='utf-8')
 
 	try:
 		# Write the inputted Collection key to a temporary file

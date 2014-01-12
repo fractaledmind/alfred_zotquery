@@ -2,9 +2,11 @@ ZotQuery TODO
 
 Completed all desired features!
 
+[x] Order and rank query results.
+
 [x] Fix Collection and Tag queries to read keys (instead of Names) when querying `zot:c` and `zot:tag`.
 
-* With Alfred action modifiers, there are 6 possible actions the workflow can take on an item:
+[x] With Alfred action modifiers, there are 6 possible actions the workflow can take on an item:
 	[x] open Zotero to item
 	[x] copy full citation
 	[x] copy short reference

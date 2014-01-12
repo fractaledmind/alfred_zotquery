@@ -8,6 +8,7 @@ To **download**, simply open the `ZotQuery.alfredworkflow` file, and then click 
 
 	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
 
+v. 2.4: Fixed bug that kept initial z:cache from creating cache file.
 v. 2.3: Fixed major bug which was crippling workflow.
 v. 2.2: New Fallback Search. Bug fixes and more error logging.
 v. 2.0: Add ability to open attachments.   
@@ -19,7 +20,9 @@ v. 0.8: First public release of ZotQuery.
 
 ### REQUIREMENTS ###
 
-This workflow utilizes the Zotero API to export citations of chosen items. In order for the user to utilize these functions, you must have and set up a Zotero private key. To do so, the user must sign into their Zotero account at [zotero.org](www.zotero.org) and go to the "Feeds/API" tab. Here you will find something like so:
+When you first download the workflow, you will need to run `z:cache` first to cache your Zotero data before you attempt any queries. All of the queries query the JSON cache and not your Zotero data directly (for speed reasons) and the cache auto-updates after every query, but the first time out of the box requires a manual caching. (Note also that you can always force update the cache with the `z:cache` command, which may be helpful if you've added items to Zotero since your last query.)
+
+**ALSO**, this workflow utilizes the Zotero API to export citations of chosen items. In order for the user to utilize these functions, you must have and set up a Zotero private key. To do so, the user must sign into their Zotero account at [zotero.org](www.zotero.org) and go to the "Feeds/API" tab. Here you will find something like so:
 
 ![The API tab](/screenshots/Zotero___Settings___Feeds_API.png)
 
@@ -40,8 +43,6 @@ Once you have set up a personal API key, you will need this key and the userID (
 ![Modify settings](/screenshots/settings_json.png)
 
 The workflow reads this `settings.json` file whenever it attempts to connect to the Zotero API, so if you don't alter it properly, the Export Citation and Export Reference functions **will not work**.
-
-**ALSO**, when you first download the workflow, you will need to run `z:cache` first to cache your Zotero data before you attempt any queries. All of the queries query the JSON cache and not your Zotero data directly (for speed reasons) and the cache auto-updates after every query, but the first time out of the box requires a manual caching. (Note also that you can always force update the cache with the `z:cache` command, which may be helpful if you've added items to Zotero since your last query.)
 
 - - -  
 

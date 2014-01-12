@@ -19,8 +19,8 @@ try:
 		bib_file.write('')
 		bib_file.close()
 	except:
-		alp.log('Error! Could not write to cache.')
-		print 'Error! Could not write to cache.'	
+		alp.log('Error! Could not append to cache.')
+		print 'Error! Could not append to cache.'	
 except:
 	alp.log('Error! Could not read input.')
 	print 'Error! Could not read input.'

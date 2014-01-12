@@ -75,23 +75,37 @@ for item in results:
 	# Create dictionary of necessary Alred result info.
 	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
 	
-	# Export items to Alfred xml with appropriate icons
-	if item['type'] == 'article-journal':
-		res_dict.update({'icon': 'icons/n_article.png'})
-	elif item['type'] == 'book':
-		res_dict.update({'icon': 'icons/n_book.png'})
-	elif item['type'] == 'chapter':
-		res_dict.update({'icon': 'icons/n_chapter.png'})
-	elif item['type'] == 'paper-conference':
-		res_dict.update({'icon': 'icons/n_conference.png'})
-	else:
-		res_dict.update({'icon': 'icons/n_written.png'})
-
 	# If item has an attachment
 	if item['attachments'] != []:
 		res_dict.update({'subtitle': sub + ' Attachments: ' + str(len(item['attachments']))})
-		res_dict.update({'icon': 'icons/n_attached.png'})
-
+	
+	# Export items to Alfred xml with appropriate icons
+	if item['type'] == 'article-journal':
+		if item['attachments'] == []: 
+			res_dict.update({'icon': 'icons/n_article.png'})
+		else:
+			res_dict.update({'icon': 'icons/att_article.png'})
+	elif item['type'] == 'book':
+		if item['attachments'] == []:
+			res_dict.update({'icon': 'icons/n_book.png'})
+		else:
+			res_dict.update({'icon': 'icons/att_book.png'})
+	elif item['type'] == 'chapter':
+		if item['attachments'] == []:
+			res_dict.update({'icon': 'icons/n_chapter.png'})
+		else:
+			res_dict.update({'icon': 'icons/att_book.png'})
+	elif item['type'] == 'paper-conference':
+		if item['attachments'] == []:
+			res_dict.update({'icon': 'icons/n_conference.png'})
+		else:
+			res_dict.update({'icon': 'icons/att_conference.png'})
+	else:
+		if item['attachments'] == []:
+			res_dict.update({'icon': 'icons/n_written.png'})
+		else:
+			res_dict.update({'icon': 'icons/att_written.png'})
+			
 	res_item = alp.Item(**res_dict)
 	xml_res.append(res_item)
 		

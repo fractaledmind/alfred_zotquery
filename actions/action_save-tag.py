@@ -9,8 +9,8 @@ This script writes the name of the Tag chosen in z:tag to a file for reading lat
 """
 
 try:
-	input = sys.argv[1]
-	final = to_unicode(input, encoding='utf-8')
+	inp = sys.argv[1]
+	final = to_unicode(inp, encoding='utf-8')
 
 	try:
 		# Write the inputted Tag name to a temporary file

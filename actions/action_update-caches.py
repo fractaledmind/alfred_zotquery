@@ -32,7 +32,7 @@ So, if the script fails, you can isolate the issue.
 force = sys.argv[1]
 #force = True
 
-if check_cache() or force == True:
+if force or check_cache() == True:
 	# Log start time
 	alp.log('START: update cache process.')
 	try:
@@ -456,7 +456,7 @@ if check_cache() or force == True:
 
 														# Write final, formatted json to Alfred cache
 														cache = alp.cache(join='zotero_db.json')
-														cache_file = open(cache, 'w+')
+														cache_file = open(cache, 'w')
 														cache_file.write(final_json.encode('utf-8'))
 														cache_file.close()
 														
