@@ -1,23 +1,28 @@
 # ZotQuery
 
-### Search your Zotero data from the comfort of your keyboard. 
+### Search Your Zotero Data From the Comfort of Your Keyboard. ###
+
+![logo](/ZotQuery_logo.png)
+
+
 
 **ZotQuery** is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 
 
-To **download**, simply open the `ZotQuery.alfredworkflow` file, and then click `View Raw`. The file will then automatically download. All you need to do is open it and Alfred will import the workflow.
+To **download**, visit the [page on Packal](http://packal.org/workflow/zotquery), the workflow aggregator for Alfred, where you will be able to update to the newest versions.
 
-	NOTE: You need the PowerPack for Alfred v.2 for this workflow.
+VERSIONS:
 
-v. 2.5: Various bug fixes and maintenance. Should be stable now.  
-v. 2.4: Fixed bug that kept initial z:cache from creating cache file.  
-v. 2.3: Fixed major bug which was crippling workflow.  
-v. 2.2: New Fallback Search. Bug fixes and more error logging.  
-v. 2.0: Add ability to open attachments.     
-v. 1.2: Various bug fixes. New Notifications.   
-v. 1.1: Added feature to export bibliography of Collections or Tags.  
-v. 1.0: Added features to export formatted citations and references of items.  
-v. 0.9: Added new script filters.  
-v. 0.8: First public release of ZotQuery.  
+* v. 2.6: New icons with items with attachments.   
+* v. 2.5: Various bug fixes and maintenance. Should be stable now.  
+* v. 2.4: Fixed bug that kept initial z:cache from creating cache file.  
+* v. 2.3: Fixed major bug which was crippling workflow.  
+* v. 2.2: New Fallback Search. Bug fixes and more error logging.  
+* v. 2.0: Add ability to open attachments.     
+* v. 1.2: Various bug fixes. New Notifications.   
+* v. 1.1: Added feature to export bibliography of Collections or Tags.  
+* v. 1.0: Added features to export formatted citations and references of items.  
+* v. 0.9: Added new script filters.  
+* v. 0.8: First public release of ZotQuery.  
 
 ### REQUIREMENTS ###
 
@@ -75,17 +80,31 @@ This will search your entire Zotero database for any use of the query provided. 
 
 Once you complete your query, and the script catches up with you, you will see a list of all of your Zotero items that match the query. For ease of use, the workflow also provides unique icons for the various item types:
 
-* article 
+* article   
 ![article](/icons/n_article.png)
-* book 
+* book   
 ![book](/icons/n_book.png)
-* chapter 
+* chapter   
 ![chapter](/icons/n_chapter.png)
-* conference paper
+* conference paper  
 ![conference](/icons/n_conference.png)
-* etc. 
+* other   
 ![others](/icons/n_written.png)
 
+If your item has an attachment, the icon changes to signal the addition:
+
+* article   
+![article](/icons/att_article.png)
+* book   
+![book](/icons/att_book.png)
+* chapter   
+![chapter](/icons/att_chapter.png)
+* conference paper  
+![conference](/icons/att_conference.png)
+* other   
+![others](/icons/att_written.png)
+
+For example:   
 ![A list of items](/screenshots/zotquery_zot.png)
 
 When you select an item, Zotero will open to that item.
