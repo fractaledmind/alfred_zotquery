@@ -4,40 +4,50 @@ import alp
 import glob
 import json
 import os
-import os.path
 import time
 import sys
 import re
 
 ###
 def to_unicode(obj, encoding='utf-8'):
-# Detects if object is a string and if so converts to unicode, if not already.
-# from https://github.com/kumar303/unicode-in-python/blob/master/unicode.txt
+	"""Detects if object is a string and if so converts to unicode, if not already."""
+	# from https://github.com/kumar303/unicode-in-python/blob/master/unicode.txt
+	
 	if isinstance(obj, basestring):
 		if not isinstance(obj, unicode):
 			obj = unicode(obj, encoding)
 	return obj
 
 ###
-def delay_execution(title, icon=None):
-	# Waits for user to end query with '.' before initiating search
+def get_path(type):	
+	"""Read the paths JSON from non-volatile storage"""
+	with open(alp.storage(join="paths.json"),'r') as f:
+		path_d = json.load(f)
+		f.close()
+	return path_d[type]
+	
+###
+def zot_string(d):
+	"""Convert key values of item into string for fuzzy ranking"""
+	string = ''
+	for key, val in d.items():
+		if key == 'data':
+			for sub_key, sub_val in val.items():
+				if sub_key in ['title', 'container-title', 'collection-title']:
+					string += ' ' + sub_val
+									
+		# Since the creator key contains a list
+		elif key == 'creators':
+			for i in val:
+				for key1, val1 in i.items():
+					if key1 == 'family':
+						string += ' ' + val1
 
-    query = sys.argv[1]
-
-    if icon is None:
-        icon = 'icon.png'
-
-    if query[-1] != '.':
-		res_dict = {'title': title, 'subtitle': "End query with . to execute search", 'valid': False, 'uid': None, 'icon': icon}
-		res_item = alp.Item(**res_dict)
-		alp.feedback(res_item)
-    exit()
-
-    return query[:-1]
+	return string
 
 ###
 def get_profile(path):
-	# Read the profiles file
+	"""Read the profiles file"""
 	prof = path + 'profiles.ini'
 	file = open(prof, 'r')
 	data = file.read()
@@ -47,52 +57,23 @@ def get_profile(path):
 	prof = re.search(r"(?<=^Path=)(.*?)$", data, re.M).group()
 	prof_path = path + prof
 	return prof_path
-
-###
-def get_zotero_db():
-	
-	"""Find the user's Zotero sqlite database."""
-
-	home = os.environ["HOME"]
-
-	# First check if user has Zotero Standalone
-	zot_path = home + '/Library/Application Support/Zotero/'
-	if os.path.exists(zot_path + 'profiles.ini'):
-		prof_path = get_profile(zot_path)
-	else: 
-		# If not, check Firefox
-		zf_path = home + "/Library/Application Support/Firefox/"
-		if os.path.exists(zf_path + 'profiles.ini'):
-			prof_path = get_profile(zf_path)
-		else:
-			alp.log('Error! Zotero app not found.')
-		
-	for root, dirs, files in os.walk(prof_path):
-		for file in files:
-			if file.endswith('zotero.sqlite'):
-				db_path = os.path.join(root, file)
-				if os.path.exists(db_path):
-					return db_path 
-				else:
-					alp.log('Error! Could not find database in Profile path.')
 		
 ###
 def check_cache():
-	
 	"""Does the cache need to be updated?"""
 	
 	update = False
 
 	### Step One: Check if cloned .sqlite database is up-to-date with Zotero database
-	zotero_mod = os.stat(get_zotero_db())[8]
-	clone_mod = os.stat(os.path.join(alp.cache(), "zotquery.sqlite"))[8]
+	zotero_mod = os.stat(get_path('database_path'))[8]
+	clone_mod = os.stat(alp.storage(join='zotquery.sqlite'))[8]
 
 	if zotero_mod > clone_mod:
 		update = True
 		alp.log("Cloned db needs to be updated")
 
 	# Step Two: Check if JSON cache is up-to-date with the cloned database
-	cache_mod = os.stat(alp.cache(join='zotero_db.json'))[8]
+	cache_mod = os.stat(alp.storage(join='zotero_db.json'))[8]
 	if (cache_mod - clone_mod) > 10:
 		update = True
 		alp.log("Cache needs to be updated")
@@ -143,7 +124,7 @@ def zotquery(query, zot_data, sort='none'):
 					for i in val:
 						for sub_key, sub_val in i.items():
 							if sub_key.lower() == search_key.lower():
-								if search_val.lower() in sub_val.lower():
+								if sub_val.lower().startswith(search_val.lower()):
 									matches.append(item)
 				elif key == 'data':
 					for sub_key, sub_val in val.items():
@@ -152,11 +133,11 @@ def zotquery(query, zot_data, sort='none'):
 								matches.append(item)
 				elif key == 'type':
 					if key.lower() == search_key.lower():
-						if search_val.lower() in val.lower():
+						if val.lower().startswith(search_val.lower()):
 							matches.append(item)
 				elif key == 'id':
 					if key.lower() == search_key.lower():
-						if search_val.lower() in str(val).lower():
+						if str(val).lower().startswith(search_val.lower()):
 							matches.append(item)
 	
 	# Clean up any duplicate results
@@ -168,6 +149,8 @@ def zotquery(query, zot_data, sort='none'):
 				clean.append(item)
 				l.append(item['id'])
 		return clean
+	else:
+		return matches
 
 
 ###
@@ -243,91 +226,52 @@ def info_format(x):
 
 	return [creator_ref, date_final, title_final]
 
-def get_zotero_storage():
-	
-	"""Find the user's Zotero storage path."""
-
-	home = os.environ["HOME"]
-
-	# First check if user has Zotero Standalone
-	zot_path = home + '/Library/Application Support/Zotero/'
-	if os.path.exists(zot_path + 'profiles.ini'):
-		prof_path = get_profile(zot_path)
-	else: 
-		# If not, check Firefox
-		zf_path = home + "/Library/Application Support/Firefox/"
-		if os.path.exists(zf_path + 'profiles.ini'):
-			prof_path = get_profile(zf_path)
-		else:
-			alp.log('Error! Zotero app not found.')
+###
+def prepare_feedback(results):
+	xml_res = []
+	for item in results:
+		# Format the Zotero match results
+		info = info_format(item)
 		
-	for root, dirs, files in os.walk(prof_path):
-		for dir in dirs:
-			if dir.endswith('storage'):
-				storage_path = os.path.join(root, dir)
-				if os.path.exists(storage_path):
-					return storage_path 
-				else:
-					alp.log('Error! Could not find storage directory in Profile path.')
-
-def get_zotero_basedir():
-	
-	"""Find the user's base directory for linked attachments."""
-
-	home = os.environ["HOME"]
-
-	zot_path = home + '/Library/Application Support/Zotero/'
-
-	if os.path.exists(zot_path + 'profiles.ini'):
-		prof_path = get_profile(zot_path)
+		# Prepare data for Alfred
+		title = item['data']['title']
+		sub = info[0] + ' ' + info[1]
 		
-		if os.path.exists(prof_path + '/prefs.js'):
-			# Read the preferences file
-			prefs = prof_path + '/prefs.js'
-			file = open(prefs, 'r')
-			pr_data = file.read()
-			file.close()
-			# Find the directory for Zotero data
-			zot_path = re.search("user_pref\\(\"extensions\\.zotero\\.baseAttachmentPath\",\\s\"(.*?)\"\\);", pr_data)
-
-			if zot_path != None:
-				return zot_path.group(1)
+		# Create dictionary of necessary Alred result info.
+		res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
+		
+		# If item has an attachment
+		if item['attachments'] != []:
+			res_dict.update({'subtitle': sub + ' Attachments: ' + str(len(item['attachments']))})
+		
+		# Export items to Alfred xml with appropriate icons
+		if item['type'] == 'article-journal':
+			if item['attachments'] == []: 
+				res_dict.update({'icon': 'icons/n_article.png'})
 			else:
-				alp.log('Error! Could not fine Base Directory in Zotero prefs.')
-				zf_path = home + "/Library/Application Support/Firefox/"
-				if os.path.exists(zot_path + 'profiles.ini'):
-					prof_path = get_profile(zf_path)
-					
-					if os.path.exists(prof_path + '/prefs.js'):
-						# Read the preferences file
-						prefs = prof_path + '/prefs.js'
-						file = open(prefs, 'r')
-						pr_data = file.read()
-						file.close()
-						# Find the directory for Zotero data
-						zot_path = re.search("user_pref\\(\"extensions\\.zotero\\.baseAttachmentPath\",\\s\"(.*?)\"\\);", pr_data)
-
-						if zot_path != None:
-							return zot_path.group(1)
-						else:
-							alp.log('Error! Could not fine Base Directory in Firefox prefs.')
-	else:
-		zf_path = home + "/Library/Application Support/Firefox/"
-		if os.path.exists(zot_path + 'profiles.ini'):
-			prof_path = get_profile(zf_path)
-			
-			if os.path.exists(prof_path + '/prefs.js'):
-				# Read the preferences file
-				prefs = prof_path + '/prefs.js'
-				file = open(prefs, 'r')
-				pr_data = file.read()
-				file.close()
-				# Find the directory for Zotero data
-				zot_path = re.search("user_pref\\(\"extensions\\.zotero\\.baseAttachmentPath\",\\s\"(.*?)\"\\);", pr_data)
-
-				if zot_path != None:
-					return zot_path.group(1)
-				else:
-					alp.log('Error! Could not find Base Directory in Firefox prefs.')
-
-					
+				res_dict.update({'icon': 'icons/att_article.png'})
+		elif item['type'] == 'book':
+			if item['attachments'] == []:
+				res_dict.update({'icon': 'icons/n_book.png'})
+			else:
+				res_dict.update({'icon': 'icons/att_book.png'})
+		elif item['type'] == 'chapter':
+			if item['attachments'] == []:
+				res_dict.update({'icon': 'icons/n_chapter.png'})
+			else:
+				res_dict.update({'icon': 'icons/att_book.png'})
+		elif item['type'] == 'paper-conference':
+			if item['attachments'] == []:
+				res_dict.update({'icon': 'icons/n_conference.png'})
+			else:
+				res_dict.update({'icon': 'icons/att_conference.png'})
+		else:
+			if item['attachments'] == []:
+				res_dict.update({'icon': 'icons/n_written.png'})
+			else:
+				res_dict.update({'icon': 'icons/att_written.png'})
+				
+		res_item = alp.Item(**res_dict)
+		xml_res.append(res_item)
+		
+	return xml_res			

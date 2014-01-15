@@ -1,117 +1,85 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os.path
+from dependencies import applescript
 import alp
 import json
-import sys
 import re
-from _zotquery import zot_string, info_format
+from _zotquery import zot_string, prepare_feedback
 
 """
 This script searches within the tag chosen in the previous step (z:tag) for the queried term.
 """ 
 
-# Read the inputted Collection name to a temporary file
-temp = alp.cache(join='tag_query_result.txt')
-file = open(temp, 'r')
-tag = file.read().decode('utf-8')
-file.close()
+# First, ensure that Configuration has taken place
+if os.path.exists(alp.storage(join="first-run.txt")):
 
-# Remove the 't:' tag
-result = tag.split(':')[1]
-# Remove the forward-slash space delimiters
-result = re.sub(r"\\\s", " ", result)
+	# Read the inputted Collection name to a temporary file
+	with open(alp.cache(join='tag_query_result.txt'), 'r') as f:
+		tag = f.read().decode('utf-8')
+		f.close()
 
-# Get Zotero data from JSON cache
-cache = alp.cache(join='zotero_db.json')
-json_data = open(cache, 'r')
-zot_data = json.load(json_data)
-json_data.close()
+	# Remove the 't:' tag
+	result = tag.split(':')[1]
+	# Remove the forward-slash space delimiters
+	result = re.sub(r"\\\s", " ", result)
 
-query = sys.argv[1]
-#query = 'note'
+	# Get Zotero data from JSON cache
+	with open(alp.storage(join='zotero_db.json'), 'r') as f:
+		zot_data = json.load(f)
+		f.close()
 
-matches = []
-for i, item in enumerate(zot_data):
-	for jtem in item['zot-tags']:
-		if result == jtem['name']:
-	
-			for key, val in item.items():
-				if key == 'data':
-					for sub_key, sub_val in val.items():
-						if sub_key in ['title', 'container-title', 'collection-title']:
-							if query.lower() in sub_val.lower():
-								matches.insert(0, item)
-						elif sub_key in ['note', 'event-place', 'source', 'publisher', 'abstract']:
-							if query.lower() in sub_val.lower():
-								matches.append(item)
-							
-				# Since the creator key contains a list
-				elif key == 'creator':
-					for i in val:
-						for key1, val1 in i.items():
-							if query.lower() in val1.lower():
-								matches.insert(0, item)
+	query = alp.args()[0]
+	#query = 'l'
 
-# Clean up any duplicate results
-if not matches == []:
-	clean = []
-	l = []
-	for item in matches:
-		if item['id'] not in l:
-			clean.append(item)
-			l.append(item['id'])
-
-	final = clean
-else:
-	final = matches
-
-# Rank the results
-results = alp.fuzzy_search(query, final, key=lambda x: zot_string(x))
-	
-xml_res = []
-for item in results:
-	# Format the Zotero match results
-	info = info_format(item)
-	
-	# Prepare data for Alfred
-	title = item['data']['title']
-	sub = info[0] + ' ' + info[1] 
-	
-	# Create dictionary of necessary Alred result info.
-	res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
-	
-	# If item has an attachment
-	if item['attachments'] != []:
-		res_dict.update({'subtitle': sub + ' Attachments: ' + str(len(item['attachments']))})
-	
-	# Export items to Alfred xml with appropriate icons
-	if item['type'] == 'article-journal':
-		if item['attachments'] == []: 
-			res_dict.update({'icon': 'icons/n_article.png'})
-		else:
-			res_dict.update({'icon': 'icons/att_article.png'})
-	elif item['type'] == 'book':
-		if item['attachments'] == []:
-			res_dict.update({'icon': 'icons/n_book.png'})
-		else:
-			res_dict.update({'icon': 'icons/att_book.png'})
-	elif item['type'] == 'chapter':
-		if item['attachments'] == []:
-			res_dict.update({'icon': 'icons/n_chapter.png'})
-		else:
-			res_dict.update({'icon': 'icons/att_book.png'})
-	elif item['type'] == 'paper-conference':
-		if item['attachments'] == []:
-			res_dict.update({'icon': 'icons/n_conference.png'})
-		else:
-			res_dict.update({'icon': 'icons/att_conference.png'})
+	if len(query) <= 3:
+		res_dict = {'title': 'Error', 'subtitle': "Need at least 4 letters to execute search", 'valid': False, 'uid': None, 'icon': 'icons/n_delay.png'}
+		res_item = alp.Item(**res_dict)
+		alp.feedback(res_item)
 	else:
-		if item['attachments'] == []:
-			res_dict.update({'icon': 'icons/n_written.png'})
-		else:
-			res_dict.update({'icon': 'icons/att_written.png'})
+		matches = []
+		for item in zot_data:
+			for jtem in item['zot-tags']:
+				if result == jtem['name']:
+			
+					for key, val in item.items():
+						if key == 'data':
+							for sub_key, sub_val in val.items():
+								if sub_key in ['title', 'container-title', 'collection-title']:
+									if query.lower() in sub_val.lower():
+										matches.insert(0, item)
+								elif sub_key in ['note', 'event-place', 'source', 'publisher', 'abstract']:
+									if query.lower() in sub_val.lower():
+										matches.append(item)
+									
+						# Since the creator key contains a list
+						elif key == 'creator':
+							for i in val:
+								for key1, val1 in i.items():
+									if val1.lower().startswith(query.lower()):
+										matches.insert(0, item)
 
-	res_item = alp.Item(**res_dict)
-	xml_res.append(res_item)	
-		
-alp.feedback(xml_res)
+		# Clean up any duplicate results
+		if not matches == []:
+			clean = []
+			l = []
+			for item in matches:
+				if item['id'] not in l:
+					clean.append(item)
+					l.append(item['id'])
+
+			# Rank the results
+			results = alp.fuzzy_search(query, clean, key=lambda x: zot_string(x))
+				
+			xml_res = prepare_feedback(results)
+					
+			alp.feedback(xml_res)
+		else:
+			alp.feedback(alp.Item(**{'title': "Error", 'subtitle': "No results found.", 'valid': False, 'icon': 'icons/n_error.png'}))
+
+# Not configured
+else:
+	a_script = """
+			tell application "Alfred 2" to search "z:config"
+			"""
+	applescript.asrun(a_script)

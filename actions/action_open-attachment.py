@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import alp
 from dependencies import applescript
-import sys
 import json
 import os.path
 import subprocess
@@ -14,12 +13,11 @@ in Zotero itself.
 """
 
 # Get Zotero data from JSON cache
-cache = alp.cache(join='zotero_db.json')
-json_data = open(cache, 'r')
-zot_data = json.load(json_data)
-json_data.close()
+with open(alp.storage(join='zotero_db.json'), 'r') as f:
+	zot_data = json.load(f)
+	f.close()
 
-query = sys.argv[1]
+query = alp.args()[0]
 #query = 'KPQW3ZPT'
 
 # Get the item's attachement path and attachment key

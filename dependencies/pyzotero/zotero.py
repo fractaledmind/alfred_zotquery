@@ -57,7 +57,7 @@ try:
 except ImportError:
     from ordereddict import OrderedDict
 
-from . import zotero_errors as ze
+import zotero_errors as ze
 
 
 # Avoid hanging the application if there's no server response

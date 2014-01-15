@@ -8,8 +8,8 @@ import sys
 import plistlib
 import unicodedata
 import codecs
-from .core_dependencies import six
-from .core_dependencies import biplist
+from core_dependencies import six
+from core_dependencies import biplist
 
 
 gBundleID = None
@@ -21,7 +21,8 @@ def bundle():
     if gBundleID is not None:
         return gBundleID
 
-    infoPath = os.path.abspath("./info.plist")
+    pwd = os.path.dirname(__file__)[0:-4]
+    infoPath = os.path.join(pwd, "info.plist")
     if os.path.exists(infoPath):
         info = plistlib.readPlist(infoPath)
         try:
@@ -141,7 +142,7 @@ def find(query):
 def log(s):
     log_text = "[{0}: {1} ({2})]\n".format(bundle(), s, time.strftime("%Y-%m-%d-%H:%M:%S"))
     if not os.path.exists(local("debug.log")):
-        with open(local("debug.log"), "w") as f:
+        with open(storage("debug.log"), "w") as f:
             f.write("\n")
-    with codecs.open(local("debug.log"), "a", "utf-8") as f:
+    with codecs.open(storage("debug.log"), "a", "utf-8") as f:
         f.write(decode(log_text))
