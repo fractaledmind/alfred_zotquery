@@ -54,11 +54,12 @@ The workflow reads this `settings.json` file whenever it attempts to connect to 
 
 ### FUNCTIONS
 
-There are 3 main functions:
+There are 4 main functions:
 
 1. Search
-2. Export
-3. Cache
+2. Cite
+3. Open
+4. Cache
 
 Under `Search` there are 5 options:
 
