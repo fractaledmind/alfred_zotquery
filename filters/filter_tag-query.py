@@ -30,7 +30,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		f.close()
 
 	query = alp.args()[0]
-	#query = 'l'
+	#query = 'xxxx'
 
 	if len(query) <= 3:
 		res_dict = {'title': 'Error', 'subtitle': "Need at least 4 letters to execute search", 'valid': False, 'uid': None, 'icon': 'icons/n_delay.png'}
@@ -56,22 +56,18 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 						elif key == 'creator':
 							for i in val:
 								for key1, val1 in i.items():
-									if val1.lower().startswith(query.lower()):
+									if query.lower() in val1.lower():
 										matches.insert(0, item)
 
-		# Clean up any duplicate results
-		if not matches == []:
-			clean = []
-			l = []
-			for item in matches:
-				if item['id'] not in l:
-					clean.append(item)
-					l.append(item['id'])
+		if matches != []:
 
 			# Rank the results
-			results = alp.fuzzy_search(query, clean, key=lambda x: zot_string(x))
+			results = alp.fuzzy_search(query, matches, key=lambda x: zot_string(x))
 				
-			xml_res = prepare_feedback(results)
+			alp_res = prepare_feedback(results)
+
+			# Remove any duplicate items
+			xml_res = list(set([x for x in alp_res]))
 					
 			alp.feedback(xml_res)
 		else:

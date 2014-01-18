@@ -4,9 +4,6 @@ import alp
 import re
 from dependencies import applescript
 
-# Prepare path to ZotQuery icon
-icon_path = re.sub('/', ':', alp.local(join='icon.png'))
-
 # List of all modules used in ZotQuery
 modules = ['sqlite3', 'json', 'collections', 'os', 'shutil', 're', 'subprocess', 'time', 'sys', 'plistlib', 'unicodedata', 'codecs', 'xml', 'copy', 'operator', 'types', 'calendar', 'datetime', 'math', 'struct', 'urllib', 'htmlentitydefs', 'StringIO', 'sgmllib', 'urlparse', 'setuptools', 'requests', 'socket', 'feedparser', 'uuid', 'hashlib', 'pytz', 'mimetypes']
 
@@ -17,6 +14,9 @@ for m in modules:
 	    imp.find_module(m)
 	except ImportError:
 	    nots.append(m)
+
+# Prepare path to ZotQuery icon
+icon_path = re.sub('/', ':', alp.local(join='icon.png'))
 
 if nots != []:
 	# Check if user wishes to install/update necessary Python modules
@@ -29,7 +29,7 @@ if nots != []:
 			return 0
 		end if
 		""" % icon_path
-	res = applescript.asrun(a_script)
+	res = applescript.asrun(a_script)[0:-1]
 
 	# If yes to install
 	if res[0] == '1':
@@ -48,7 +48,7 @@ if nots != []:
 			set theScript_ to "sudo pip install %s"
 			do shell script theScript_ with administrator privileges
 			""" % m
-			p = applescript.asrun(a_script)
+			p = applescript.asrun(a_script)[0:-1]
 			print p
 
 	# If no to install

@@ -9,7 +9,7 @@ This script defines 3 functions for translating Zotero's terminology to the stan
 """
 
 dir_path = os.getcwd()
-mappings_path = dir_path + '/zotero-csl_mappings.json'
+mappings_path = dir_path + '/_zotero-csl_mappings.json'
 
 mappings = open(mappings_path).read()
 

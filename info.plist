@@ -18,7 +18,18 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>BB3151A8-F09A-4856-9C6F-6B980A6211CE</string>
+				<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>04C5086B-9F5E-4478-910C-ACEF97237E84</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4A8B0D85-674C-45C9-BABC-2D96585D51AA</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -26,7 +37,121 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
+				<string>A5816966-404B-4CA2-B572-ABAF0742019F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>0BB9B93F-4D8A-413B-AF88-CEDD47D49AB6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD9D7547-72C4-4BA2-A230-3F57E84A813F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>0CA29792-3E66-4323-8397-4D5890473333</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD0C029F-7142-47B0-90BA-65CA7B9710EF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>115ECD04-2BCE-425D-BE67-282A491341E0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A5816966-404B-4CA2-B572-ABAF0742019F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A3405498-15E4-4C61-8A07-FBB52CF3E582</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>12AA675F-59A7-4687-880C-0D2A259D66B5</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>00F602CE-B257-4364-865E-527D674F4BA6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>51D26E38-2BA0-4E1A-8E38-1C5D8B3C3238</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>144C27AC-C608-4D10-8626-3AFAFD52ACAE</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>04C5086B-9F5E-4478-910C-ACEF97237E84</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>7083757E-892F-4285-AE00-83C5FD3C3F8A</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>8770F590-F9DF-4FBF-B072-029548631F2F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>64713E3A-9024-472D-9A0E-721214267A90</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>115ECD04-2BCE-425D-BE67-282A491341E0</string>
+				<key>modifiers</key>
+				<integer>8388608</integer>
+				<key>modifiersubtext</key>
+				<string>Append Citation to Bibliography</string>
+			</dict>
+		</array>
+		<key>166F10A0-9A49-4894-B3B1-9407FE16AFDB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>28E9633C-379E-45AF-8EEB-C1C95D11A3BB</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -44,6 +169,17 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>209A6D20-B361-4BE4-BB26-57B0D61D9718</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>00F602CE-B257-4364-865E-527D674F4BA6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>3166AFE5-2F5A-430E-B2C8-6EE19253411E</key>
 		<array>
 			<dict>
@@ -55,35 +191,11 @@
 				<string></string>
 			</dict>
 		</array>
-		<key>35209636-0007-425C-AFFD-6A044F32292D</key>
+		<key>33E93ADD-09C3-42A4-B91B-22237F471076</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
-				<key>modifiers</key>
-				<integer>262144</integer>
-				<key>modifiersubtext</key>
-				<string>Export Markdown Citation</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
-				<key>modifiers</key>
-				<integer>131072</integer>
-				<key>modifiersubtext</key>
-				<string>Open Attachment</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
-				<key>modifiers</key>
-				<integer>524288</integer>
-				<key>modifiersubtext</key>
-				<string>Export Reference</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
+				<string>D849B467-BC6D-482C-851D-C8225AC04B80</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -91,11 +203,30 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
+				<string>00F602CE-B257-4364-865E-527D674F4BA6</string>
 				<key>modifiers</key>
-				<integer>8388608</integer>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
-				<string>Append MD citation to Bibliography</string>
+				<string></string>
+			</dict>
+		</array>
+		<key>3BAB23D0-52C4-4220-9650-A701F587C1D2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E8CB1AAF-D396-43B4-960D-D03B36FE4D02</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD0C029F-7142-47B0-90BA-65CA7B9710EF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 			</dict>
 		</array>
 		<key>53372942-F4C7-4770-BA94-C31F4CFB30D7</key>
@@ -117,6 +248,131 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>615411CD-31E3-4860-B2C3-F3EE0114B590</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>33E93ADD-09C3-42A4-B91B-22237F471076</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>209A6D20-B361-4BE4-BB26-57B0D61D9718</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>624CCD24-8763-44A5-ADCF-A3D55DCF630C</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>B2658075-0C20-4903-BC88-CF0FF03D0745</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>12AA675F-59A7-4687-880C-0D2A259D66B5</string>
+				<key>modifiers</key>
+				<integer>8388608</integer>
+				<key>modifiersubtext</key>
+				<string>Append Citation to Bibliography</string>
+			</dict>
+		</array>
+		<key>624CCD24-8763-44A5-ADCF-A3D55DCF630C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>00F602CE-B257-4364-865E-527D674F4BA6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>64713E3A-9024-472D-9A0E-721214267A90</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A5816966-404B-4CA2-B572-ABAF0742019F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>9FA7B2C6-F936-42D5-94CE-D9B139424714</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>692EC424-3A7D-458D-A96B-C63A6E018099</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD0C029F-7142-47B0-90BA-65CA7B9710EF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>6C977AE9-FF29-4236-9479-6EEAC85649C3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD9D7547-72C4-4BA2-A230-3F57E84A813F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A4A25C3D-7694-4B15-AFBC-9951CBF506FD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>6F1ACBF1-4D86-48DA-B3B3-8870A02CD6C8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>166F10A0-9A49-4894-B3B1-9407FE16AFDB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>7083757E-892F-4285-AE00-83C5FD3C3F8A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A5816966-404B-4CA2-B572-ABAF0742019F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>71C4224F-1D97-40F5-AFE7-4BB9294BB865</key>
 		<array>
 			<dict>
@@ -125,7 +381,7 @@
 				<key>modifiers</key>
 				<integer>262144</integer>
 				<key>modifiersubtext</key>
-				<string>Export Markdown Citation</string>
+				<string>Export Citation</string>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
@@ -137,46 +393,11 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
-				<key>modifiers</key>
-				<integer>524288</integer>
-				<key>modifiersubtext</key>
-				<string>Export Reference</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
 				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
-				<key>modifiers</key>
-				<integer>8388608</integer>
-				<key>modifiersubtext</key>
-				<string>Append MD citation to Bibliography</string>
-			</dict>
-		</array>
-		<key>7687E6B6-51B2-4721-A693-1B009E726974</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
-				<key>modifiers</key>
-				<integer>262144</integer>
-				<key>modifiersubtext</key>
-				<string>Export Markdown Citation</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
-				<key>modifiers</key>
-				<integer>131072</integer>
-				<key>modifiersubtext</key>
-				<string>Open Attachment</string>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
@@ -188,19 +409,11 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
 				<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
 				<key>modifiers</key>
 				<integer>8388608</integer>
 				<key>modifiersubtext</key>
-				<string>Append MD citation to Bibliography</string>
+				<string>Append Citation to Bibliography</string>
 			</dict>
 		</array>
 		<key>7B595D39-6C1A-45BD-ACF2-2FA14AED0DF4</key>
@@ -214,7 +427,7 @@
 				<string></string>
 			</dict>
 		</array>
-		<key>958FBDF3-853D-451B-A289-3EAF1864E2C0</key>
+		<key>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
@@ -224,14 +437,20 @@
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
+		</array>
+		<key>8770F590-F9DF-4FBF-B072-029548631F2F</key>
+		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>D2598FEF-CDF3-403F-8527-431DBA491760</string>
+				<string>A5816966-404B-4CA2-B572-ABAF0742019F</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
+		</array>
+		<key>958FBDF3-853D-451B-A289-3EAF1864E2C0</key>
+		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>D4EE71E6-EBD4-413C-80F9-5B3AB54C7F7B</string>
@@ -240,12 +459,9 @@
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
-		</array>
-		<key>999EE149-74F0-401F-AE30-623756122D31</key>
-		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>BD93AD49-C70B-45EE-8817-CD0801540534</string>
+				<string>C87FC557-D54D-4D0A-9BAA-B8FC3B7C0859</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -256,7 +472,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
+				<string>C87FC557-D54D-4D0A-9BAA-B8FC3B7C0859</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -264,15 +480,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>D4EE71E6-EBD4-413C-80F9-5B3AB54C7F7B</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>0BFE4A31-78E1-4CFA-87D3-D9AB45FC9A0C</string>
+				<string>5E140930-FBF6-4DB0-81D4-9C55270672BA</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -301,35 +509,11 @@
 				<string></string>
 			</dict>
 		</array>
-		<key>BD93AD49-C70B-45EE-8817-CD0801540534</key>
+		<key>B2658075-0C20-4903-BC88-CF0FF03D0745</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
-				<key>modifiers</key>
-				<integer>262144</integer>
-				<key>modifiersubtext</key>
-				<string>Export Markdown Citation</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
-				<key>modifiers</key>
-				<integer>131072</integer>
-				<key>modifiersubtext</key>
-				<string>Open Attachment</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
-				<key>modifiers</key>
-				<integer>524288</integer>
-				<key>modifiersubtext</key>
-				<string>Export Reference</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
+				<string>00F602CE-B257-4364-865E-527D674F4BA6</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -337,11 +521,84 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
+				<string>F92EE074-89EB-437F-9EE2-49004A9FB080</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>B426EF25-EA2E-4D2D-B34B-B8FDAAD92475</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD9D7547-72C4-4BA2-A230-3F57E84A813F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>B7CE7D5C-91A6-4BF9-B036-6E92F1E61F3A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD9D7547-72C4-4BA2-A230-3F57E84A813F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>900F6E98-D5F8-44B4-AEDD-03959130A294</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>BD9AF73F-4E28-4C6F-8646-8CF8E688ABEF</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3BAB23D0-52C4-4220-9650-A701F587C1D2</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>0CA29792-3E66-4323-8397-4D5890473333</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>692EC424-3A7D-458D-A96B-C63A6E018099</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>CC79947A-3DBE-4644-B305-0A3EAFC06BF4</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>ECC82711-1FF0-4F59-BAD5-6C7EDB2E4A9E</string>
 				<key>modifiers</key>
 				<integer>8388608</integer>
 				<key>modifiersubtext</key>
-				<string>Append MD citation to Bibliography</string>
+				<string>Append Citation to Bibliography</string>
 			</dict>
 		</array>
 		<key>C131748D-B1E2-48EF-ACB3-715DF55AECC0</key>
@@ -349,6 +606,25 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>7299C725-F65A-4E18-A82A-D28E381A2921</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>CC79947A-3DBE-4644-B305-0A3EAFC06BF4</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD0C029F-7142-47B0-90BA-65CA7B9710EF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>9C75B800-3A47-436B-94A3-3603441684D2</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -367,7 +643,18 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>F3102C3F-9D40-4B41-8083-25E50D66607E</string>
+				<string>F2E7BA97-AFCD-4360-BC71-50954F90C61B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>DD931F56-358A-4667-B28F-9A845F9D4703</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B0DB3BE3-1AAC-4160-BC8F-F76ECAD9EEF3</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -375,7 +662,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>F2E7BA97-AFCD-4360-BC71-50954F90C61B</string>
+				<string>BD9D7547-72C4-4BA2-A230-3F57E84A813F</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -412,49 +699,6 @@
 				<string></string>
 			</dict>
 		</array>
-		<key>E565C2AB-EABC-4804-8449-D18A38DC0BBF</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
-				<key>modifiers</key>
-				<integer>262144</integer>
-				<key>modifiersubtext</key>
-				<string>Export Markdown Citation</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</string>
-				<key>modifiers</key>
-				<integer>131072</integer>
-				<key>modifiersubtext</key>
-				<string>Open Attachment</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
-				<key>modifiers</key>
-				<integer>524288</integer>
-				<key>modifiersubtext</key>
-				<string>Export Reference</string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>3166AFE5-2F5A-430E-B2C8-6EE19253411E</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
-				<key>modifiers</key>
-				<integer>8388608</integer>
-				<key>modifiersubtext</key>
-				<string>Append MD citation to Bibliography</string>
-			</dict>
-		</array>
 		<key>E89AAF55-EA37-4520-9604-CB7F9906D59A</key>
 		<array>
 			<dict>
@@ -470,7 +714,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>BB3151A8-F09A-4856-9C6F-6B980A6211CE</string>
+				<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -479,14 +723,6 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>612EB44D-D8FA-466F-B429-737EB9965027</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>9FAF6DF5-7CC4-492A-950E-2719D3574536</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -502,6 +738,68 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+			</dict>
+		</array>
+		<key>ECC82711-1FF0-4F59-BAD5-6C7EDB2E4A9E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD0C029F-7142-47B0-90BA-65CA7B9710EF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E4AC5FF7-7838-4BC7-881A-C350C4CE3007</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>EDAE5CA5-283A-40E6-A698-74EFB895C849</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DD931F56-358A-4667-B28F-9A845F9D4703</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>0BB9B93F-4D8A-413B-AF88-CEDD47D49AB6</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>B426EF25-EA2E-4D2D-B34B-B8FDAAD92475</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>B7CE7D5C-91A6-4BF9-B036-6E92F1E61F3A</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>6C977AE9-FF29-4236-9479-6EEAC85649C3</string>
+				<key>modifiers</key>
+				<integer>8388608</integer>
+				<key>modifiersubtext</key>
+				<string>Append Citation to Bibliography</string>
 			</dict>
 		</array>
 	</dict>
@@ -521,14 +819,87 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_export-md-format.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<string>#!/bin/bash
+
+# set the folder
+nonvolatile="/Users/$USER/Library/Application Support/Alfred 2/Workflow Data/com.hackademic.zotquery"
+
+# set the settings file
+setting="settings.json"
+
+# set the preferences file
+prefs="prefs.json"
+
+if [ ! -e "$nonvolatile/first-run.txt" ] 
+then	
+
+	# first run not completed. Start.
+	if [ ! -d "$nonvolatile" ]
+	then
+	  # make the directory
+	  mkdir "$nonvolatile"
+	fi
+
+	if [ ! -e "$nonvolatile/$setting" ]
+	then
+		# make the settings file
+		touch "$nonvolatile/$setting"
+	fi
+
+	if [ ! -e "$nonvolatile/$prefs" ]
+	then
+		# make the prefs file
+		touch "$nonvolatile/$prefs"
+	fi
+
+	# install the dependencies first
+	python config_install-python-dependencies.py
+
+	# then set the paths
+	python config_find-paths.py
+
+	# next get the user information
+	osascript config_zotero-api.scpt
+
+	# finally, set export preferences
+	osascript config_export-prefs.scpt
+
+	# create first-run file
+	touch "$nonvolatile/first-run.txt"
+	
+	# attempt to get the library cache	
+	python action_update-caches.py True
+else
+	echo "Already configured"
+fi</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
+			<string>EC337A0F-C8FE-4650-B997-E5F1C0730FB2</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>z:config</string>
+				<key>subtext</key>
+				<string>Configure your ZotQuery Settings</string>
+				<key>text</key>
+				<string>Configuration</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>B0E5C87C-59D3-430A-92B5-339F2E801511</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -548,7 +919,85 @@
 				<key>text</key>
 				<string>{query}</string>
 				<key>title</key>
-				<string>Citation copied to Clipboard!</string>
+				<string>Result</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>260BAE78-0771-4A61-91DE-D39A18E49D43</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py True 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E89AAF55-EA37-4520-9604-CB7F9906D59A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>z:cache</string>
+				<key>runningsubtext</key>
+				<string>Updating...</string>
+				<key>script</key>
+				<string>cat &lt;&lt; CODE
+&lt;?xml version="1.0"?&gt;
+&lt;items&gt;
+&lt;item uid="db_cache" arg="1" valid="yes"&gt;
+&lt;title&gt;Update Zotero database&lt;/title&gt;
+&lt;subtitle&gt;Do you want to update your Zotero database cache?&lt;/subtitle&gt;
+&lt;icon&gt;icons/n_update.png&lt;/icon&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+CODE</string>
+				<key>title</key>
+				<string>Update your ZotQuery cache</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Copied!</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -560,44 +1009,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
 				<key>escaping</key>
-				<integer>126</integer>
-				<key>keyword</key>
-				<string>zot</string>
-				<key>runningsubtext</key>
-				<string>Searching Zotero...</string>
+				<integer>127</integer>
 				<key>script</key>
-				<string>python filter_zot-general.py "{query}" 2&gt;&amp;1 | tee output.log</string>
-				<key>subtext</key>
-				<string>General Query</string>
-				<key>title</key>
-				<string>Search your Zotero database</string>
+				<string>python action_export-citation.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>71C4224F-1D97-40F5-AFE7-4BB9294BB865</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>BB3151A8-F09A-4856-9C6F-6B980A6211CE</string>
+			<string>0406E92A-2F84-48D5-82F2-333E22D5ED93</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -624,17 +1046,17 @@
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
-				<integer>127</integer>
+				<integer>126</integer>
 				<key>keyword</key>
-				<string>zot:a</string>
+				<string>zot</string>
 				<key>runningsubtext</key>
-				<string>Searching for author...</string>
+				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zot-complex.py "{query}" "family" 2&gt;&amp;1 | tee output.log</string>
+				<string>python filter_zot-general.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>subtext</key>
-				<string>Author Query</string>
+				<string>General Query</string>
 				<key>title</key>
-				<string>Search your Zotero Database</string>
+				<string>Search your Zotero library</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -643,103 +1065,7 @@
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>E565C2AB-EABC-4804-8449-D18A38DC0BBF</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>zot:t</string>
-				<key>runningsubtext</key>
-				<string>Searching for title...</string>
-				<key>script</key>
-				<string>python filter_zot-complex.py "{query}" "title" 2&gt;&amp;1 | tee output.log</string>
-				<key>subtext</key>
-				<string>Title Query</string>
-				<key>title</key>
-				<string>Search your Zotero database</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>BD93AD49-C70B-45EE-8817-CD0801540534</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>0</integer>
-				<key>hotkey</key>
-				<integer>6</integer>
-				<key>hotmod</key>
-				<integer>1179648</integer>
-				<key>hotstring</key>
-				<string>Z</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>999EE149-74F0-401F-AE30-623756122D31</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<true/>
-				<key>output</key>
-				<integer>0</integer>
-				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>Reference copied to Clipboard!</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>612EB44D-D8FA-466F-B429-737EB9965027</string>
+			<string>71C4224F-1D97-40F5-AFE7-4BB9294BB865</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -763,31 +1089,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>zot:c</string>
-				<key>script</key>
-				<string>python filter_collection-query.py "{query}" 2&gt;&amp;1 | tee output.log</string>
-				<key>title</key>
-				<string>Search within your chosen Zotero collection</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>7687E6B6-51B2-4721-A693-1B009E726974</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
@@ -805,61 +1106,42 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Reference Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>612EB44D-D8FA-466F-B429-737EB9965027</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_export-md-format.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.script</string>
-			<key>uid</key>
-			<string>F3102C3F-9D40-4B41-8083-25E50D66607E</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>zot:tag</string>
-				<key>runningsubtext</key>
-				<string>Searching...</string>
-				<key>script</key>
-				<string>python filter_tag-query.py "{query}" 2&gt;&amp;1 | tee output.log</string>
-				<key>title</key>
-				<string>Search within your chosen tag</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>35209636-0007-425C-AFFD-6A044F32292D</string>
+			<string>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -877,9 +1159,9 @@
 				<key>sticky</key>
 				<false/>
 				<key>text</key>
-				<string>{query}</string>
+				<string>Format: {query}</string>
 				<key>title</key>
-				<string>Citation appended to Bibliography</string>
+				<string>Citation Appended!</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -891,13 +1173,904 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>text</key>
-				<string>Search Zotero for '{query}'</string>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.trigger.fallback</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>A7447881-DE52-49E2-BFC1-9BCAD7CC363E</string>
+			<string>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-citation.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>33E93ADD-09C3-42A4-B91B-22237F471076</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>D849B467-BC6D-482C-851D-C8225AC04B80</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>209A6D20-B361-4BE4-BB26-57B0D61D9718</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py False 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>00F602CE-B257-4364-865E-527D674F4BA6</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>zot:t</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_zot-complex.py "{query}" "title" 2&gt;&amp;1 | tee output.log</string>
+				<key>subtext</key>
+				<string>Title Query</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>615411CD-31E3-4860-B2C3-F3EE0114B590</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>624CCD24-8763-44A5-ADCF-A3D55DCF630C</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B2658075-0C20-4903-BC88-CF0FF03D0745</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Reference Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>F92EE074-89EB-437F-9EE2-49004A9FB080</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Appended!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>51D26E38-2BA0-4E1A-8E38-1C5D8B3C3238</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>12AA675F-59A7-4687-880C-0D2A259D66B5</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>E8CB1AAF-D396-43B4-960D-D03B36FE4D02</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-citation.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>3BAB23D0-52C4-4220-9650-A701F587C1D2</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>0CA29792-3E66-4323-8397-4D5890473333</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py False 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>BD0C029F-7142-47B0-90BA-65CA7B9710EF</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>zot:a</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_zot-complex.py "{query}" "family" 2&gt;&amp;1 | tee output.log</string>
+				<key>subtext</key>
+				<string>Author Query</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>BD9AF73F-4E28-4C6F-8646-8CF8E688ABEF</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>692EC424-3A7D-458D-A96B-C63A6E018099</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>CC79947A-3DBE-4644-B305-0A3EAFC06BF4</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Reference Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>9C75B800-3A47-436B-94A3-3603441684D2</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>ECC82711-1FF0-4F59-BAD5-6C7EDB2E4A9E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Appended!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>E4AC5FF7-7838-4BC7-881A-C350C4CE3007</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>4A8B0D85-674C-45C9-BABC-2D96585D51AA</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-citation.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>04C5086B-9F5E-4478-910C-ACEF97237E84</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>7083757E-892F-4285-AE00-83C5FD3C3F8A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py False 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>A5816966-404B-4CA2-B572-ABAF0742019F</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>zot:c</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_collection-query.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>subtext</key>
+				<string>Collection Query</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>144C27AC-C608-4D10-8626-3AFAFD52ACAE</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>8770F590-F9DF-4FBF-B072-029548631F2F</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>64713E3A-9024-472D-9A0E-721214267A90</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Reference Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>9FA7B2C6-F936-42D5-94CE-D9B139424714</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>115ECD04-2BCE-425D-BE67-282A491341E0</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Appended!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>A3405498-15E4-4C61-8A07-FBB52CF3E582</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>B0DB3BE3-1AAC-4160-BC8F-F76ECAD9EEF3</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-citation.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>DD931F56-358A-4667-B28F-9A845F9D4703</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>0BB9B93F-4D8A-413B-AF88-CEDD47D49AB6</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B426EF25-EA2E-4D2D-B34B-B8FDAAD92475</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py False 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>BD9D7547-72C4-4BA2-A230-3F57E84A813F</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>zot:tag</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_tag-query.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>subtext</key>
+				<string>Tag Query</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>EDAE5CA5-283A-40E6-A698-74EFB895C849</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Reference Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>900F6E98-D5F8-44B4-AEDD-03959130A294</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B7CE7D5C-91A6-4BF9-B036-6E92F1E61F3A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>6C977AE9-FF29-4236-9479-6EEAC85649C3</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Citation Appended!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>A4A25C3D-7694-4B15-AFBC-9951CBF506FD</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>166F10A0-9A49-4894-B3B1-9407FE16AFDB</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>z:att</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_attachments.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>subtext</key>
+				<string>Attachment Query</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>6F1ACBF1-4D86-48DA-B3B3-8870A02CD6C8</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py False 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>28E9633C-379E-45AF-8EEB-C1C95D11A3BB</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -921,17 +2094,13 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_save-collection.py "{query}" 2&gt;&amp;1 | tee output.log</string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>text</key>
+				<string>Search Zotero for '{query}'</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.trigger.fallback</string>
 			<key>uid</key>
-			<string>C131748D-B1E2-48EF-ACB3-715DF55AECC0</string>
+			<string>A7447881-DE52-49E2-BFC1-9BCAD7CC363E</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -949,6 +2118,23 @@
 			<string>alfred.workflow.output.script</string>
 			<key>uid</key>
 			<string>7299C725-F65A-4E18-A82A-D28E381A2921</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_save-collection.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C131748D-B1E2-48EF-ACB3-715DF55AECC0</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -982,15 +2168,25 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
+				<key>lastpathcomponent</key>
 				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Format: {query}</string>
+				<key>title</key>
+				<string>Copied Bibliography!</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>D2598FEF-CDF3-403F-8527-431DBA491760</string>
+			<string>D4EE71E6-EBD4-413C-80F9-5B3AB54C7F7B</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1075,25 +2271,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<true/>
-				<key>output</key>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_update-caches.py False 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
 				<integer>0</integer>
-				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
-				<false/>
-				<key>text</key>
-				<string>The bibliography has been copied to the clipboard.</string>
-				<key>title</key>
-				<string>Copied Bibliography!</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
+			<string>alfred.workflow.output.script</string>
 			<key>uid</key>
-			<string>D4EE71E6-EBD4-413C-80F9-5B3AB54C7F7B</string>
+			<string>C87FC557-D54D-4D0A-9BAA-B8FC3B7C0859</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1121,74 +2309,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_read-restart-bib.py 2&gt;&amp;1 | tee output.log</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>A4BC7578-3E3A-45E4-9137-3BCCB3925879</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>0BFE4A31-78E1-4CFA-87D3-D9AB45FC9A0C</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>z:cache</string>
-				<key>runningsubtext</key>
-				<string>Updating...</string>
-				<key>script</key>
-				<string>cat &lt;&lt; CODE
-&lt;?xml version="1.0"?&gt;
-&lt;items&gt;
-&lt;item uid="db_cache" arg="1" valid="yes"&gt;
-&lt;title&gt;Update Zotero database&lt;/title&gt;
-&lt;subtitle&gt;Do you want to update your Zotero database cache?&lt;/subtitle&gt;
-&lt;icon&gt;icons/n_update.png&lt;/icon&gt;
-&lt;/item&gt;
-&lt;/items&gt;
-CODE</string>
-				<key>title</key>
-				<string>Update your ZotQuery cache</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
@@ -1200,14 +2320,14 @@ CODE</string>
 				<key>sticky</key>
 				<false/>
 				<key>text</key>
-				<string>{query}</string>
+				<string>Format: {query}</string>
 				<key>title</key>
-				<string>Result</string>
+				<string>Bibliography Copied!</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>260BAE78-0771-4A61-91DE-D39A18E49D43</string>
+			<string>5E140930-FBF6-4DB0-81D4-9C55270672BA</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1217,92 +2337,14 @@ CODE</string>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>python action_update-caches.py True 2&gt;&amp;1 | tee output.log</string>
+				<string>python action_read-restart-bib.py 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>E89AAF55-EA37-4520-9604-CB7F9906D59A</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>z:config</string>
-				<key>subtext</key>
-				<string>Configure your ZotQuery Settings</string>
-				<key>text</key>
-				<string>Configuration</string>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>B0E5C87C-59D3-430A-92B5-339F2E801511</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>#!/bin/bash
-
-# set the folder
-nonvolatile="/Users/$USER/Library/Application Support/Alfred 2/Workflow Data/com.hackademic.zotquery"
-
-# set the settings file
-file="settings.json"
-
-if [ ! -e "$nonvolatile/first-run.txt" ] 
-then	
-
-	# first run not completed. Start.
-	if [ ! -d "$nonvolatile" ]
-	then
-	  # make the directory
-	  mkdir "$nonvolatile"
-	fi
-
-	if [ ! -e "$nonvolatile/$file" ]
-	then
-		# make the settings file and the first run file
-		touch "$nonvolatile/$file"
-	fi
-
-	# install the dependencies first
-	python action_install-python-dependencies.py
-
-	# then set the path
-	python action_find-paths.py
-
-	# next get the user information
-	osascript action_config.scpt
-
-	# create first-run file
-	touch "$nonvolatile/first-run.txt"
-	
-	# attempt to get the library cache	
-	python action_update-caches.py True
-else
-	echo "Already configured"
-fi</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>EC337A0F-C8FE-4650-B997-E5F1C0730FB2</string>
+			<string>A4BC7578-3E3A-45E4-9137-3BCCB3925879</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1511,185 +2553,365 @@ So that's all there is to it. If you are interested in certain feature requests,
 Enjoy!</string>
 	<key>uidata</key>
 	<dict>
+		<key>00F602CE-B257-4364-865E-527D674F4BA6</key>
+		<dict>
+			<key>ypos</key>
+			<real>990</real>
+		</dict>
 		<key>0406E92A-2F84-48D5-82F2-333E22D5ED93</key>
 		<dict>
 			<key>ypos</key>
-			<real>10</real>
+			<real>250</real>
 		</dict>
-		<key>0BFE4A31-78E1-4CFA-87D3-D9AB45FC9A0C</key>
+		<key>04C5086B-9F5E-4478-910C-ACEF97237E84</key>
 		<dict>
 			<key>ypos</key>
-			<real>1110</real>
+			<real>1880</real>
+		</dict>
+		<key>0BB9B93F-4D8A-413B-AF88-CEDD47D49AB6</key>
+		<dict>
+			<key>ypos</key>
+			<real>2520</real>
+		</dict>
+		<key>0CA29792-3E66-4323-8397-4D5890473333</key>
+		<dict>
+			<key>ypos</key>
+			<real>1440</real>
+		</dict>
+		<key>115ECD04-2BCE-425D-BE67-282A491341E0</key>
+		<dict>
+			<key>ypos</key>
+			<real>2280</real>
+		</dict>
+		<key>12AA675F-59A7-4687-880C-0D2A259D66B5</key>
+		<dict>
+			<key>ypos</key>
+			<real>1190</real>
+		</dict>
+		<key>144C27AC-C608-4D10-8626-3AFAFD52ACAE</key>
+		<dict>
+			<key>ypos</key>
+			<real>2080</real>
+		</dict>
+		<key>166F10A0-9A49-4894-B3B1-9407FE16AFDB</key>
+		<dict>
+			<key>ypos</key>
+			<real>2960</real>
 		</dict>
 		<key>1ADBE4BF-4FA2-4A94-8922-B28804B2296A</key>
 		<dict>
 			<key>ypos</key>
-			<real>1240</real>
+			<real>110</real>
 		</dict>
 		<key>1B0B5A23-B1BC-45B9-97AA-C3270FFF7AE6</key>
 		<dict>
 			<key>ypos</key>
-			<real>550</real>
+			<real>3100</real>
+		</dict>
+		<key>209A6D20-B361-4BE4-BB26-57B0D61D9718</key>
+		<dict>
+			<key>ypos</key>
+			<real>890</real>
 		</dict>
 		<key>260BAE78-0771-4A61-91DE-D39A18E49D43</key>
 		<dict>
 			<key>ypos</key>
-			<real>1240</real>
+			<real>60</real>
+		</dict>
+		<key>28E9633C-379E-45AF-8EEB-C1C95D11A3BB</key>
+		<dict>
+			<key>ypos</key>
+			<real>2960</real>
 		</dict>
 		<key>3166AFE5-2F5A-430E-B2C8-6EE19253411E</key>
 		<dict>
 			<key>ypos</key>
-			<real>310</real>
+			<real>450</real>
 		</dict>
-		<key>35209636-0007-425C-AFFD-6A044F32292D</key>
+		<key>33E93ADD-09C3-42A4-B91B-22237F471076</key>
 		<dict>
 			<key>ypos</key>
-			<real>410</real>
+			<real>790</real>
+		</dict>
+		<key>3BAB23D0-52C4-4220-9650-A701F587C1D2</key>
+		<dict>
+			<key>ypos</key>
+			<real>1340</real>
+		</dict>
+		<key>4A8B0D85-674C-45C9-BABC-2D96585D51AA</key>
+		<dict>
+			<key>ypos</key>
+			<real>1880</real>
+		</dict>
+		<key>51D26E38-2BA0-4E1A-8E38-1C5D8B3C3238</key>
+		<dict>
+			<key>ypos</key>
+			<real>1190</real>
 		</dict>
 		<key>53372942-F4C7-4770-BA94-C31F4CFB30D7</key>
 		<dict>
 			<key>ypos</key>
-			<real>830</real>
+			<real>3390</real>
+		</dict>
+		<key>5E140930-FBF6-4DB0-81D4-9C55270672BA</key>
+		<dict>
+			<key>ypos</key>
+			<real>3640</real>
 		</dict>
 		<key>612EB44D-D8FA-466F-B429-737EB9965027</key>
 		<dict>
 			<key>ypos</key>
-			<real>210</real>
+			<real>550</real>
+		</dict>
+		<key>615411CD-31E3-4860-B2C3-F3EE0114B590</key>
+		<dict>
+			<key>ypos</key>
+			<real>990</real>
+		</dict>
+		<key>624CCD24-8763-44A5-ADCF-A3D55DCF630C</key>
+		<dict>
+			<key>ypos</key>
+			<real>990</real>
+		</dict>
+		<key>64713E3A-9024-472D-9A0E-721214267A90</key>
+		<dict>
+			<key>ypos</key>
+			<real>2180</real>
+		</dict>
+		<key>692EC424-3A7D-458D-A96B-C63A6E018099</key>
+		<dict>
+			<key>ypos</key>
+			<real>1540</real>
+		</dict>
+		<key>6C977AE9-FF29-4236-9479-6EEAC85649C3</key>
+		<dict>
+			<key>ypos</key>
+			<real>2820</real>
+		</dict>
+		<key>6F1ACBF1-4D86-48DA-B3B3-8870A02CD6C8</key>
+		<dict>
+			<key>ypos</key>
+			<real>2960</real>
+		</dict>
+		<key>7083757E-892F-4285-AE00-83C5FD3C3F8A</key>
+		<dict>
+			<key>ypos</key>
+			<real>1980</real>
 		</dict>
 		<key>71C4224F-1D97-40F5-AFE7-4BB9294BB865</key>
 		<dict>
 			<key>ypos</key>
-			<real>10</real>
+			<real>450</real>
 		</dict>
 		<key>7299C725-F65A-4E18-A82A-D28E381A2921</key>
 		<dict>
 			<key>ypos</key>
-			<real>680</real>
-		</dict>
-		<key>7687E6B6-51B2-4721-A693-1B009E726974</key>
-		<dict>
-			<key>ypos</key>
-			<real>310</real>
+			<real>3240</real>
 		</dict>
 		<key>7B595D39-6C1A-45BD-ACF2-2FA14AED0DF4</key>
 		<dict>
 			<key>ypos</key>
-			<real>1060</real>
+			<real>3640</real>
 		</dict>
 		<key>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</key>
 		<dict>
 			<key>ypos</key>
-			<real>110</real>
+			<real>350</real>
+		</dict>
+		<key>8770F590-F9DF-4FBF-B072-029548631F2F</key>
+		<dict>
+			<key>ypos</key>
+			<real>2080</real>
+		</dict>
+		<key>900F6E98-D5F8-44B4-AEDD-03959130A294</key>
+		<dict>
+			<key>ypos</key>
+			<real>2720</real>
 		</dict>
 		<key>958FBDF3-853D-451B-A289-3EAF1864E2C0</key>
 		<dict>
 			<key>ypos</key>
-			<real>780</real>
-		</dict>
-		<key>999EE149-74F0-401F-AE30-623756122D31</key>
-		<dict>
-			<key>ypos</key>
-			<real>210</real>
+			<real>3340</real>
 		</dict>
 		<key>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</key>
 		<dict>
 			<key>ypos</key>
-			<real>880</real>
+			<real>3440</real>
+		</dict>
+		<key>9C75B800-3A47-436B-94A3-3603441684D2</key>
+		<dict>
+			<key>ypos</key>
+			<real>1640</real>
+		</dict>
+		<key>9FA7B2C6-F936-42D5-94CE-D9B139424714</key>
+		<dict>
+			<key>ypos</key>
+			<real>2180</real>
 		</dict>
 		<key>9FAF6DF5-7CC4-492A-950E-2719D3574536</key>
 		<dict>
 			<key>ypos</key>
-			<real>310</real>
+			<real>450</real>
+		</dict>
+		<key>A3405498-15E4-4C61-8A07-FBB52CF3E582</key>
+		<dict>
+			<key>ypos</key>
+			<real>2280</real>
+		</dict>
+		<key>A4A25C3D-7694-4B15-AFBC-9951CBF506FD</key>
+		<dict>
+			<key>ypos</key>
+			<real>2820</real>
 		</dict>
 		<key>A4BC7578-3E3A-45E4-9137-3BCCB3925879</key>
 		<dict>
 			<key>ypos</key>
-			<real>1060</real>
+			<real>3640</real>
+		</dict>
+		<key>A5816966-404B-4CA2-B572-ABAF0742019F</key>
+		<dict>
+			<key>ypos</key>
+			<real>2080</real>
 		</dict>
 		<key>A7447881-DE52-49E2-BFC1-9BCAD7CC363E</key>
 		<dict>
 			<key>ypos</key>
-			<real>550</real>
+			<real>3100</real>
+		</dict>
+		<key>B0DB3BE3-1AAC-4160-BC8F-F76ECAD9EEF3</key>
+		<dict>
+			<key>ypos</key>
+			<real>2420</real>
 		</dict>
 		<key>B0E5C87C-59D3-430A-92B5-339F2E801511</key>
 		<dict>
 			<key>ypos</key>
-			<real>1370</real>
+			<real>10</real>
 		</dict>
-		<key>BB3151A8-F09A-4856-9C6F-6B980A6211CE</key>
+		<key>B2658075-0C20-4903-BC88-CF0FF03D0745</key>
 		<dict>
 			<key>ypos</key>
-			<real>110</real>
+			<real>1090</real>
 		</dict>
-		<key>BD93AD49-C70B-45EE-8817-CD0801540534</key>
+		<key>B426EF25-EA2E-4D2D-B34B-B8FDAAD92475</key>
 		<dict>
 			<key>ypos</key>
-			<real>210</real>
+			<real>2620</real>
+		</dict>
+		<key>B7CE7D5C-91A6-4BF9-B036-6E92F1E61F3A</key>
+		<dict>
+			<key>ypos</key>
+			<real>2720</real>
+		</dict>
+		<key>BD0C029F-7142-47B0-90BA-65CA7B9710EF</key>
+		<dict>
+			<key>ypos</key>
+			<real>1540</real>
+		</dict>
+		<key>BD9AF73F-4E28-4C6F-8646-8CF8E688ABEF</key>
+		<dict>
+			<key>ypos</key>
+			<real>1540</real>
+		</dict>
+		<key>BD9D7547-72C4-4BA2-A230-3F57E84A813F</key>
+		<dict>
+			<key>ypos</key>
+			<real>2620</real>
 		</dict>
 		<key>C131748D-B1E2-48EF-ACB3-715DF55AECC0</key>
 		<dict>
 			<key>ypos</key>
-			<real>680</real>
+			<real>3240</real>
+		</dict>
+		<key>C87FC557-D54D-4D0A-9BAA-B8FC3B7C0859</key>
+		<dict>
+			<key>ypos</key>
+			<real>3540</real>
 		</dict>
 		<key>CA18956A-C349-4A46-9E5E-211EC824BDE8</key>
 		<dict>
 			<key>ypos</key>
-			<real>10</real>
+			<real>250</real>
 		</dict>
-		<key>D2598FEF-CDF3-403F-8527-431DBA491760</key>
+		<key>CC79947A-3DBE-4644-B305-0A3EAFC06BF4</key>
 		<dict>
 			<key>ypos</key>
-			<real>780</real>
+			<real>1640</real>
 		</dict>
 		<key>D2B26CF8-1A26-4197-BE37-F2F8EFA5943D</key>
 		<dict>
 			<key>ypos</key>
-			<real>410</real>
+			<real>650</real>
 		</dict>
 		<key>D4EE71E6-EBD4-413C-80F9-5B3AB54C7F7B</key>
 		<dict>
 			<key>ypos</key>
-			<real>1010</real>
+			<real>3340</real>
+		</dict>
+		<key>D849B467-BC6D-482C-851D-C8225AC04B80</key>
+		<dict>
+			<key>ypos</key>
+			<real>790</real>
+		</dict>
+		<key>DD931F56-358A-4667-B28F-9A845F9D4703</key>
+		<dict>
+			<key>ypos</key>
+			<real>2420</real>
 		</dict>
 		<key>E2AAD880-BB36-40D8-8755-7F96F2BFAD6C</key>
 		<dict>
 			<key>ypos</key>
-			<real>730</real>
+			<real>3290</real>
 		</dict>
 		<key>E37263DD-A00C-43DA-870B-75FD5144AF6F</key>
 		<dict>
 			<key>ypos</key>
-			<real>880</real>
+			<real>3440</real>
 		</dict>
-		<key>E565C2AB-EABC-4804-8449-D18A38DC0BBF</key>
+		<key>E4AC5FF7-7838-4BC7-881A-C350C4CE3007</key>
 		<dict>
 			<key>ypos</key>
-			<real>110</real>
+			<real>1740</real>
 		</dict>
 		<key>E89AAF55-EA37-4520-9604-CB7F9906D59A</key>
 		<dict>
 			<key>ypos</key>
-			<real>1240</real>
+			<real>110</real>
+		</dict>
+		<key>E8CB1AAF-D396-43B4-960D-D03B36FE4D02</key>
+		<dict>
+			<key>ypos</key>
+			<real>1340</real>
 		</dict>
 		<key>E8D4B869-0FCA-4F4C-ABB3-129BE2392B40</key>
 		<dict>
 			<key>ypos</key>
-			<real>210</real>
+			<real>550</real>
 		</dict>
 		<key>EC337A0F-C8FE-4650-B997-E5F1C0730FB2</key>
 		<dict>
 			<key>ypos</key>
-			<real>1370</real>
+			<real>10</real>
+		</dict>
+		<key>ECC82711-1FF0-4F59-BAD5-6C7EDB2E4A9E</key>
+		<dict>
+			<key>ypos</key>
+			<real>1740</real>
+		</dict>
+		<key>EDAE5CA5-283A-40E6-A698-74EFB895C849</key>
+		<dict>
+			<key>ypos</key>
+			<real>2620</real>
 		</dict>
 		<key>F2E7BA97-AFCD-4360-BC71-50954F90C61B</key>
 		<dict>
 			<key>ypos</key>
-			<real>510</real>
+			<real>650</real>
 		</dict>
-		<key>F3102C3F-9D40-4B41-8083-25E50D66607E</key>
+		<key>F92EE074-89EB-437F-9EE2-49004A9FB080</key>
 		<dict>
 			<key>ypos</key>
-			<real>410</real>
+			<real>1090</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>

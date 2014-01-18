@@ -34,7 +34,10 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 			# Rank the results
 			results = alp.fuzzy_search(query[1], res, key=lambda x: zot_string(x))
 
-			xml_res = prepare_feedback(results)
+			alp_res = prepare_feedback(results)
+
+			# Remove any duplicate items
+			xml_res = list(set([x for x in alp_res]))
 					
 			alp.feedback(xml_res)
 

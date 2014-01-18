@@ -7,20 +7,11 @@ import json
 from _zotquery import zot_string, prepare_feedback
 
 """
-This script searches within the collection chosen in the previous step (z:col) 
-for the queried term.
+This script searches within the tag chosen in the previous step (z:tag) for the queried term.
 """ 
 
 # First, ensure that Configuration has taken place
 if os.path.exists(alp.storage(join="first-run.txt")):
-
-	# Read the inputted Collection name to a temporary file
-	with open(alp.cache(join='collection_query_result.txt'), 'r') as f:
-		collection = f.read().decode('utf-8')
-		f.close()
-
-	# Remove the 'c:' tag
-	result = collection.split(':')[1]
 
 	# Get Zotero data from JSON cache
 	with open(alp.storage(join='zotero_db.json'), 'r') as f:
@@ -28,7 +19,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		f.close()
 
 	query = alp.args()[0]
-	#query = 'odes'
+	#query = 'epistem'
 
 	if len(query) <= 3:
 		res_dict = {'title': 'Error', 'subtitle': "Need at least 4 letters to execute search", 'valid': False, 'uid': None, 'icon': 'icons/n_delay.png'}
@@ -37,27 +28,30 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 	else:
 		matches = []
 		for item in zot_data:
-			for jtem in item['zot-collections']:
-				if result == jtem['key']:
-				
-					for key, val in item.items():
-						if key == 'data':
-							for sub_key, sub_val in val.items():
-								if sub_key in ['title', 'container-title', 'collection-title']:
-									if query.lower() in sub_val.lower():
-										matches.append(item)
-									
-						# Since the creator key contains a list
-						elif key == 'creator':
-							for i in val:
-								for key1, val1 in i.items():
-									if query.lower() in val1.lower():
-										matches.append(item)
+			if item['attachments'] != []:
+			
+				for key, val in item.items():
+					if key == 'data':
+						for sub_key, sub_val in val.items():
+							if sub_key in ['title', 'container-title', 'collection-title']:
+								if query.lower() in sub_val.lower():
+									matches.insert(0, item)
+							elif sub_key in ['note', 'event-place', 'source', 'publisher', 'abstract']:
+								if query.lower() in sub_val.lower():
+									matches.append(item)
+								
+					# Since the creator key contains a list
+					elif key == 'creator':
+						for i in val:
+							for key1, val1 in i.items():
+								if val1.lower().startswith(query.lower()):
+									matches.insert(0, item)
 
-		if not matches == []:
+		if matches != []:
+
 			# Rank the results
 			results = alp.fuzzy_search(query, matches, key=lambda x: zot_string(x))
-					
+				
 			alp_res = prepare_feedback(results)
 
 			# Remove any duplicate items

@@ -7,6 +7,7 @@ import os
 import time
 import sys
 import re
+import subprocess
 
 ###
 def to_unicode(obj, encoding='utf-8'):
@@ -18,6 +19,19 @@ def to_unicode(obj, encoding='utf-8'):
 			obj = unicode(obj, encoding)
 	return obj
 
+###
+def getClipboardData(): 
+  	p = subprocess.Popen(['pbpaste'], stdout=subprocess.PIPE) 
+	retcode = p.wait() 
+	data = p.stdout.read() 
+	return data 
+	
+def setClipboardData(data): 
+	p = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE) 
+	p.stdin.write(data.encode('utf-8')) 
+	p.stdin.close() 
+	retcode = p.wait()
+	
 ###
 def get_path(type):	
 	"""Read the paths JSON from non-volatile storage"""
@@ -47,16 +61,19 @@ def zot_string(d):
 
 ###
 def get_profile(path):
-	"""Read the profiles file"""
-	prof = path + 'profiles.ini'
-	file = open(prof, 'r')
-	data = file.read()
-	file.close()
-
-	# Find the Profile sub-directory	
-	prof = re.search(r"(?<=^Path=)(.*?)$", data, re.M).group()
-	prof_path = path + prof
-	return prof_path
+    """Read the profiles file"""
+	
+    prof = path + 'profiles.ini'
+    if os.path.exists(prof):
+        file = open(prof, 'r')
+        data = file.read()
+        file.close()
+        # Find the Profile sub-directory
+        prof = re.search(r"(?<=^Path=)(.*?)$", data, re.M).group()
+        prof_path = path + prof
+        return prof_path
+    else:
+        return 'None'
 		
 ###
 def check_cache():
@@ -124,7 +141,7 @@ def zotquery(query, zot_data, sort='none'):
 					for i in val:
 						for sub_key, sub_val in i.items():
 							if sub_key.lower() == search_key.lower():
-								if sub_val.lower().startswith(search_val.lower()):
+								if search_val.lower() in sub_val.lower():
 									matches.append(item)
 				elif key == 'data':
 					for sub_key, sub_val in val.items():
@@ -133,11 +150,11 @@ def zotquery(query, zot_data, sort='none'):
 								matches.append(item)
 				elif key == 'type':
 					if key.lower() == search_key.lower():
-						if val.lower().startswith(search_val.lower()):
+						if search_val.lower() in val.lower():
 							matches.append(item)
 				elif key == 'id':
 					if key.lower() == search_key.lower():
-						if str(val).lower().startswith(search_val.lower()):
+						if search_val.lower() in str(val).lower():
 							matches.append(item)
 	
 	# Clean up any duplicate results

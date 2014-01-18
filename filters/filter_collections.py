@@ -26,21 +26,24 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 
 	# Get user input
 	query = alp.args()[0]
-	#query = 'epxi'
+	#query = 'epic'
 
 	if len(query) <= 3:
 		res_dict = {'title': 'Error', 'subtitle': "Need at least 4 letters to execute search", 'valid': False, 'uid': None, 'icon': 'icons/n_delay.png'}
 		res_item = alp.Item(**res_dict)
 		alp.feedback(res_item)
 	else:
-		xml_res = []
+		alp_res = []
 		for item in coll_data:
-			if item[0].lower().startswith(query.lower()):
+			if query.lower() in item[0].lower():
 				res_dict = {'title': item[0], 'subtitle': 'Collection', 'valid': True, 'arg': 'c:' + item[1], 'icon': 'icons/n_collection.png'}
 				res_item = alp.Item(**res_dict)
-				xml_res.append(res_item)
+				alp_res.append(res_item)
 
-		if xml_res != []:
+		if alp_res != []:
+			# Remove any duplicate items
+			xml_res = list(set([x for x in alp_res]))
+
 			alp.feedback(xml_res)
 		else:
 			alp.feedback(alp.Item(**{'title': "Error", 'subtitle': "No results found.", 'valid': False, 'icon': 'icons/n_error.png'}))

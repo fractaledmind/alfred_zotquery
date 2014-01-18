@@ -11,11 +11,12 @@ from _zotquery import get_path, to_unicode, check_cache
 from dependencies import applescript
 
 """
-This script works in 4 stages:
+This script works in 5 stages:
 	1) create a JSON cache of your Zotero database
 	2) create a JSON cache of your Zotero collections
 	3) create a JSON cache of your Zotero tags
-	4) merge all three JSON caches together to form the final JSON file.
+	4) create a JSON cache of your Zotero attachments
+	5) merge all three JSON caches together to form the final JSON file.
 	
 It is necessary to work through these stages, versus creating a single database from the outset, 
 because SQL only displays that items that meet all the criteria given. 
@@ -47,14 +48,6 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		# Connect to Zotero clone database
 		conn = sqlite3.connect(clone_database)
 		cur = conn.cursor()	
-
-		# First create a list of deleted items, to ignore later
-		deleted_query = "select itemID from deletedItems"
-		dels = cur.execute(deleted_query).fetchall()
-		deleted = []
-		for item in dels:
-			deleted.append(item[0])			
-
 
 		### STEP ONE: CREATE DATABASE DICTIONARIES
 		"""
@@ -92,107 +85,48 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		last_l = [] 
 		
 		for i, item in enumerate(info):
-						
-			if item[0] not in deleted:	
-				# If first item
-				if i == 0:
-					
-					# Create main 5 dictionaries: id, key, type, creator, and data
-					id = {'id': to_unicode(item[0], encoding='utf-8')}
-					id_l.append(id)
+			if i == 0:
+				id = {'id': to_unicode(item[0], encoding='utf-8')}
+				id_l.append(id)
+				key = {'key': to_unicode(item[1], encoding='utf-8')}
+				key_l.append(key)
+			
+				# Uses the Zotero to CSL-JSON _mappings for item types
+				csl_type = _mappings.trans_types(item[2])
+				type = {'type':csl_type}
+				type_l.append(type)
+			
+				# Uses the Zotero to CSL-JSON _mappings for creator types
+				c_type = _mappings.trans_creators(item[5])
+				creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
+				last_l.append({'family':item[3]})
+				# Add this item's creator to the sub_creator list
+				sub_creator.append(creator)
 
-					key = {'key': to_unicode(item[1], encoding='utf-8')}
-					key_l.append(key)
-					
-					# Uses the Zotero to CSL-JSON _mappings for item types
-					csl_type = _mappings.trans_types(item[2])
-					type = {'type':csl_type}
-					type_l.append(type)
-					
-					# Uses the Zotero to CSL-JSON _mappings for creator types
-					c_type = _mappings.trans_creators(item[5])
-					creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
-					last_l.append({'family':item[3]})
-					# Add this item's creator to the sub_creator list
-					sub_creator.append(creator)
+				# Uses the Zotero to CSL-JSON _mappings for field names
+				val = _mappings.trans_fields(item[6])
+				if val == "issued":
+					v = to_unicode(item[7][0:4], encoding='utf-8')
+				else:
+					v = to_unicode(item[7], encoding='utf-8')
+				data = {val:v}
+				# Add this item's data to the sub_data dictionary
+				sub_data.update(data)
+				
+			# If not the last item
+			elif i > 0 and i < (len(info) - 1):
+				id = {'id': to_unicode(item[0], encoding='utf-8')}
 
-					# Uses the Zotero to CSL-JSON _mappings for field names
-					val = _mappings.trans_fields(item[6])
-					if val == "issued":
-						v = to_unicode(item[7][0:4], encoding='utf-8')
-					else:
-						v = to_unicode(item[7], encoding='utf-8')
-					data = {val:v}
-					# Add this item's data to the sub_data dictionary
-					sub_data.update(data)
-					
-				# If not the last item
-				elif i > 0 and i < (len(info) - 1):
-						
-					# Create main three dictionaries
-					id = {'id': to_unicode(item[0], encoding='utf-8')}
-
-					key = {'key': to_unicode(item[1], encoding='utf-8')}
-						
-					type = {'type':_mappings.trans_types(item[2])}
-						
-					# If old id
-					if id == id_l[-1]:
-						
-						# If old author
-						if {'family':item[3]} == last_l[-1]:
-						
-							# Place metadata in the dictionary with proper keys
-							val = _mappings.trans_fields(item[6])
-							if val == "issued":
-								v = to_unicode(item[7][0:4], encoding='utf-8')
-							else:
-								v = to_unicode(item[7], encoding='utf-8')
-							data = {val:v}
-							# Add this item's data to the sub_data dictionary
-							sub_data.update(data)
-
-						# If new author for old id
-						else:
-							c_type = _mappings.trans_creators(item[5])
-							creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
-							# Add this item's creator to the sub_creator list
-							sub_creator.append(creator)
-							last_l.append({'family':item[3]})
-								
-					# If new id
-					else:
-							
-						# Add old data
-						d = collections.OrderedDict()
-						id1 = id_l.pop()
-						d['id'] = id1['id']
-						key1 = key_l.pop()
-						d['key'] = key1['key']
-						type1 = type_l.pop()
-						d['type'] = type1['type']
-						d['creators'] = sub_creator
-						d['data'] = sub_data
-						# These two lists will be filled later.
-						d['zot-collections'] = []
-						d['zot-tags'] = []
-						d['attachments'] = []
-						db_res.append(d)
-						
-						# Restart all relevant lists
-						id_l.append(id)	
-						key_l.append(key)
-						last_l.append({'family':item[3]})
-						type_l.append(type)
-						sub_data = {}
-						sub_creator = []
-							
-						# Load data into lists	
-						c_type = _mappings.trans_creators(item[5])
-						creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
-						# Add this item's creator to the sub_creator list
-						sub_creator.append(creator)
-							
+				key = {'key': to_unicode(item[1], encoding='utf-8')}
+				
+				type = {'type':_mappings.trans_types(item[2])}
+				
+				# If old id
+				if id == id_l[-1]:
+				
+					# If old author
+					if {'family':item[3]} == last_l[-1]:
+				
 						# Place metadata in the dictionary with proper keys
 						val = _mappings.trans_fields(item[6])
 						if val == "issued":
@@ -202,9 +136,18 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 						data = {val:v}
 						# Add this item's data to the sub_data dictionary
 						sub_data.update(data)
-					
-				# If last item
+
+					# If new author for old id
+					else:
+						c_type = _mappings.trans_creators(item[5])
+						creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
+						# Add this item's creator to the sub_creator list
+						sub_creator.append(creator)
+						last_l.append({'family':item[3]})
+						
+				# If new id
 				else:
+					
 					# Add old data
 					d = collections.OrderedDict()
 					id1 = id_l.pop()
@@ -212,14 +155,55 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 					key1 = key_l.pop()
 					d['key'] = key1['key']
 					type1 = type_l.pop()
-					d['type'] = type1['type']	
+					d['type'] = type1['type']
 					d['creators'] = sub_creator
 					d['data'] = sub_data
 					# These two lists will be filled later.
 					d['zot-collections'] = []
 					d['zot-tags'] = []
 					d['attachments'] = []
-					db_res.append(d)	
+					db_res.append(d)
+				
+					# Restart all relevant lists
+					id_l.append(id)	
+					key_l.append(key)
+					last_l.append({'family':item[3]})
+					type_l.append(type)
+					sub_data = {}
+					sub_creator = []
+					
+					# Load data into lists	
+					c_type = _mappings.trans_creators(item[5])
+					creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
+					# Add this item's creator to the sub_creator list
+					sub_creator.append(creator)
+					
+					# Place metadata in the dictionary with proper keys
+					val = _mappings.trans_fields(item[6])
+					if val == "issued":
+						v = to_unicode(item[7][0:4], encoding='utf-8')
+					else:
+						v = to_unicode(item[7], encoding='utf-8')
+					data = {val:v}
+					# Add this item's data to the sub_data dictionary
+					sub_data.update(data)
+			
+			# If last item
+			else:
+				d = collections.OrderedDict()
+				id1 = id_l.pop()
+				d['id'] = id1['id']
+				key1 = key_l.pop()
+				d['key'] = key1['key']
+				type1 = type_l.pop()
+				d['type'] = type1['type']	
+				d['creators'] = sub_creator
+				d['data'] = sub_data
+				# These two lists will be filled later.
+				d['zot-collections'] = []
+				d['zot-tags'] = []
+				d['attachments'] = []
+				db_res.append(d)	
 		
 		# Log the results
 		alp.log("Database Success! Completed backup of Zotero database.")
@@ -245,8 +229,6 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		sub = []
 		coll_res = []
 		for i, item in enumerate(colls):
-			
-			if item[0] not in deleted:
 				# If first item
 				if i == 0:
 					sub.append(to_unicode(item[0], encoding='utf-8'))
@@ -254,11 +236,9 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 					
 				# If not the last item
 				elif i > 0 and i < (len(colls) - 1):
-					
-					# If old collection
 					if item[1] == coll_l[-1][0]:
 						sub.append(to_unicode(item[0], encoding='utf-8'))
-						
+					
 					# If new collection
 					else:
 						# Add old data
@@ -267,16 +247,16 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 						d['zot-collection'] = {'name': to_unicode(coll[0], encoding='utf-8'), 'key': to_unicode(coll[1], encoding='utf-8')}
 						d['items'] = sub
 						coll_res.append(d)		
-						
+					
 						# Restart relevant list
 						sub = []
-						
+					
 						# Load data into lists
 						sub.append(to_unicode(item[0], encoding='utf-8'))
 						coll_l.append([item[1], item[2]])
-				
+			
 				# If last item
-				elif i == (len(colls) - 1):	
+				elif i == (len(colls) - 1):
 					d = collections.OrderedDict()
 					coll = coll_l.pop()
 					d['zot-collection'] = {'name': to_unicode(coll[0], encoding='utf-8'), 'key': to_unicode(coll[1], encoding='utf-8')}
@@ -306,8 +286,6 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		tag_res = []
 		for i, item in enumerate(tags):
 			
-			if item[0] not in deleted:
-			
 				# If first item
 				if i == 0:
 					sub.append(to_unicode(item[0], encoding='utf-8'))
@@ -315,8 +293,6 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 				
 				# If not the last item
 				elif i > 0 and i < (len(tags) - 1):
-					
-					# If old collection
 					if item[1] == tag_l[-1][0]:
 						sub.append(to_unicode(item[0], encoding='utf-8'))
 					# If new collection
@@ -327,16 +303,16 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 						d['zot-tag'] = {'name': to_unicode(tag[0], encoding='utf-8'), 'key': to_unicode(tag[1], encoding='utf-8')}
 						d['items'] = sub
 						tag_res.append(d)	
-						
+					
 						# Restart all relevant lists
 						sub = []
-						
+					
 						# Load data into lists
 						sub.append(to_unicode(item[0], encoding='utf-8'))
 						tag_l.append([item[1], item[2]])
-						
+					
 				# If last item
-				elif i == (len(tags) - 1):	
+				elif i == (len(tags) - 1):
 					d = collections.OrderedDict()
 					tag = tag_l.pop()
 					d['zot-tag'] = {'name': to_unicode(tag[0], encoding='utf-8'), 'key': to_unicode(tag[1], encoding='utf-8')}
