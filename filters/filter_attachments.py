@@ -21,8 +21,8 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 	query = alp.args()[0]
 	#query = 'epistem'
 
-	if len(query) <= 3:
-		res_dict = {'title': 'Error', 'subtitle': "Need at least 4 letters to execute search", 'valid': False, 'uid': None, 'icon': 'icons/n_delay.png'}
+	if len(query) <= 2:
+		res_dict = {'title': 'Error', 'subtitle': "Need at least 3 letters to execute search", 'valid': False, 'uid': None, 'icon': 'icons/n_delay.png'}
 		res_item = alp.Item(**res_dict)
 		alp.feedback(res_item)
 	else:
