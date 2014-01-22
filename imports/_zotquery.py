@@ -131,7 +131,23 @@ def zotquery(query, zot_data, sort='none'):
 								if sort == 'author':
 									matches.insert(0, item)
 								else:
-									matches.append(item)				
+									matches.append(item)
+
+				elif key ==  'zot-collections':
+					for i in val:
+						if query.lower() in i['name'].lower():
+							matches.append(item)
+
+				elif key == 'zot-tags':
+					for i in val:
+						if query.lower() in i['name'].lower():
+							matches.append(item)
+
+				elif key == 'notes':
+					for i in val:
+						if query.lower() in i.lower():
+							matches.append(item)
+
 		# if query is specific/complex
 		elif type(query) is list:
 			[search_key, search_val] = [query[0], query[1]]
@@ -143,19 +159,12 @@ def zotquery(query, zot_data, sort='none'):
 							if sub_key.lower() == search_key.lower():
 								if search_val.lower() in sub_val.lower():
 									matches.append(item)
+
 				elif key == 'data':
 					for sub_key, sub_val in val.items():
 						if sub_key.lower() == search_key.lower():
 							if search_val.lower() in sub_val.lower():
 								matches.append(item)
-				elif key == 'type':
-					if key.lower() == search_key.lower():
-						if search_val.lower() in val.lower():
-							matches.append(item)
-				elif key == 'id':
-					if key.lower() == search_key.lower():
-						if search_val.lower() in str(val).lower():
-							matches.append(item)
 	
 	# Clean up any duplicate results
 	if not matches == []:

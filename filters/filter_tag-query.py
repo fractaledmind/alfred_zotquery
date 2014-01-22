@@ -53,11 +53,26 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 										matches.append(item)
 									
 						# Since the creator key contains a list
-						elif key == 'creator':
+						elif key == 'creators':
 							for i in val:
 								for key1, val1 in i.items():
 									if query.lower() in val1.lower():
 										matches.insert(0, item)
+
+						elif key ==  'zot-collections':
+							for i in val:
+								if query.lower() in i['name'].lower():
+									matches.append(item)
+
+						elif key == 'zot-tags':
+							for i in val:
+								if query.lower() in i['name'].lower():
+									matches.append(item)
+
+						elif key == 'notes':
+							for i in val:
+								if query.lower() in i.lower():
+									matches.append(item)
 
 		if matches != []:
 

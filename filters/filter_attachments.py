@@ -7,7 +7,7 @@ import json
 from _zotquery import zot_string, prepare_feedback
 
 """
-This script searches within the tag chosen in the previous step (z:tag) for the queried term.
+This script searches only within items that have attachments.
 """ 
 
 # First, ensure that Configuration has taken place
@@ -36,16 +36,28 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 							if sub_key in ['title', 'container-title', 'collection-title']:
 								if query.lower() in sub_val.lower():
 									matches.insert(0, item)
-							elif sub_key in ['note', 'event-place', 'source', 'publisher', 'abstract']:
-								if query.lower() in sub_val.lower():
-									matches.append(item)
 								
 					# Since the creator key contains a list
-					elif key == 'creator':
+					elif key == 'creators':
 						for i in val:
 							for key1, val1 in i.items():
-								if val1.lower().startswith(query.lower()):
+								if query.lower() in val1.lower():
 									matches.insert(0, item)
+
+					elif key ==  'zot-collections':
+						for i in val:
+							if query.lower() in i['name'].lower():
+								matches.append(item)
+
+					elif key == 'zot-tags':
+						for i in val:
+							if query.lower() in i['name'].lower():
+								matches.append(item)
+
+					elif key == 'notes':
+						for i in val:
+							if query.lower() in i.lower():
+								matches.append(item)
 
 		if matches != []:
 

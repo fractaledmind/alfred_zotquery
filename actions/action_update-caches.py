@@ -16,7 +16,8 @@ This script works in 5 stages:
 	2) create a JSON cache of your Zotero collections
 	3) create a JSON cache of your Zotero tags
 	4) create a JSON cache of your Zotero attachments
-	5) merge all three JSON caches together to form the final JSON file.
+	5) create a JSON cache of your Zotero notes
+	6) merge all four JSON caches together to form the final JSON file.
 	
 It is necessary to work through these stages, versus creating a single database from the outset, 
 because SQL only displays that items that meet all the criteria given. 
@@ -49,10 +50,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		conn = sqlite3.connect(clone_database)
 		cur = conn.cursor()	
 
-		### STEP ONE: CREATE DATABASE DICTIONARIES
-		"""
-		This part of the script creates an array of the pertinent information in the user's Zotero sqlite database. 
-		"""		
+		### STEP ONE: CREATE DATABASE DICTIONARIES	
 		# This query retrieves tuples containing (id, type, last name, first name, creator type, field name, and field value) for each item in the user's Zotero database
 		info_query = """
 		select items.itemID, items.key, itemTypes.typeName, creatorData.lastName, creatorData.firstName, creatorTypes.creatorType, fields.fieldName, itemDataValues.value
@@ -162,6 +160,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 					d['zot-collections'] = []
 					d['zot-tags'] = []
 					d['attachments'] = []
+					d['notes'] = []
 					db_res.append(d)
 				
 					# Restart all relevant lists
@@ -203,6 +202,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 				d['zot-collections'] = []
 				d['zot-tags'] = []
 				d['attachments'] = []
+				d['notes'] = []
 				db_res.append(d)	
 		
 		# Log the results
@@ -210,9 +210,6 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 
 
 		### STEP TWO: CREATE COLLECTION DICTIONARIES
-		"""
-		This part of the script creates a cache of your Zotero collection data. 
-		"""	
 		# Retrieve collection data from Zotero database
 		collection_query = """
 				select items.itemID, collections.collectionName, collections.key
@@ -268,9 +265,6 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 
 
 		### STEP THREE: CREATE TAG DICTIONARIES
-		"""
-		This part of the script creates a cache of your Zotero tag data. 
-		"""
 		tag_query = """
 				select items.itemID, tags.name, tags.key
 				from items, tags, itemTags
@@ -386,12 +380,29 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 					d['item'] = item_id
 					att_res.append(d)
 
-		conn.close()
+		
 		# Log the results
 		alp.log("Attachements Success! Completed backup of Zotero attachment data.")
 
 
-		### STEP FIVE: MERGE ALL FOUR DICTIONARIES TOGETHER
+		### STEP FIVE: CREATE NOTES DICTIONARIES
+		notes_query = """
+		select items.itemID, itemNotes.note
+		from items, itemNotes
+		where items.itemID = itemNotes.sourceItemID
+		order by items.itemID
+		"""
+		# Retrieve data from Zotero database
+		notes = cur.execute(notes_query).fetchall()	
+
+		# Log the results
+		alp.log("Notes Success! Completed backup of Zotero note data.")
+
+		conn.close()
+
+
+
+		### STEP SIX: MERGE ALL FOUR DICTIONARIES TOGETHER
 		for item in db_res:
 			for jtem in coll_res:
 				if item['id'] in jtem['items']:
@@ -406,6 +417,11 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 			for jtem in att_res:
 				if item['id'] == jtem['item']:
 					item['attachments'].append(jtem['attachment'])
+
+		for item in db_res:
+			for jtem in notes:
+				if item['id'] == jtem[0]:
+					item['notes'].append(jtem[1][33:-10])
 
 				
 		final_json = json.dumps(db_res, sort_keys=False, indent=4, separators=(',', ': '))

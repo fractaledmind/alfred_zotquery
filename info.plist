@@ -449,6 +449,49 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>87A63712-472C-422E-8424-90C1EA9F6A0F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>348EA940-6AE8-48EF-B925-DF5CAFB40F71</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Export Citation</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E2F9DF69-8296-4AEB-ABF4-67A550183070</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Open Attachment</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>F7B59ED1-746F-4533-A794-06181F0ACB9D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D2D80F13-E1FA-4137-B556-46062572F38A</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Export Reference</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>B7FA387D-88B3-4158-B84A-BF6FD5743C71</string>
+				<key>modifiers</key>
+				<integer>8388608</integer>
+				<key>modifiersubtext</key>
+				<string>Append Citation to Bibliography</string>
+			</dict>
+		</array>
 		<key>958FBDF3-853D-451B-A289-3EAF1864E2C0</key>
 		<array>
 			<dict>
@@ -2013,6 +2056,120 @@ fi</string>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
+				<string>python action_export-citation.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>348EA940-6AE8-48EF-B925-DF5CAFB40F71</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E2F9DF69-8296-4AEB-ABF4-67A550183070</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>run script (POSIX file ((do shell script "pwd") &amp; "/action_open-item.scpt")) with parameters {"{query}"}</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F7B59ED1-746F-4533-A794-06181F0ACB9D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>zot:n</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_notes.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>subtext</key>
+				<string>In Notes Query</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>87A63712-472C-422E-8424-90C1EA9F6A0F</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_export-ref.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>D2D80F13-E1FA-4137-B556-46062572F38A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_append-to-bib.py "{query}" 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B7FA387D-88B3-4158-B84A-BF6FD5743C71</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
 				<string>python action_open-attachment.py "{query}" 2&gt;&amp;1 | tee output.log</string>
 				<key>type</key>
 				<integer>0</integer>
@@ -2040,7 +2197,7 @@ fi</string>
 				<key>subtext</key>
 				<string>Attachment Query</string>
 				<key>title</key>
-				<string>Search your Zotero library</string>
+				<string>Search Zotero Attachments</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -2309,6 +2466,23 @@ fi</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>python action_read-restart-bib.py 2&gt;&amp;1 | tee output.log</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>A4BC7578-3E3A-45E4-9137-3BCCB3925879</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
@@ -2328,23 +2502,6 @@ fi</string>
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
 			<string>5E140930-FBF6-4DB0-81D4-9C55270672BA</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>python action_read-restart-bib.py 2&gt;&amp;1 | tee output.log</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>A4BC7578-3E3A-45E4-9137-3BCCB3925879</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -2634,12 +2791,12 @@ Enjoy!</string>
 		<key>166F10A0-9A49-4894-B3B1-9407FE16AFDB</key>
 		<dict>
 			<key>ypos</key>
-			<real>2960</real>
+			<real>3510</real>
 		</dict>
 		<key>1B0B5A23-B1BC-45B9-97AA-C3270FFF7AE6</key>
 		<dict>
 			<key>ypos</key>
-			<real>3100</real>
+			<real>3650</real>
 		</dict>
 		<key>209A6D20-B361-4BE4-BB26-57B0D61D9718</key>
 		<dict>
@@ -2654,7 +2811,7 @@ Enjoy!</string>
 		<key>28E9633C-379E-45AF-8EEB-C1C95D11A3BB</key>
 		<dict>
 			<key>ypos</key>
-			<real>2960</real>
+			<real>3510</real>
 		</dict>
 		<key>3166AFE5-2F5A-430E-B2C8-6EE19253411E</key>
 		<dict>
@@ -2665,6 +2822,11 @@ Enjoy!</string>
 		<dict>
 			<key>ypos</key>
 			<real>790</real>
+		</dict>
+		<key>348EA940-6AE8-48EF-B925-DF5CAFB40F71</key>
+		<dict>
+			<key>ypos</key>
+			<real>2960</real>
 		</dict>
 		<key>3BAB23D0-52C4-4220-9650-A701F587C1D2</key>
 		<dict>
@@ -2684,12 +2846,12 @@ Enjoy!</string>
 		<key>53372942-F4C7-4770-BA94-C31F4CFB30D7</key>
 		<dict>
 			<key>ypos</key>
-			<real>3390</real>
+			<real>3940</real>
 		</dict>
 		<key>5E140930-FBF6-4DB0-81D4-9C55270672BA</key>
 		<dict>
 			<key>ypos</key>
-			<real>3640</real>
+			<real>4190</real>
 		</dict>
 		<key>612EB44D-D8FA-466F-B429-737EB9965027</key>
 		<dict>
@@ -2724,7 +2886,7 @@ Enjoy!</string>
 		<key>6F1ACBF1-4D86-48DA-B3B3-8870A02CD6C8</key>
 		<dict>
 			<key>ypos</key>
-			<real>2960</real>
+			<real>3510</real>
 		</dict>
 		<key>7083757E-892F-4285-AE00-83C5FD3C3F8A</key>
 		<dict>
@@ -2739,17 +2901,17 @@ Enjoy!</string>
 		<key>7299C725-F65A-4E18-A82A-D28E381A2921</key>
 		<dict>
 			<key>ypos</key>
-			<real>3240</real>
+			<real>3790</real>
 		</dict>
 		<key>78FCD8CC-D7E5-4F8D-AC4F-72C7BD36B530</key>
 		<dict>
 			<key>ypos</key>
-			<real>3760</real>
+			<real>4270</real>
 		</dict>
 		<key>7B595D39-6C1A-45BD-ACF2-2FA14AED0DF4</key>
 		<dict>
 			<key>ypos</key>
-			<real>3640</real>
+			<real>4140</real>
 		</dict>
 		<key>7BA3479E-2D51-43AF-B22F-1DEC3B90CA04</key>
 		<dict>
@@ -2761,6 +2923,11 @@ Enjoy!</string>
 			<key>ypos</key>
 			<real>2080</real>
 		</dict>
+		<key>87A63712-472C-422E-8424-90C1EA9F6A0F</key>
+		<dict>
+			<key>ypos</key>
+			<real>3160</real>
+		</dict>
 		<key>900F6E98-D5F8-44B4-AEDD-03959130A294</key>
 		<dict>
 			<key>ypos</key>
@@ -2769,12 +2936,12 @@ Enjoy!</string>
 		<key>958FBDF3-853D-451B-A289-3EAF1864E2C0</key>
 		<dict>
 			<key>ypos</key>
-			<real>3340</real>
+			<real>3890</real>
 		</dict>
 		<key>9AC5B63D-DCEA-4C70-A2B1-8E9FB6367AE4</key>
 		<dict>
 			<key>ypos</key>
-			<real>3440</real>
+			<real>3990</real>
 		</dict>
 		<key>9C75B800-3A47-436B-94A3-3603441684D2</key>
 		<dict>
@@ -2804,7 +2971,7 @@ Enjoy!</string>
 		<key>A4BC7578-3E3A-45E4-9137-3BCCB3925879</key>
 		<dict>
 			<key>ypos</key>
-			<real>3640</real>
+			<real>4140</real>
 		</dict>
 		<key>A5816966-404B-4CA2-B572-ABAF0742019F</key>
 		<dict>
@@ -2814,7 +2981,7 @@ Enjoy!</string>
 		<key>A7447881-DE52-49E2-BFC1-9BCAD7CC363E</key>
 		<dict>
 			<key>ypos</key>
-			<real>3100</real>
+			<real>3650</real>
 		</dict>
 		<key>B0DB3BE3-1AAC-4160-BC8F-F76ECAD9EEF3</key>
 		<dict>
@@ -2841,6 +3008,11 @@ Enjoy!</string>
 			<key>ypos</key>
 			<real>2720</real>
 		</dict>
+		<key>B7FA387D-88B3-4158-B84A-BF6FD5743C71</key>
+		<dict>
+			<key>ypos</key>
+			<real>3360</real>
+		</dict>
 		<key>BD0C029F-7142-47B0-90BA-65CA7B9710EF</key>
 		<dict>
 			<key>ypos</key>
@@ -2859,7 +3031,7 @@ Enjoy!</string>
 		<key>C131748D-B1E2-48EF-ACB3-715DF55AECC0</key>
 		<dict>
 			<key>ypos</key>
-			<real>3240</real>
+			<real>3790</real>
 		</dict>
 		<key>C7DE2815-6184-472B-8408-F05662EB77EA</key>
 		<dict>
@@ -2869,12 +3041,12 @@ Enjoy!</string>
 		<key>C87FC557-D54D-4D0A-9BAA-B8FC3B7C0859</key>
 		<dict>
 			<key>ypos</key>
-			<real>3540</real>
+			<real>4090</real>
 		</dict>
 		<key>C9D8CDB3-20FC-4AC7-AED9-4417F23E6FC4</key>
 		<dict>
 			<key>ypos</key>
-			<real>3760</real>
+			<real>4270</real>
 		</dict>
 		<key>CA18956A-C349-4A46-9E5E-211EC824BDE8</key>
 		<dict>
@@ -2891,10 +3063,15 @@ Enjoy!</string>
 			<key>ypos</key>
 			<real>650</real>
 		</dict>
+		<key>D2D80F13-E1FA-4137-B556-46062572F38A</key>
+		<dict>
+			<key>ypos</key>
+			<real>3260</real>
+		</dict>
 		<key>D4EE71E6-EBD4-413C-80F9-5B3AB54C7F7B</key>
 		<dict>
 			<key>ypos</key>
-			<real>3340</real>
+			<real>3890</real>
 		</dict>
 		<key>D849B467-BC6D-482C-851D-C8225AC04B80</key>
 		<dict>
@@ -2909,12 +3086,17 @@ Enjoy!</string>
 		<key>E2AAD880-BB36-40D8-8755-7F96F2BFAD6C</key>
 		<dict>
 			<key>ypos</key>
-			<real>3290</real>
+			<real>3840</real>
+		</dict>
+		<key>E2F9DF69-8296-4AEB-ABF4-67A550183070</key>
+		<dict>
+			<key>ypos</key>
+			<real>3060</real>
 		</dict>
 		<key>E37263DD-A00C-43DA-870B-75FD5144AF6F</key>
 		<dict>
 			<key>ypos</key>
-			<real>3440</real>
+			<real>3990</real>
 		</dict>
 		<key>E4AC5FF7-7838-4BC7-881A-C350C4CE3007</key>
 		<dict>
@@ -2955,6 +3137,11 @@ Enjoy!</string>
 		<dict>
 			<key>ypos</key>
 			<real>650</real>
+		</dict>
+		<key>F7B59ED1-746F-4533-A794-06181F0ACB9D</key>
+		<dict>
+			<key>ypos</key>
+			<real>3160</real>
 		</dict>
 		<key>F92EE074-89EB-437F-9EE2-49004A9FB080</key>
 		<dict>
