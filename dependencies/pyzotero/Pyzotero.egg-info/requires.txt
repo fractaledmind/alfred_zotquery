@@ -1,0 +1,6 @@
+feedparser == 5.1.3
+pytz
+requests
+
+[ordereddict]
+ordereddict==1.1

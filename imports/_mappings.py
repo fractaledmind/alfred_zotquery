@@ -5,7 +5,12 @@ import re
 from _zotquery import to_unicode
 
 """
-This script defines 3 functions for translating Zotero's terminology to the standardized CSL-JSON format. Each function takes a Zotero term as input and outputs the corresponding CSL term. The mapping relationships are defined in the zotero-csl_mappings.json file. Since .json is not ideal for value-based queries, and since parsing the entire tree as XML on each call takes too much time, these functions utilize merely Regular Expressions. 
+This script defines 3 functions for translating Zotero's terminology to the standardized CSL-JSON format. 
+Each function takes a Zotero term as input and outputs the corresponding CSL term. 
+The mapping relationships are defined in the _zotero-csl_mappings.json file. 
+Since JSON is not ideal for value-based queries, 
+and since parsing the entire tree as XML on each call takes too much time, 
+these functions utilize merely Regular Expressions. 
 """
 
 dir_path = os.getcwd()

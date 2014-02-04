@@ -2,6 +2,7 @@ import imp
 import subprocess
 import alp
 import re
+import time
 from dependencies import applescript
 
 # List of all modules used in ZotQuery
@@ -41,6 +42,7 @@ if nots != []:
 			do shell script theScript_ with administrator privileges
 			"""
 			applescript.asrun(a_script)
+			time.sleep(1)
 
 		# Install all missing modules
 		for m in nots:
@@ -50,6 +52,7 @@ if nots != []:
 			""" % m
 			p = applescript.asrun(a_script)[0:-1]
 			print p
+			time.sleep(1)
 
 	# If no to install
 	else:

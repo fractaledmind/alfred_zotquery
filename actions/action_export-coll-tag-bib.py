@@ -10,8 +10,8 @@ from _zotquery import setClipboardData
 This script exports a Bibliography for the selected collection in the preferred style and format.
 """
 
-#inp = alp.args()[0].split(':')
-inp = 'c:GXWGBRJD'.split(':')
+inp = alp.args()[0].split(':')
+#inp = 'c:GXWGBRJD'.split(':')
 
 # Get the Library ID and API Key from the settings file
 with open(alp.storage(join="settings.json"), 'r') as f:

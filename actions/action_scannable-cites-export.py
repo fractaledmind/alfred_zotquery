@@ -24,8 +24,8 @@ with open(alp.storage(join="settings.json"), 'r') as f:
 uid = data['user_id']
 
 
-#item_key = alp.args()[0]
-item_key = 'KI66IFPT'
+item_key = alp.args()[0]
+#item_key = 'KI66IFPT'
 
 for item in zot_data:
 	if item['key'] == item_key:
