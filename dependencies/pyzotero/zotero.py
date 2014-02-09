@@ -40,9 +40,7 @@ except ImportError:
 
 import xml.etree.ElementTree as et
 import os
-from requests_dir import requests
 import socket
-import feedparser
 import json
 import uuid
 import time
@@ -50,8 +48,12 @@ import os
 import hashlib
 import datetime
 import re
-import pytz
 import mimetypes
+
+# Bundled Dependencies
+from requests_dir import requests
+from pytz_dir import pytz
+from feedparser_dir.feedparser import feedparser
 
 try:
     from collections import OrderedDict

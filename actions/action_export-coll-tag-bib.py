@@ -97,11 +97,15 @@ elif prefs['format'] == 'Rich Text':
 		no_links = re.sub("http(.*?)\\.(?=<)", "", bib_html)
 		no_dois = re.sub("doi(.*?)\\.(?=<)", "", no_links)
 		clean_html = re.sub("pp. ", "", no_dois)
-		clean_html.insert(0, 'WORKS CITED<br>')
+		
+		html_cites = clean_html.split('<br>')
+		sorted_html = sorted(html_cites)
+		sorted_html.insert(0, 'WORKS CITED<br>')
+		final_html = '<br>'.join(sorted_html)
 		
 	# Write cleaned-up html back to bib file
 	with open(alp.cache(join="full_bibliography.html"), 'w') as f:
-		f.write(clean_html)
+		f.write(final_html)
 		f.close()
 
 	# Convert html to RTF and copy to clipboard

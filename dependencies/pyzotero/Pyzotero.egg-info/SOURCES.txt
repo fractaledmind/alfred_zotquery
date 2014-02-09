@@ -1,8 +1,0 @@
-MANIFEST.in
-readme.md
-setup.py
-Pyzotero.egg-info/PKG-INFO
-Pyzotero.egg-info/SOURCES.txt
-Pyzotero.egg-info/dependency_links.txt
-Pyzotero.egg-info/requires.txt
-Pyzotero.egg-info/top_level.txt

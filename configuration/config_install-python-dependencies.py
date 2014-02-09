@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import imp
 import subprocess
 import alp
@@ -22,6 +24,7 @@ icon_path = re.sub('/', ':', alp.local(join='icon.png'))
 if nots != []:
 	# Check if user wishes to install/update necessary Python modules
 	a_script = """
+	tell application "Finder"
 		set icon_ to "Macintosh HD%s" as alias
 		display dialog "ZotQuery requires certain basic Python modules which your computer does not currently have installed." & return & return & "Can ZotQuery install these modules?" with title "ZotQuery Dependencies" buttons {"Install", "Cancel"} default button 1 cancel button 2 with icon icon_
 		if button returned of result = "Install" then
@@ -29,6 +32,7 @@ if nots != []:
 		else
 			return 0
 		end if
+	end tell
 		""" % icon_path
 	res = applescript.asrun(a_script)[0:-1]
 
@@ -57,14 +61,18 @@ if nots != []:
 	# If no to install
 	else:
 		a_script = """
+	tell application "Finder"
 		set icon_ to "Macintosh HD%s" as alias
 		display dialog "Warning! Without these Python modules, ZotQuery will not function properly." with title "ZotQuery Dependencies" with icon icon_
+	end tell	
 		""" % icon_path
 		applescript.asrun(a_script)
 		print "Warning! Without these Python modules, ZotQuery will not function properly."
 else:
 	a_script = """
+tell application "Finder"
 	set icon_ to "Macintosh HD%s" as alias
 	display dialog "ZotQuery dependencies are up-to-date." with title "ZotQuery Dependencies" with icon icon_
+end tell
 	""" % icon_path
 	applescript.asrun(a_script)

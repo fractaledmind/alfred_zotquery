@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import alp
-
 """
 This script writes the key of the Collection chosen in z:col to a file for reading later. 
 """

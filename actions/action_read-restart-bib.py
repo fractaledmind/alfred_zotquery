@@ -3,7 +3,6 @@
 import os.path
 from dependencies import applescript
 import alp
-import re
 import json
 from _zotquery import setClipboardData
 
@@ -42,13 +41,11 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 		print "Markdown"
 
 		# Restart the bibliography file
-		#with open(alp.cache(join='temp_bibliography.txt'), 'w') as f:
-		#	f.write('')
-		#	f.close()
+		with open(alp.cache(join='temp_bibliography.txt'), 'w') as f:
+			f.write('')
+			f.close()
 
 	if prefs['format'] == 'Rich Text':
-		from dependencies import applescript
-		import re
 
 		# Read html from temporary bib file
 		with open(alp.cache(join="temp_bibliography.html"), 'r') as f:

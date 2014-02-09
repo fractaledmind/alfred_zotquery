@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import alp
-
 """
 This script writes the name of the Tag chosen in z:tag to a file for reading later. 
 """

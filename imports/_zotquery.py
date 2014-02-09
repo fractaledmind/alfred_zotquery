@@ -13,7 +13,6 @@ import subprocess
 def to_unicode(obj, encoding='utf-8'):
 	"""Detects if object is a string and if so converts to unicode, if not already."""
 	# from https://github.com/kumar303/unicode-in-python/blob/master/unicode.txt
-	
 	if isinstance(obj, basestring):
 		if not isinstance(obj, unicode):
 			obj = unicode(obj, encoding)
@@ -62,7 +61,6 @@ def zot_string(d):
 ###
 def get_profile(path):
     """Read the profiles file"""
-	
     prof = path + 'profiles.ini'
     if os.path.exists(prof):
         file = open(prof, 'r')
@@ -78,7 +76,6 @@ def get_profile(path):
 ###
 def check_cache():
 	"""Does the cache need to be updated?"""
-	
 	update = False
 
 	### Step One: Check if cloned .sqlite database is up-to-date with Zotero database
@@ -94,7 +91,6 @@ def check_cache():
 	if (cache_mod - clone_mod) > 10:
 		update = True
 		alp.log("Cache needs to be updated")
-
 	return update
 		
 ###		
@@ -107,7 +103,6 @@ def zotquery(query, zot_data, sort='none'):
 	
 	matches = []
 	for i, item in enumerate(zot_data):
-		
 		# if query is generic/simple
 		if type(query) is str:
 			for key, val in item.items():
@@ -132,17 +127,14 @@ def zotquery(query, zot_data, sort='none'):
 									matches.insert(0, item)
 								else:
 									matches.append(item)
-
 				elif key ==  'zot-collections':
 					for i in val:
 						if query.lower() in i['name'].lower():
 							matches.append(item)
-
 				elif key == 'zot-tags':
 					for i in val:
 						if query.lower() in i['name'].lower():
 							matches.append(item)
-
 				elif key == 'notes':
 					for i in val:
 						if query.lower() in i.lower():
@@ -159,7 +151,6 @@ def zotquery(query, zot_data, sort='none'):
 							if sub_key.lower() == search_key.lower():
 								if search_val.lower() in sub_val.lower():
 									matches.append(item)
-
 				elif key == 'data':
 					for sub_key, sub_val in val.items():
 						if sub_key.lower() == search_key.lower():
