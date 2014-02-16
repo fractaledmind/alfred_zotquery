@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os.path
-from dependencies import applescript
 import alp
 import json
 from _zotquery import zotquery, zot_string, prepare_feedback
+from dependencies import applescript
 
 """
 This script queries the JSON cache of your Zotero database for matches of the query 

@@ -40,7 +40,7 @@ if prefs['format'] == 'Markdown':
 	citation = html2md.html2text(clean_ref)
 
 	# Pass the Markdown citation to clipboard
-	setClipboardData(citation[0:-1].encode('utf-8'))
+	setClipboardData(citation[0:-1])
 
 	print "Markdown"
 

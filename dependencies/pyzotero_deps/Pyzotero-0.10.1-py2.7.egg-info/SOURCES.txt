@@ -1,0 +1,14 @@
+MANIFEST.in
+license.txt
+readme.md
+setup.cfg
+setup.py
+Pyzotero.egg-info/PKG-INFO
+Pyzotero.egg-info/SOURCES.txt
+Pyzotero.egg-info/dependency_links.txt
+Pyzotero.egg-info/requires.txt
+Pyzotero.egg-info/top_level.txt
+pyzotero/__init__.py
+pyzotero/test_zotero.py
+pyzotero/zotero.py
+pyzotero/zotero_errors.py

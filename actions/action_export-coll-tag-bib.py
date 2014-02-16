@@ -56,7 +56,6 @@ if prefs['format'] == 'Markdown':
 
 	md_cites = []
 	for ref in cites:
-
 		html_ref = ref.encode('ascii', 'xmlcharrefreplace')
 
 		# Convert the HTML to Markdown
@@ -94,8 +93,8 @@ elif prefs['format'] == 'Rich Text':
 	# Read and clean-up html
 	with open(alp.cache(join="full_bibliography.html"), 'r+') as f:
 		bib_html = f.read()
-		no_links = re.sub("http(.*?)\\.(?=<)", "", bib_html)
-		no_dois = re.sub("doi(.*?)\\.(?=<)", "", no_links)
+		no_links = re.sub(r"http(.*?)\.(?=<)", "", bib_html)
+		no_dois = re.sub(r"doi(.*?)\.(?=<)", "", no_links)
 		clean_html = re.sub("pp. ", "", no_dois)
 		
 		html_cites = clean_html.split('<br>')

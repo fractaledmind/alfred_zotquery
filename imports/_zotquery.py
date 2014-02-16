@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import alp
-import glob
 import json
 import os
-import time
-import sys
 import re
 import subprocess
 

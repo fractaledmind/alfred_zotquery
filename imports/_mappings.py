@@ -18,46 +18,80 @@ mappings_path = dir_path + '/_zotero-csl_mappings.json'
 
 mappings = open(mappings_path).read()
 
-def trans_fields(q):
+def trans_fields(q, to):
 
-	def field_search(v):
-		# Search for direct mapping of Zotero field type to CSL field type
-		regex = r'"@zField": "' + v + '",\n\s*"@cslField": "(.*?)"$'
-		x = re.findall(regex, mappings, re.M)
-		if not x == []:
-			return x[0]
+	def field_search(v, too):
+		zot2csl_regex = r'"@zField":\s"' + v + r'",\n\s*"@cslField":\s"(.*?)"$'
+		csl2zot_regex = r'"@zField":\s"(.*?)",\n\s*"@cslField":\s"' + v + r'"$'
+
+		if too == 'csl':
+			x = re.findall(zot2csl_regex, mappings, re.M)
+			if not x == []:
+				return x[0]
+		elif too == 'zot':
+			x = re.findall(csl2zot_regex, mappings, re.M)
+			if not x == []:
+				return x[0]
 			
 	# See if Zotero field has direct mapping to CSL
-	query1 = field_search(q)
+	query1 = field_search(q, to)
 	
 	if query1 == None:
 		# If not, search for the base field of that particular field
-		regex = r'"@value": "' + q + '",\n\s*"@baseField":\s"(.*?)"$'
-		x = re.findall(regex, mappings, re.M)
-		if not x == []:
-			res = field_search(x[0])
-			return to_unicode(res, encoding='utf-8')
-		else:
-			return to_unicode(q, encoding='utf-8')
+		zot2csl_regex = r'"@value":\s"' + q + r'",\n\s*"@baseField":\s"(.*?)"$'
+		csl2zot_regex = r'"@value":\s"(.*?)",\n\s*"@baseField":\s"' + q + r'"$'
+
+		if to == 'csl':
+			x = re.findall(zot2csl_regex, mappings, re.M)
+			if not x == []:
+				res = field_search(x[0], to)
+				return to_unicode(res, encoding='utf-8')
+			else:
+				return to_unicode(q, encoding='utf-8')
+		elif to == 'zot':
+			x = re.findall(csl2zot_regex, mappings, re.M)
+			if not x == []:
+				res = field_search(x[0], to)
+				return to_unicode(res, encoding='utf-8')
+			else:
+				return to_unicode(q, encoding='utf-8')
 	else:
 		return to_unicode(query1, encoding='utf-8')
 
 
-def trans_types(q):
+def trans_types(q, to):
 	
-	regex = r'"@zType": "' + q + '",\n\s*"@cslType": "(.*?)"'
-	x = re.findall(regex, mappings, re.M)
-	if not x == []:
-		return to_unicode(x[0], encoding='utf-8')
-	else:
-		return to_unicode(q, encoding='utf-8')
+	zot2csl_regex = r'"@zType":\s"' + q + r'",\n\s*"@cslType":\s"(.*?)"'
+	csl2zot_regex = r'"@zType":\s"(.*?)",\n\s*"@cslType":\s"' + q + r'"'
+
+	if to == "csl":
+		x = re.findall(zot2csl_regex, mappings, re.M)
+		if not x == []:
+			return to_unicode(x[0], encoding='utf-8')
+		else:
+			return to_unicode(q, encoding='utf-8')
+	elif to == "zot":
+		x = re.findall(csl2zot_regex, mappings, re.M)
+		if not x == []:
+			return to_unicode(x[0], encoding='utf-8')
+		else:
+			return to_unicode(q, encoding='utf-8')
 		
 
-def trans_creators(q):
+def trans_creators(q, to):
 	
-	regex = r'"@zField": "' + q + '",\n\s*"@cslField": "(.*?)"'
-	x = re.findall(regex, mappings, re.M)
-	if not x == []:
-		return to_unicode(x[0], encoding='utf-8')
-	else:
-		return to_unicode(q, encoding='utf-8')
+	zot2csl_regex = r'"@zField":\s"' + q + r'",\n\s*"@cslField":\s"(.*?)"'
+	csl2zot_regex = r'"@zField":\s"(.*?)",\n\s*"@cslField":\s"' + q + r'"'
+
+	if to == 'csl':
+		x = re.findall(zot2csl_regex, mappings, re.M)
+		if not x == []:
+			return to_unicode(x[0], encoding='utf-8')
+		else:
+			return to_unicode(q, encoding='utf-8')
+	elif to == 'zot':
+		x = re.findall(csl2zot_regex, mappings, re.M)
+		if not x == []:
+			return to_unicode(x[0], encoding='utf-8')
+		else:
+			return to_unicode(q, encoding='utf-8')

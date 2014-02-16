@@ -85,7 +85,7 @@ if os.path.exists(storage_path):
 else:
 	# If not, have user select
 	a_script = """
-		tell application "Finder"
+		tell application (path to frontmost application as text)
 			set choice to choose folder with prompt "Select Zotero storage folder." default location "%s"
 			return POSIX path of choice
 		end tell
@@ -96,7 +96,7 @@ if os.path.exists(db_path):
 	pass
 else:
 	a_script = """
-	tell application "Finder"
+	tell application (path to frontmost application as text)
 		set choice to choose file with prompt "Select Zotero sqlite database." default location "%s"
 		return POSIX path of choice
 	end tell
@@ -107,7 +107,7 @@ if os.path.exists(attach_path):
 	pass
 else:
 	a_script = """
-	tell application "Finder"
+	tell application (path to frontmost application as text)
 		set choice to choose folder with prompt "Select Zotero folder where linked attachments reside." default location (path to documents folder)
 		return POSIX path of choice
 	end tell

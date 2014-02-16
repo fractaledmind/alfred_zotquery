@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os.path
-from dependencies import applescript
 import alp
 import sqlite3
+from dependencies import applescript
 
 """
 This script queries your Zotero tags for any matches of the input query.

@@ -26,7 +26,8 @@ if not os.path.exists(alp.cache(join='temp_bibliography.html')):
 	with open(alp.cache(join='temp_bibliography.html'), 'w') as f:
 		f.write('')
 		f.close()
-elif not os.path.exists(alp.cache(join='temp_bibliography.txt')):
+
+if not os.path.exists(alp.cache(join='temp_bibliography.txt')):
 	with open(alp.cache(join='temp_bibliography.txt'), 'w') as f:
 		f.write('')
 		f.close()
