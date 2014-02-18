@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import alp
-from dependencies import requests
+import requests
 import re
 
 inp = alp.args()[0]

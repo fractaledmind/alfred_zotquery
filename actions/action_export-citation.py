@@ -3,7 +3,7 @@
 import alp
 import json
 import re
-from dependencies.pyzotero import zotero
+from pyzotero import zotero
 from _zotquery import setClipboardData, to_unicode
 
 """

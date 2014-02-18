@@ -1042,9 +1042,6 @@ then
 		touch "$nonvolatile/$prefs"
 	fi
 
-	# all dependencies should now be bundled
-	#osascript config_install-deps.scpt
-
 	# then set the paths
 	python config_find-paths.py
 
@@ -1061,8 +1058,6 @@ then
 	python action_update-caches.py True
 else
 	echo "Already configured"
-	
-	# Add option to force reconfigure...
 fi</string>
 				<key>type</key>
 				<integer>0</integer>

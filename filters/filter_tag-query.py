@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os.path
-from dependencies import applescript
 import alp
+import os.path
 import json
 import re
 from _zotquery import zot_string, prepare_feedback
+from dependencies import applescript
 
 """
 This script searches within the tag chosen in the previous step (z:tag) for the queried term.

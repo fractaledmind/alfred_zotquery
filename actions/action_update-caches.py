@@ -4,7 +4,7 @@ import alp
 import sqlite3
 import json
 import collections
-import os
+import os.path
 import shutil
 import _mappings
 from _zotquery import get_path, to_unicode, check_cache
@@ -90,19 +90,19 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 				key_l.append(key)
 			
 				# Uses the Zotero to CSL-JSON _mappings for item types
-				csl_type = _mappings.trans_types(item[2])
+				csl_type = _mappings.trans_types(item[2], 'csl')
 				type = {'type':csl_type}
 				type_l.append(type)
 			
 				# Uses the Zotero to CSL-JSON _mappings for creator types
-				c_type = _mappings.trans_creators(item[5])
+				c_type = _mappings.trans_creators(item[5], 'csl')
 				creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
 				last_l.append({'family':item[3]})
 				# Add this item's creator to the sub_creator list
 				sub_creator.append(creator)
 
 				# Uses the Zotero to CSL-JSON _mappings for field names
-				val = _mappings.trans_fields(item[6])
+				val = _mappings.trans_fields(item[6], 'csl')
 				if val == "issued":
 					v = to_unicode(item[7][0:4], encoding='utf-8')
 				else:
@@ -117,7 +117,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 
 				key = {'key': to_unicode(item[1], encoding='utf-8')}
 				
-				type = {'type':_mappings.trans_types(item[2])}
+				type = {'type':_mappings.trans_types(item[2], 'csl')}
 				
 				# If old id
 				if id == id_l[-1]:
@@ -126,7 +126,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 					if {'family':item[3]} == last_l[-1]:
 				
 						# Place metadata in the dictionary with proper keys
-						val = _mappings.trans_fields(item[6])
+						val = _mappings.trans_fields(item[6], 'csl')
 						if val == "issued":
 							v = to_unicode(item[7][0:4], encoding='utf-8')
 						else:
@@ -137,7 +137,7 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 
 					# If new author for old id
 					else:
-						c_type = _mappings.trans_creators(item[5])
+						c_type = _mappings.trans_creators(item[5], 'csl')
 						creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
 						# Add this item's creator to the sub_creator list
 						sub_creator.append(creator)
@@ -172,13 +172,13 @@ if os.path.exists(alp.storage(join="first-run.txt")):
 					sub_creator = []
 					
 					# Load data into lists	
-					c_type = _mappings.trans_creators(item[5])
+					c_type = _mappings.trans_creators(item[5], 'csl')
 					creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
 					# Add this item's creator to the sub_creator list
 					sub_creator.append(creator)
 					
 					# Place metadata in the dictionary with proper keys
-					val = _mappings.trans_fields(item[6])
+					val = _mappings.trans_fields(item[6], 'csl')
 					if val == "issued":
 						v = to_unicode(item[7][0:4], encoding='utf-8')
 					else:

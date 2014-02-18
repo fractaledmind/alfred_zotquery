@@ -3,7 +3,7 @@
 import alp
 import re
 import json
-from dependencies.pyzotero import zotero
+from pyzotero import zotero
 
 with open(alp.cache(join='temp_attach_path.txt'), 'r') as f:
 	data = json.load(f)

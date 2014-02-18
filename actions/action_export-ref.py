@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import alp
 import json
-from dependencies.pyzotero import zotero
+from pyzotero import zotero
 from _zotquery import setClipboardData
 
 """

@@ -4,7 +4,7 @@ import alp
 import json
 import re
 import os.path
-from dependencies.pyzotero import zotero
+from pyzotero import zotero
 from _zotquery import to_unicode
 
 """

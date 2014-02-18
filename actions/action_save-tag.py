@@ -8,7 +8,6 @@ This script writes the name of the Tag chosen in z:tag to a file for reading lat
 # Get user input
 inp = alp.args()[0]
 inp = to_unicode(inp, encoding='utf-8')
-#inp = u'History'
 
 # Write the inputted Tag name to a temporary file
 with open(alp.cache(join='tag_query_result.txt'), 'w') as f:

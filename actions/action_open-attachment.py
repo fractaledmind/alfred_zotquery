@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import alp
-from dependencies import applescript
 import json
 import os.path
 import subprocess
+from dependencies import applescript
 
 """
 This script opens the attachment for the chosen item, 

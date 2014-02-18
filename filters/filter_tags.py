@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os.path
 import alp
+import os.path
 import sqlite3
 from dependencies import applescript
 

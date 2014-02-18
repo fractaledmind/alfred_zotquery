@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import alp
 import subprocess
 import re
 import requests
 import sys
-import alp
 from dependencies import applescript
 
 

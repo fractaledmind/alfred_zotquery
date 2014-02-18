@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import alp
 import os.path
 import sys
-import alp
 import json
 from _zotquery import zot_string, info_format, prepare_feedback, zotquery
 from dependencies import applescript

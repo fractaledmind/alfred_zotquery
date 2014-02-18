@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import alp
 import subprocess
 import re
-import alp
 import json
 import _mappings
-
-from dependencies.pyzotero import requests
+import requests
+from pyzotero import zotero
 from dependencies import applescript
-from dependencies.pyzotero import zotero
 
 # Get the Library ID and API Key from the settings file
 with open(alp.storage(join="settings.json"), 'r') as f:

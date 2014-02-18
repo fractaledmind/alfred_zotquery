@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import json
 import alp
+import json
 from dependencies import applescript
 
 inp = alp.args()[0]
