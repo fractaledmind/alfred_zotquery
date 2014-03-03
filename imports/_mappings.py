@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# encoding: utf-8
 import os
 import re
 from _zotquery import to_unicode
@@ -15,7 +15,6 @@ these functions utilize merely Regular Expressions.
 
 dir_path = os.getcwd()
 mappings_path = dir_path + '/_zotero-csl_mappings.json'
-
 mappings = open(mappings_path).read()
 
 def trans_fields(q, to):
