@@ -838,6 +838,17 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>8F0D3A17-5626-4977-9791-A5FA5095042E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>65B1B5FF-07A5-46EA-959A-8AACD0A119D0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>9084B6E7-EE0F-4282-A543-9192B20CE168</key>
 		<array>
 			<dict>
@@ -1273,7 +1284,7 @@
 	<key>createdby</key>
 	<string>Stephen Margheim</string>
 	<key>description</key>
-	<string>Search your Zotero Library (v. 6.0)</string>
+	<string>Search your Zotero Library (v. 6.2)</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -1467,15 +1478,21 @@ python action_update-caches.py True
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>z:bug</string>
 				<key>subtext</key>
-				<string>Title Query</string>
+				<string>Automatically open ZotQuery's logs</string>
 				<key>text</key>
-				<string>Search ZotQuery</string>
+				<string>Open Debug Logs</string>
+				<key>withspace</key>
+				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.trigger.fallback</string>
+			<string>alfred.workflow.input.keyword</string>
 			<key>uid</key>
-			<string>EDE873FB-EF62-4695-A139-BA9AC6D2EFDC</string>
+			<string>8F0D3A17-5626-4977-9791-A5FA5095042E</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1483,16 +1500,45 @@ python action_update-caches.py True
 			<key>config</key>
 			<dict>
 				<key>escaping</key>
-				<integer>126</integer>
+				<integer>102</integer>
 				<key>script</key>
-				<string>tell application "Alfred 2" to search "zot " &amp; "{query}"</string>
+				<string>python _magic-args.py "workflow:openlog"</string>
 				<key>type</key>
-				<integer>6</integer>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>F6DAA77F-A8B2-4F9F-A7CD-E65899A0A5F4</string>
+			<string>65B1B5FF-07A5-46EA-959A-8AACD0A119D0</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>z:new</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_new-items.py</string>
+				<key>subtext</key>
+				<string>New Items</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>BCD4B1D9-9B13-4058-9355-4C46DB9C41CD</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -3262,6 +3308,38 @@ python action_update-caches.py True
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>subtext</key>
+				<string>Title Query</string>
+				<key>text</key>
+				<string>Search ZotQuery for '{query}'</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.fallback</string>
+			<key>uid</key>
+			<string>EDE873FB-EF62-4695-A139-BA9AC6D2EFDC</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>script</key>
+				<string>tell application "Alfred 2" to search "zot:t " &amp; "{query}"</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F6DAA77F-A8B2-4F9F-A7CD-E65899A0A5F4</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
@@ -3462,6 +3540,11 @@ python action_update-caches.py True
 			<key>ypos</key>
 			<real>2890</real>
 		</dict>
+		<key>65B1B5FF-07A5-46EA-959A-8AACD0A119D0</key>
+		<dict>
+			<key>ypos</key>
+			<real>310</real>
+		</dict>
 		<key>65E2E223-A4B9-4425-9BA9-5C93A76B8A72</key>
 		<dict>
 			<key>ypos</key>
@@ -3547,6 +3630,11 @@ python action_update-caches.py True
 			<key>ypos</key>
 			<real>10</real>
 		</dict>
+		<key>8F0D3A17-5626-4977-9791-A5FA5095042E</key>
+		<dict>
+			<key>ypos</key>
+			<real>310</real>
+		</dict>
 		<key>9084B6E7-EE0F-4282-A543-9192B20CE168</key>
 		<dict>
 			<key>ypos</key>
@@ -3627,6 +3715,11 @@ python action_update-caches.py True
 			<key>ypos</key>
 			<real>2260</real>
 		</dict>
+		<key>BCD4B1D9-9B13-4058-9355-4C46DB9C41CD</key>
+		<dict>
+			<key>ypos</key>
+			<real>410</real>
+		</dict>
 		<key>BFBEE87C-242F-45C8-87B4-E82001470C8D</key>
 		<dict>
 			<key>ypos</key>
@@ -3705,12 +3798,12 @@ python action_update-caches.py True
 		<key>EDE873FB-EF62-4695-A139-BA9AC6D2EFDC</key>
 		<dict>
 			<key>ypos</key>
-			<real>340</real>
+			<real>4440</real>
 		</dict>
 		<key>F6DAA77F-A8B2-4F9F-A7CD-E65899A0A5F4</key>
 		<dict>
 			<key>ypos</key>
-			<real>340</real>
+			<real>4440</real>
 		</dict>
 		<key>FAAD4B9A-C835-452D-AD4E-CEC0FD9234E3</key>
 		<dict>

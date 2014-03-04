@@ -234,3 +234,35 @@ def info_format(x):
 		title_final = '\"xxx.\"'
 
 	return [creator_ref, date_final, title_final]
+
+
+def scan_cites(zot_data, item_key, uid):
+	"""Exports ODT-RTF styled Scannable Cite"""
+	
+	for item in zot_data:
+			if item['key'] == item_key:
+				# Get YEAR var
+				year = item['data']['issued']
+
+				# Get and format CREATOR var
+				if len(item['creators']) == 1:
+					last = item['creators'][0]['family']
+				elif len(item['creators']) == 2:
+					last1 = item['creators'][0]['family']
+					last2 = item['creators'][1]['family']
+					last = last1 + ', & ' + last2
+				elif len(item['creators']) > 2:
+					for i in item['creators']:
+						if i['type'] == 'author':
+							last = i['family'] + ', et al.'
+					try:
+						last
+					except:
+						last = item['creators'][0]['family'] + ', et al.'
+
+	prefix = ''
+	suffix = ''
+
+	scannable_cite = '{' + prefix + ' | ' + last + ', ' + year + ' | | ' + suffix + '|zu:' + uid + ':' + item_key + '}'
+
+	return scannable_cite
