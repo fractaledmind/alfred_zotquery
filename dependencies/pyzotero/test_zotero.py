@@ -24,6 +24,8 @@ along with Pyzotero. If not, see <http://www.gnu.org/licenses/>.
 import unittest
 from httpretty import HTTPretty, httprettified
 import zotero as z
+from datetime import datetime
+import pytz
 
 
 class ZoteroTests(unittest.TestCase):
@@ -63,6 +65,51 @@ class ZoteroTests(unittest.TestCase):
             <content type="application/json" zapi:etag="7252daf2495feb8ec89c61f391bcba24">{"itemType":"journalArticle","title":"Copyright in custom code: Who owns commissioned software?","creators":[{"creatorType":"author","firstName":"T. J.","lastName":"McIntyre"}],"abstractNote":"","publicationTitle":"Journal of Intellectual Property Law \u0026 Practice","volume":"","issue":"","pages":"","date":"2007","series":"","seriesTitle":"","seriesText":"","journalAbbreviation":"","language":"","DOI":"","ISSN":"1747-1532","shortTitle":"Copyright in custom code","url":"","accessDate":"","archive":"","archiveLocation":"","libraryCatalog":"Google Scholar","callNumber":"","rights":"","extra":"","tags":[]}</content>
           </entry>
         </feed>"""
+        self.citation_doc = """<?xml version="1.0" encoding="UTF-8"?>
+            <entry xmlns="http://www.w3.org/2005/Atom" xmlns:zapi="http://zotero.org/ns/api">
+            <title>The power broker : Robert Moses and the fall of New York</title>
+            <author><name>urschrei</name><uri>http://zotero.org/urschrei</uri></author>
+            <id>http://zotero.org/urschrei/items/GW8V2CK7</id>
+            <published>2014-02-12T16:16:22Z</published>
+            <updated>2014-03-06T20:25:20Z</updated>
+            <link rel="self" type="application/atom+xml" href="https://api.zotero.org/users/436/items/GW8V2CK7?content=citation"/>
+            <link rel="alternate" type="text/html" href="http://zotero.org/urschrei/items/GW8V2CK7"/>
+            <zapi:key>GW8V2CK7</zapi:key>
+            <zapi:version>764</zapi:version>
+            <zapi:itemType>document</zapi:itemType>
+            <zapi:creatorSummary>Robert \xc3\x84. Caro</zapi:creatorSummary>
+            <zapi:year>1974</zapi:year>
+            <zapi:numChildren>0</zapi:numChildren>
+            <zapi:numTags>0</zapi:numTags>
+            <content zapi:type="citation" type="xhtml">
+                <span xmlns="http://www.w3.org/1999/xhtml">(Robert \xc3\x84. Caro 1974)</span>
+            </content>
+            </entry>"""
+        self.biblio_doc = """<?xml version="1.0" encoding="UTF-8"?>
+            <entry xmlns="http://www.w3.org/2005/Atom" xmlns:zapi="http://zotero.org/ns/api">
+                <title>The power broker : Robert Moses and the fall of New York</title>
+                <author>
+                <name>urschrei</name>
+                <uri>http://zotero.org/urschrei</uri>
+                </author>
+                <id>http://zotero.org/urschrei/items/GW8V2CK7</id>
+                <published>2014-02-12T16:16:22Z</published>
+                <updated>2014-02-12T16:16:22Z</updated>
+                <link rel="self" type="application/atom+xml" href="https://api.zotero.org/users/436/items/GW8V2CK7?content=bib"/>
+                <link rel="alternate" type="text/html" href="http://zotero.org/urschrei/items/GW8V2CK7"/>
+                <zapi:key>GW8V2CK7</zapi:key>
+                <zapi:version>739</zapi:version>
+                <zapi:itemType>document</zapi:itemType>
+                <zapi:creatorSummary>Robert A. Caro</zapi:creatorSummary>
+                <zapi:year>1974</zapi:year>
+                <zapi:numChildren>0</zapi:numChildren>
+                <zapi:numTags>0</zapi:numTags>
+                <content zapi:type="bib" type="xhtml">
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-bib-body" style="line-height: 1.35; padding-left: 2em; text-indent:-2em;">
+            <div class="csl-entry">Robert Ä. Caro. 1974. “The Power Broker : Robert Moses and the Fall of New York.”</div>
+            </div>
+              </content>
+            </entry>"""
         self.attachments_doc = """<?xml version="1.0"?>
         <feed xmlns="http://www.w3.org/2005/Atom" xmlns:zapi="http://zotero.org/ns/api">
           <title>Zotero / urschrei / Items</title>
@@ -440,11 +487,17 @@ class ZoteroTests(unittest.TestCase):
         self.assertEqual(u'7252daf2495feb8ec89c61f391bcba24', items_data[0]['etag'])
         self.assertEqual(u'McIntyre', items_data[0]['creators'][0]['lastName'])
         self.assertEqual(u'journalArticle', items_data[0]['itemType'])
-        self.assertEqual(u'Mon, 14 Feb 2011 00:27:03 GMT', items_data[0]['updated'])
+        test_dt = datetime.strptime(
+            u'Mon, 14 Feb 2011 00:27:03 UTC',
+            "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=pytz.timezone('GMT'))
+        incoming_dt = datetime.strptime(
+            items_data[0]['updated'],
+            "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=pytz.timezone('GMT'))
+        self.assertEqual(test_dt, incoming_dt)
 
     @httprettified
     def testParseAttachmentsAtomDoc(self):
-        """" Ensure that attachments are being correctly parsed """
+        """ Ensure that attachments are being correctly parsed """
         zot = z.Zotero('myuserid', 'user', 'myuserkey')
         HTTPretty.register_uri(
             HTTPretty.GET,
@@ -488,14 +541,26 @@ class ZoteroTests(unittest.TestCase):
             body=self.items_doc)
         items_data = zot.items()
         try:
-            print items_data[0]['title']
+            print(items_data[0]['title'])
         except UnicodeError:
             self.fail('Your Python install appears unable to print unicode')
         try:
-            print items_data[0]['title'].encode('utf-8')
+            print(items_data[0]['title'].encode('utf-8'))
         except UnicodeError:
             self.fail(
                 'Your Python install appears to dislike encoding unicode strings as UTF-8')
+
+    @httprettified
+    def testCitUTF8(self):
+        """ ensure that unicode citations are correctly processed by Pyzotero
+        """
+        zot = z.Zotero('myuserID', 'user', 'myuserkey')
+        HTTPretty.register_uri(
+            HTTPretty.GET,
+            'https://api.zotero.org/users/myuserID/items/GW8V2CK7?content=citation&style=chicago-author-date&key=myuserkey',
+            body=self.citation_doc)
+        cit = zot.item('GW8V2CK7', content='citation', style='chicago-author-date')
+        self.assertEqual(cit[0], u'<span>(Robert Ä. Caro 1974)</span>')
 
     @httprettified
     def testParseItemAtomBibDoc(self):

@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Copyright © 2014 deanishe@deanishe.net
+# Copyright (c) 2014 Dean Jackson <deanishe@deanishe.net>
 #
 # MIT Licence. See http://opensource.org/licenses/MIT
 #
@@ -32,6 +32,8 @@ import string
 import random
 import json
 import re
+import unicodedata
+
 
 USER_AGENT = u'alfred-workflow-0.1'
 
@@ -87,7 +89,7 @@ RESPONSES = {
 def str_dict(dic):
     """Convert keys and values in ``dic`` into UTF-8-encoded :class:`str`
 
-    :param dic: :class:`dict`
+    :param dic: :class:`dict` of Unicode strings
     :returns: :class:`dict`
 
     """
@@ -172,10 +174,10 @@ class Response(object):
             self.encoding = self._get_encoding()
 
     def json(self):
-        """Decode response contents as JSON
+        """Decode response contents as JSON.
 
         :returns: decoded JSON
-        :rtype: :class:`list` / :class:`dict`
+        :rtype: ``list`` / ``dict``
 
         """
 
@@ -183,20 +185,21 @@ class Response(object):
 
     @property
     def text(self):
-        """Return unicode-decoded content of response
+        """Return unicode-decoded content of response.
 
-        :returns: :class:`unicode`
+        :returns: ``unicode``
 
         """
 
         if self.encoding:
-            return unicode(self.content, self.encoding)
+            return unicodedata.normalize('NFC', unicode(self.content,
+                                                        self.encoding))
         return self.content
 
     def raise_for_status(self):
-        """Raise stored error if one occurred
+        """Raise stored error if one occurred.
 
-        error will be instance of :class:`~urllib2.HTTPError`
+        error will be instance of :class:`urllib2.HTTPError`
         """
 
         if self.error:
@@ -204,10 +207,10 @@ class Response(object):
         return
 
     def _get_encoding(self):
-        """Get encoding from HTTP headers or content
+        """Get encoding from HTTP headers or content.
 
         :returns: encoding or `None`
-        :rtype: :class:`unicode` or :obj:`None`
+        :rtype: ``unicode`` or ``None``
 
         """
 
@@ -240,25 +243,25 @@ def request(method, url, params=None, data=None, headers=None, cookies=None,
     """Initiate an HTTP(S) request. Returns :class:`Response` object.
 
     :param method: 'GET' or 'POST'
-    :type method: `unicode`
+    :type method: ``unicode``
     :param url: URL to open
-    :type url: `unicode`
+    :type url: ``unicode``
     :param params: mapping of URL parameters
-    :type params: `dict`
-    :param data: mapping of form data {'field_name': 'value'} or `str`
-    :type data: `dict` or `str`
+    :type params: ``dict``
+    :param data: mapping of form data ``{'field_name': 'value'}`` or ``str``
+    :type data: ``dict`` or ``str``
     :param headers: HTTP headers
-    :type headers: `dict`
+    :type headers: ``dict``
     :param cookies: cookies to send to server
-    :type cookies: `dict`
+    :type cookies: ``dict``
     :param files: files to upload
     :type files:
     :param auth: username, password
-    :type auth: `tuple`
+    :type auth: ``tuple``
     :param timeout: connection timeout limit in seconds
-    :type timeout: `int`
+    :type timeout: ``int``
     :param allow_redirects: follow redirections
-    :type allow_redirects: `Boolean`
+    :type allow_redirects: ``Boolean``
     :returns: :class:`Response` object
 
     """
@@ -312,7 +315,7 @@ def get(url, params=None, headers=None, cookies=None, auth=None,
         timeout=60, allow_redirects=True):
     """Initiate a GET request. Arguments as for :func:`request` function.
 
-    :returns: :class:`Request` instance
+    :returns: :class:`Response` instance
 
     """
 
@@ -324,7 +327,7 @@ def post(url, params=None, data=None, headers=None, cookies=None, files=None,
          auth=None, timeout=60, allow_redirects=False):
     """Initiate a POST request. Arguments as for :func:`request` function.
 
-    :returns: :class:`Request` instance
+    :returns: :class:`Response` instance
 
     """
     return request('POST', url, params, data, headers, cookies, files, auth,
@@ -337,7 +340,7 @@ def encode_multipart_formdata(fields, files):
     :param fields: mapping of ``{name : value}`` pairs for normal form fields.
     :type fields: :class:`dict`
     :param files: dictionary of fieldnames/files elements for file data.
-                  :obj:`mimetype` is optional.
+                  See below for details.
     :type files: :class:`dict` of :class:`dicts`
     :returns: ``(headers, body)`` ``headers`` is a :class:`dict` of HTTP headers
     :rtype: 2-tuple ``(dict, str)``
@@ -349,6 +352,9 @@ def encode_multipart_formdata(fields, files):
                          'mimetype': 'text/plain'}
         }
 
+    - ``fieldname`` is the name of the field in the HTML form.
+    - ``mimetype`` is optional. If not provided, :mod:`mimetypes` will be used to guess the mimetype, or ``application/octet-stream`` will be used.
+
     """
 
     def get_content_type(filename):
@@ -357,7 +363,7 @@ def encode_multipart_formdata(fields, files):
         :param filename: filename of file
         :type filename: unicode/string
         :returns: mime-type, e.g. ``text/html``
-        :rtype: :class:`str`
+        :rtype: :class:``str``
 
         """
 

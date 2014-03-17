@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # encoding: utf-8
 import sys
+import os.path
 from workflow import Workflow
 
 def main(wf):
 	import os.path
 	import json
-	from dependencies import applescript
+	import applescript
 	"""
 	This script reads, formats, outputs, and restarts the cached bibliography file.
 	"""
@@ -104,5 +105,5 @@ def main(wf):
 
 
 if __name__ == '__main__':
-	wf = Workflow()
+	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))

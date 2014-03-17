@@ -1,13 +1,14 @@
 #!/usr/bin/python
 # encoding: utf-8
 import sys
+import os.path
 from workflow import Workflow
 
 def main(wf):
 	import json
 	import os.path
 	import subprocess
-	from dependencies import applescript
+	import applescript
 
 	# Get Zotero data from JSON cache
 	with open(wf.datafile(u"zotero_db.json"), 'r') as f:
@@ -47,5 +48,5 @@ def main(wf):
 			applescript.asrun(a_script)
 
 if __name__ == '__main__':
-	wf = Workflow()
+	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))

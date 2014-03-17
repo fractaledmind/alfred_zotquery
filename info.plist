@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.hackademic.zotquery</string>
+	<key>category</key>
+	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>0000892E-DA9C-4E8A-8E1C-B584E6E069EF</key>
@@ -457,6 +459,17 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>67361B13-DB2F-44BF-9CD7-33109A124B14</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>65B1B5FF-07A5-46EA-959A-8AACD0A119D0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>6BBD6408-F0FC-46C9-8F3E-4F6E034EDE57</key>
 		<array>
 			<dict>
@@ -832,17 +845,6 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>6F1EB9D1-7210-43B8-8BA4-6D98FF61D835</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-			</dict>
-		</array>
-		<key>8F0D3A17-5626-4977-9791-A5FA5095042E</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>65B1B5FF-07A5-46EA-959A-8AACD0A119D0</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -1284,7 +1286,7 @@
 	<key>createdby</key>
 	<string>Stephen Margheim</string>
 	<key>description</key>
-	<string>Search your Zotero Library (v. 6.2)</string>
+	<string>Search your Zotero Library (v. 6.4)</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -1480,19 +1482,23 @@ python action_update-caches.py True
 			<dict>
 				<key>argumenttype</key>
 				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
 				<key>keyword</key>
 				<string>z:bug</string>
-				<key>subtext</key>
-				<string>Automatically open ZotQuery's logs</string>
-				<key>text</key>
-				<string>Open Debug Logs</string>
+				<key>script</key>
+				<string>python filter_debug.py </string>
+				<key>title</key>
+				<string>Debugging Options</string>
+				<key>type</key>
+				<integer>0</integer>
 				<key>withspace</key>
 				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>8F0D3A17-5626-4977-9791-A5FA5095042E</string>
+			<string>67361B13-DB2F-44BF-9CD7-33109A124B14</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1502,7 +1508,8 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python _magic-args.py "workflow:openlog"</string>
+				<string>python _magic-args.py "{query}"
+</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -3550,6 +3557,11 @@ python action_update-caches.py True
 			<key>ypos</key>
 			<real>4030</real>
 		</dict>
+		<key>67361B13-DB2F-44BF-9CD7-33109A124B14</key>
+		<dict>
+			<key>ypos</key>
+			<real>310</real>
+		</dict>
 		<key>6BBD6408-F0FC-46C9-8F3E-4F6E034EDE57</key>
 		<dict>
 			<key>ypos</key>
@@ -3629,11 +3641,6 @@ python action_update-caches.py True
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
-		</dict>
-		<key>8F0D3A17-5626-4977-9791-A5FA5095042E</key>
-		<dict>
-			<key>ypos</key>
-			<real>310</real>
 		</dict>
 		<key>9084B6E7-EE0F-4282-A543-9192B20CE168</key>
 		<dict>

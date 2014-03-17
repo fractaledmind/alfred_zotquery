@@ -12,19 +12,30 @@ def to_unicode(obj, encoding='utf-8'):
 			obj = unicode(obj, encoding)
 	return obj
 
+
+def unidecode(str):
+	from dependencies import unidecode
+	return unidecode.unidecode(str)
+
+
 def get_clipboard(): 
-	import subprocess
-	p = subprocess.Popen(['pbpaste'], stdout=subprocess.PIPE) 
-	retcode = p.wait() 
-	data = p.stdout.read() 
-	return data 
+	from dependencies import applescript as a
+	scpt = """
+		return the clipboard
+	"""
+	data = a.asrun(scpt).strip()
+	data = to_unicode(data)
+	return data
+
 	
 def set_clipboard(data): 
-	import subprocess
-	p = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE) 
-	p.stdin.write(data.encode('utf-8')) 
-	p.stdin.close() 
-	retcode = p.wait()
+	from dependencies import applescript as a
+	uni = to_unicode(data)
+	scpt = """
+		set the clipboard to {0}
+	""".format(a.asquote(uni.encode('utf-8')))
+	a.asrun(scpt)
+	
 	
 def get_path(type):	
 	"""Read the paths JSON from non-volatile storage"""
@@ -34,7 +45,7 @@ def get_path(type):
 	with open(wf.datafile(u"paths.json"),'r') as f:
 		path_d = json.load(f)
 		f.close()
-	return path_d[type]
+	return to_unicode(path_d[type])
 
 def get_profile(path):
 	"""Read the Zotero/Firefox profiles file"""
@@ -48,9 +59,9 @@ def get_profile(path):
 		# Find the Profile sub-directory
 		prof = re.search(r"(?<=^Path=)(.*?)$", data, re.M).group()
 		prof_path = path + prof
-		return prof_path
+		return to_unicode(prof_path)
 	else:
-		return 'None'
+		return u'None'
 		
 def check_cache():
 	"""Does the cache need to be updated?"""
@@ -78,7 +89,7 @@ def check_cache():
 # Query and Result methods
 ###########################
 
-def zot_string(d, scope='general'):
+def zot_string(d, scope='general', unicode_strict=True):
 	"""Convert key values of item into string for fuzzy filtering"""
 	def get_datum(d, key, val):
 		l = []
@@ -93,9 +104,9 @@ def zot_string(d, scope='general'):
 	l = []
 	if scope == 'general': 
 		l += get_datum(d, 'data', 'title')
+		l += get_datum(d, 'creators', 'family')
 		l += get_datum(d, 'data', 'collection-title')
 		l += get_datum(d, 'data', 'container-title')
-		l += get_datum(d, 'creators', 'family')
 		l += get_datum(d, 'name', 'zot-collections')
 		l += get_datum(d, 'name', 'zot-tags')
 		l += d['notes']
@@ -115,7 +126,11 @@ def zot_string(d, scope='general'):
 		l += get_datum(d, 'name', 'attachments')
 	
 	string = ' '.join(l)
-	return string
+	uni = to_unicode(string)
+	if unicode_strict == True:
+		return uni
+	else:
+		return unidecode(uni)
 
 
 ###
@@ -133,7 +148,8 @@ def prepare_feedback(results):
 			title = item['data']['title']
 			sub = info[0] + ' ' + info[1]
 			# Create dictionary of necessary Alred result info.
-			res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'uid': str(item['id']), 'arg': str(item['key'])}
+			# For Alfred to remember results, add 'uid': str(item['id']), to dict
+			res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'arg': str(item['key'])}
 			
 			# If item has an attachment
 			if item['attachments'] != []:
@@ -265,4 +281,5 @@ def scan_cites(zot_data, item_key, uid):
 
 	scannable_cite = '{' + prefix + ' | ' + last + ', ' + year + ' | | ' + suffix + '|zu:' + uid + ':' + item_key + '}'
 
-	return scannable_cite
+	return to_unicode(scannable_cite)
+	#return scannable_cite.encode('utf-8')

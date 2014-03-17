@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # encoding: utf-8
 import sys
+import os.path
 from workflow import Workflow
 
 def main(wf):
@@ -14,7 +15,7 @@ def main(wf):
 			f.close()
 	
 if __name__ == '__main__':
-	wf = Workflow()
+	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))
 
    

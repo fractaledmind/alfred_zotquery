@@ -2,6 +2,8 @@
 
 ### Search Your Zotero Data From the Comfort of Your Keyboard. ###
 
+####Version 6.4
+
 ![logo](icons/ZotQuery_logo.png)
 
 **ZotQuery** is an Alfred workflow that grants the user access to the data stored in their Zotero application. The Python scripts in this repo form all of the necessary components for this workflow. 

@@ -23,7 +23,6 @@ def main(wf):
 
 	# Get the item key from the system input
 	item_key = wf.args[0]
-	#item_key = 'NKT78PX8'
 
 	# If user exports ODT-RTF Scannable Cites, don't use `pyzotero`
 	if prefs['csl'] == 'odt-scannable-cites':
@@ -52,23 +51,21 @@ def main(wf):
 
 		# Return an HTML formatted citation in preferred style
 		ref = zot.item(item_key, content='bib', style=prefs['csl'])
-
-		uref = to_unicode(ref[0], encoding='utf-8')
-		html_ref = uref.encode('ascii', 'xmlcharrefreplace')
-
+		uref = to_unicode(ref[0])
+		
 		# Remove url, DOI, and "pp. ", if there
 		if prefs['csl'] != 'bibtex':
 			import re
-			html_ref = re.sub("(?:http|doi)(.*?)$|pp. ", "", html_ref)
+			uref = re.sub("(?:http|doi)(.*?)$|pp. ", "", uref)
 
 		# Export in chosen format
 		if prefs['format'] == 'Markdown':
 			import re
-			from dependencies import html2md
+			import html2md
 			from _zotquery import set_clipboard
 
 			# Convert the HTML to Markdown
-			citation = html2md.html2text(html_ref)
+			citation = html2md.html2text(uref)
 
 			# Replace "_..._" MD italics with "*...*"
 			result = re.sub("_(.*?)_", "*\\1*", citation)
@@ -79,7 +76,9 @@ def main(wf):
 			print "Markdown"
 
 		elif prefs['format'] == 'Rich Text':
-			from dependencies import applescript
+			import applescript
+
+			html_ref = uref.encode('ascii', 'xmlcharrefreplace')
 
 			# Write html to temporary file
 			with open(wf.cachefile(u"temp.html"), 'w') as f:

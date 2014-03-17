@@ -23,7 +23,7 @@ def main(wf):
 
 	# Get the item key from the system input
 	item_key = wf.args[0]
-	#item_key = 'NKT78PX8'
+	#item_key = 'FIQF74GD'
 
 
 	# If user exports ODT-RTF Scannable Cites, don't use `pyzotero`
@@ -46,14 +46,15 @@ def main(wf):
 	# If not ODT, then use `pyzotero`
 	else:
 		from pyzotero import zotero
+		from _zotquery import to_unicode
 
 		# Initiate the call to the Zotero API
 		zot = zotero.Zotero(data['user_id'], data['type'], data['api_key'])
 
 		# Return an HTML formatted citation in preferred style
 		ref = zot.item(item_key, content='citation', style=prefs['csl'])
-		# Remove the <span>...</span> tags
-		clean_ref = ref[0][6:-7]
+		# Remove the <span>...</span> tags and convert to Unicode
+		uref = to_unicode(ref[0][6:-7])
 
 		# Export in chosen format
 		if prefs['format'] == 'Markdown':
@@ -61,10 +62,10 @@ def main(wf):
 			from _zotquery import set_clipboard
 
 			# Convert the HTML to Markdown
-			citation = html2md.html2text(clean_ref)
+			citation = html2md.html2text(uref)
 
 			if prefs['csl'] == 'bibtex':
-				citation = '[@' + citation + ']'
+				citation = '[@' + citation.strip() + ']'
 
 			# Pass the Markdown citation to clipboard
 			set_clipboard(citation.strip())
@@ -75,11 +76,11 @@ def main(wf):
 			import applescript
 
 			if prefs['csl'] == 'bibtex':
-				clean_ref = '[@' + clean_ref + ']'
+				clean_ref = '[@' + uref.strip() + ']'
 				
 			# Write html to temporary file
 			with open(wf.cachefile(u"temp.html"), 'w') as f:
-				f.write(clean_ref.encode('ascii', 'xmlcharrefreplace'))
+				f.write(uref.encode('ascii', 'xmlcharrefreplace'))
 				f.close
 
 			# Convert html to RTF and copy to clipboard

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # encoding: utf-8
 import sys
+import os.path
 from workflow import Workflow
 
 def main(wf):
@@ -38,7 +39,6 @@ def main(wf):
 
 	# Get the item key from the system input
 	item_key = wf.args[0]
-	#item_key = 'BTRCZ88H'
 
 	# Return an HTML formatted citation in preferred style
 	ref = zot.item(item_key, content='bib', style=prefs['csl'])
@@ -75,7 +75,7 @@ def main(wf):
 		print "Rich Text"
 
 if __name__ == '__main__':
-	wf = Workflow()
+	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))
 
    

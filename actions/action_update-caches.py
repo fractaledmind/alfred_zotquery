@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # encoding: utf-8
 import sys
+import os.path
 from workflow import Workflow
 
 def main(wf):
@@ -11,7 +12,7 @@ def main(wf):
 	import shutil
 	import _mappings
 	from _zotquery import get_path, to_unicode, check_cache
-	from dependencies import applescript
+	import applescript
 
 	"""
 	This script works in 5 stages:
@@ -38,14 +39,14 @@ def main(wf):
 		### INITIAL SETUP
 		# Only update if needed
 		force = wf.args[0]
-		#force = True
+		#force = False
 
 		### Back-up old Cache
 		if os.path.exists(wf.datafile(u"zotero_db.json")):
 			shutil.copyfile(wf.datafile(u"zotero_db.json"), wf.datafile(u"old_db.json"))
 
 		### Begin new cache
-		if force or check_cache() == True:		
+		if force or check_cache()[0] == True:		
 			# Create a copy of the user's Zotero database 
 			zotero_path = get_path('database_path')
 			clone_database = wf.datafile(u"zotquery.sqlite")
@@ -431,5 +432,5 @@ def main(wf):
 		applescript.asrun(a_script)
 
 if __name__ == '__main__':
-	wf = Workflow()
+	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))

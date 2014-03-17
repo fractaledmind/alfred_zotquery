@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # encoding: utf-8
 import sys
+import os.path
 from workflow import Workflow
 
 def main(wf):
@@ -12,7 +13,6 @@ def main(wf):
 	"""
 
 	_inp = wf.args[0].split(':')
-	#_inp = 'c:GXWGBRJD'.split(':')
 
 	# Get the Library ID and API Key from the settings file
 	with open(wf.datafile(u"settings.json"), 'r') as f:
@@ -94,22 +94,28 @@ def main(wf):
 		# Read and clean-up html
 		with open(wf.cachefile(u"full_bibliography.html"), 'r+') as f:
 			bib_html = f.read()
-			if prefs['csl'] != 'bibtex':
-				bib_html = re.sub(r"http(.*?)\.(?=<)", "", bib_html)
-				bib_html = re.sub(r"doi(.*?)\.(?=<)", "", bib_html)
-			bib_html = re.sub("pp. ", "", bib_html)
-			
-			html_cites = bib_html.split('<br>')
-			sorted_html = sorted(html_cites)
-			sorted_html.insert(0, 'WORKS CITED<br>')
-			final_html = '<br>'.join(sorted_html)
+			f.close()
+		
+		# clean up if not bibtex
+		if prefs['csl'] != 'bibtex':
+			bib_html = re.sub(r"http(.*?)\.(?=<)", "", bib_html)
+			bib_html = re.sub(r"doi(.*?)\.(?=<)", "", bib_html)
+		bib_html = re.sub("pp. ", "", bib_html)
+		
+		html_cites = bib_html.split('<br>')
+		sorted_html = sorted(html_cites)
+		sorted_html.insert(0, 'WORKS CITED<br>')
+		final_html = '<br>'.join(sorted_html)
+
+		# Write cleaned-up html back to file
+		with open(wf.cachefile(u"full_bibliography.html"), 'w') as f:
 			f.write(final_html)
 			f.close()
 
 		# Convert html to RTF and copy to clipboard
 		a_script = """
-			do shell script "textutil -convert rtf " & quoted form of "%s" & " -stdout | pbcopy"
-			""" % alp.cache(join="full_bibliography.html")
+			do shell script "textutil -convert rtf " & quoted form of "{0}" & " -stdout | pbcopy"
+			""".format(wf.cachefile(u"full_bibliography.html"))
 		applescript.asrun(a_script)
 
 		# Write blank file to bib file
@@ -120,5 +126,5 @@ def main(wf):
 		print prefs['format']
 
 if __name__ == '__main__':
-	wf = Workflow()
+	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))
