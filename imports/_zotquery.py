@@ -99,7 +99,7 @@ def zot_string(d, scope='general', unicode_strict=True):
 			pass
 		except TypeError:
 			l = [x[val] for x in d[key]]	
-		return l
+		return str(l)
 
 	l = []
 	if scope == 'general': 
@@ -109,7 +109,7 @@ def zot_string(d, scope='general', unicode_strict=True):
 		l += get_datum(d, 'data', 'container-title')
 		l += get_datum(d, 'name', 'zot-collections')
 		l += get_datum(d, 'name', 'zot-tags')
-		l += d['notes']
+		l += str(d['notes'])
 	elif scope == 'titles':
 		l += get_datum(d, 'data', 'title')
 		l += get_datum(d, 'data', 'collection-title')
@@ -117,7 +117,7 @@ def zot_string(d, scope='general', unicode_strict=True):
 	elif scope == 'creators':
 		l += get_datum(d, 'creators', 'family')
 	elif scope == 'notes':
-		l += d['notes']
+		l += str(d['notes'])
 	elif scope == 'in-collection':
 		l += get_datum(d, 'name', 'zot-collections')
 	elif scope == 'in-tag':
