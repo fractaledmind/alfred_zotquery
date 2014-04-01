@@ -1286,7 +1286,7 @@
 	<key>createdby</key>
 	<string>Stephen Margheim</string>
 	<key>description</key>
-	<string>Search your Zotero Library (v. 6.5)</string>
+	<string>Search your Zotero Library (v. 6.6.1)</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -1508,8 +1508,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python _magic-args.py "{query}"
-</string>
+				<string>python _magic-args.py "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1517,35 +1516,6 @@ python action_update-caches.py True
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>65B1B5FF-07A5-46EA-959A-8AACD0A119D0</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>z:new</string>
-				<key>runningsubtext</key>
-				<string>Searching Zotero...</string>
-				<key>script</key>
-				<string>python filter_new-items.py</string>
-				<key>subtext</key>
-				<string>New Items</string>
-				<key>title</key>
-				<string>Search your Zotero library</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>BCD4B1D9-9B13-4058-9355-4C46DB9C41CD</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -1603,7 +1573,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "general"</string>
+				<string>python filter_zotquery.py "{query}" "general"</string>
 				<key>subtext</key>
 				<string>General Query</string>
 				<key>title</key>
@@ -1750,7 +1720,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "general"</string>
+				<string>python filter_zotquery.py "{query}" "general"</string>
 				<key>subtext</key>
 				<string>General Query</string>
 				<key>title</key>
@@ -1838,7 +1808,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "titles"</string>
+				<string>python filter_zotquery.py "{query}" "titles"</string>
 				<key>subtext</key>
 				<string>Titles Query</string>
 				<key>title</key>
@@ -1985,7 +1955,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "titles"</string>
+				<string>python filter_zotquery.py "{query}" "titles"</string>
 				<key>subtext</key>
 				<string>Titles Query</string>
 				<key>title</key>
@@ -2073,7 +2043,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "creators"</string>
+				<string>python filter_zotquery.py "{query}" "creators"</string>
 				<key>subtext</key>
 				<string>Authors Query</string>
 				<key>title</key>
@@ -2220,7 +2190,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "creators"</string>
+				<string>python filter_zotquery.py "{query}" "creators"</string>
 				<key>subtext</key>
 				<string>Author Query</string>
 				<key>title</key>
@@ -2308,7 +2278,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "in-collection"</string>
+				<string>python filter_zotquery.py "{query}" "in-collection"</string>
 				<key>subtext</key>
 				<string>In-Collection Query</string>
 				<key>title</key>
@@ -2455,7 +2425,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "in-collection"</string>
+				<string>python filter_zotquery.py "{query}" "in-collection"</string>
 				<key>subtext</key>
 				<string>In-Collection Query</string>
 				<key>title</key>
@@ -2543,7 +2513,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "in-tag"</string>
+				<string>python filter_zotquery.py "{query}" "in-tag"</string>
 				<key>subtext</key>
 				<string>In-Tag Query</string>
 				<key>title</key>
@@ -2690,7 +2660,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "in-tag"</string>
+				<string>python filter_zotquery.py "{query}" "in-tag"</string>
 				<key>subtext</key>
 				<string>In-Tag Query</string>
 				<key>title</key>
@@ -2778,7 +2748,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "notes"</string>
+				<string>python filter_zotquery.py "{query}" "notes"</string>
 				<key>subtext</key>
 				<string>Notes Query</string>
 				<key>title</key>
@@ -2925,7 +2895,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "notes"</string>
+				<string>python filter_zotquery.py "{query}" "notes"</string>
 				<key>subtext</key>
 				<string>Notes Query</string>
 				<key>title</key>
@@ -2971,7 +2941,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "attachments"</string>
+				<string>python filter_zotquery.py "{query}" "attachments"</string>
 				<key>subtext</key>
 				<string>Attachments Query</string>
 				<key>title</key>
@@ -3017,7 +2987,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "attachments"</string>
+				<string>python filter_zotquery.py "{query}" "attachments"</string>
 				<key>subtext</key>
 				<string>Attachment Query</string>
 				<key>title</key>
@@ -3046,7 +3016,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "tags"</string>
+				<string>python filter_zotquery.py "{query}" "tags"</string>
 				<key>subtext</key>
 				<string>Tags Query</string>
 				<key>title</key>
@@ -3109,7 +3079,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "tags"</string>
+				<string>python filter_zotquery.py "{query}" "tags"</string>
 				<key>subtext</key>
 				<string>Tags Query</string>
 				<key>title</key>
@@ -3180,7 +3150,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "collections"</string>
+				<string>python filter_zotquery.py "{query}" "collections"</string>
 				<key>subtext</key>
 				<string>Collections Query</string>
 				<key>title</key>
@@ -3243,7 +3213,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter.py "{query}" "collections"</string>
+				<string>python filter_zotquery.py "{query}" "collections"</string>
 				<key>subtext</key>
 				<string>Collections Query</string>
 				<key>title</key>
@@ -3344,6 +3314,35 @@ python action_update-caches.py True
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>F6DAA77F-A8B2-4F9F-A7CD-E65899A0A5F4</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>z:new</string>
+				<key>runningsubtext</key>
+				<string>Searching Zotero...</string>
+				<key>script</key>
+				<string>python filter_new-items.py</string>
+				<key>subtext</key>
+				<string>New Items</string>
+				<key>title</key>
+				<string>Search your Zotero library</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>BCD4B1D9-9B13-4058-9355-4C46DB9C41CD</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -3725,7 +3724,7 @@ python action_update-caches.py True
 		<key>BCD4B1D9-9B13-4058-9355-4C46DB9C41CD</key>
 		<dict>
 			<key>ypos</key>
-			<real>410</real>
+			<real>4540</real>
 		</dict>
 		<key>BFBEE87C-242F-45C8-87B4-E82001470C8D</key>
 		<dict>

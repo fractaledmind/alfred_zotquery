@@ -4,6 +4,7 @@
 ########################
 # Basic Helper methods
 ########################
+
 def to_unicode(obj, encoding='utf-8'):
 	"""Detects if object is a string and if so converts to unicode"""
 	# from https://github.com/kumar303/unicode-in-python/blob/master/unicode.txt
@@ -11,11 +12,6 @@ def to_unicode(obj, encoding='utf-8'):
 		if not isinstance(obj, unicode):
 			obj = unicode(obj, encoding)
 	return obj
-
-
-def unidecode(str):
-	from dependencies import unidecode
-	return unidecode.unidecode(str)
 
 
 def get_clipboard(): 
@@ -35,8 +31,30 @@ def set_clipboard(data):
 		set the clipboard to {0}
 	""".format(a.asquote(uni.encode('utf-8')))
 	a.asrun(scpt)
-	
-	
+
+
+def check_for_workflow(name):
+	import os
+	import plistlib
+
+	workflows_dir = os.path.dirname(os.getcwd())
+	all_wfs = os.walk(workflows_dir).next()[1]
+
+	for wf in all_wfs:
+		plist = workflows_dir + u"/" + wf + u"/info.plist"
+		if os.path.isfile(plist):
+			plist_info = plistlib.readPlist(plist)
+			wf_name = plist_info['name'].lower()
+			if wf_name == name.lower():
+				found = True
+				break
+	try:
+		found
+		return True
+	except:
+		return False
+
+
 def get_path(type):	
 	"""Read the paths JSON from non-volatile storage"""
 	from workflow import Workflow
@@ -89,17 +107,16 @@ def check_cache():
 # Query and Result methods
 ###########################
 
-def zot_string(d, scope='general', unicode_strict=True):
+def zot_string(d, scope='general'):
 	"""Convert key values of item into string for fuzzy filtering"""
 	def get_datum(d, key, val):
 		l = []
 		try:
-			l = [d[key][val]]
+			return [d[key][val]]
 		except KeyError:
-			pass
+			return l
 		except TypeError:
-			l = [x[val] for x in d[key]]	
-		return str(l)
+			return [x[val] for x in d[key]]
 
 	l = []
 	if scope == 'general': 
@@ -109,7 +126,7 @@ def zot_string(d, scope='general', unicode_strict=True):
 		l += get_datum(d, 'data', 'container-title')
 		l += get_datum(d, 'name', 'zot-collections')
 		l += get_datum(d, 'name', 'zot-tags')
-		l += str(d['notes'])
+		l += d['notes']
 	elif scope == 'titles':
 		l += get_datum(d, 'data', 'title')
 		l += get_datum(d, 'data', 'collection-title')
@@ -117,7 +134,7 @@ def zot_string(d, scope='general', unicode_strict=True):
 	elif scope == 'creators':
 		l += get_datum(d, 'creators', 'family')
 	elif scope == 'notes':
-		l += str(d['notes'])
+		l += d['notes']
 	elif scope == 'in-collection':
 		l += get_datum(d, 'name', 'zot-collections')
 	elif scope == 'in-tag':
@@ -127,10 +144,7 @@ def zot_string(d, scope='general', unicode_strict=True):
 	
 	string = ' '.join(l)
 	uni = to_unicode(string)
-	if unicode_strict == True:
-		return uni
-	else:
-		return unidecode(uni)
+	return uni
 
 
 ###
@@ -189,47 +203,27 @@ def prepare_feedback(results):
 def info_format(x):
 	"""Format key information for item subtitle"""
 	# Format creator string // for all types
-	for i, item in enumerate(x['creators']):
-		if not item['family'] == '':
-			last = item['family']
-		else:
-			last = 'xxx'
-		if not item['given'] == '':
-			first = item['given']
-		else: 
-			first = 'xxx'	
+	creator_list = []
+	for item in x['creators']:
+		last = item['family']
+
 		## if author (or anything else)
 		if item['type'] == 'editor':
-			suffix_sg = ', ed.'
-			suffix_pl = ', eds.'
+			last = last + ' (ed.)'
 		elif item['type'] == 'translator':
-			suffix_sg = ', trans.'
-			suffix_pl = ', trans.'
-		else:
-			suffix_sg = ''
-			suffix_pl = ''
-		# if single creator
-		if len(x['creators']) == 1:
-			creator_ref = last + suffix_sg
-			creator_final = last + ', ' + first + suffix_sg
-		# if two or more creators
-		elif len(x['creators']) > 1:
-			if i == 0:
-				one = last + ', ' + first
-				one_ref = last
-			elif i == 1:
-				two = first + ' ' + last
-				two_ref = last
-				# if only 2 creators
-				if len(x['creators']) == 2:
-					creator_ref = one_ref + ' and ' + two_ref + suffix_pl
-					creator_final = one + ' and ' + two + suffix_pl	
-				# if more than 2 creators
-				elif len(x['creators']) > 2:
-					creator_ref = one_ref + ' and ' + two_ref + ' et al.' + suffix_pl
-					creator_final = one + ' and ' + two + ' et al.' + suffix_pl
-	if not creator_final[-1] in ['.', '!', '?']:
-		creator_final = creator_final + '.'
+			last = last + ' (trans.)'
+		creator_list.append(last)
+	
+	if len(x['creators']) == 1:
+		creator_ref = ''.join(creator_list)
+	elif len(x['creators']) == 2:
+		creator_ref = ' and '.join(creator_list)
+	elif len(x['creators']) > 2:
+		creator_ref = ', '.join(creator_list[:-1])
+		creator_ref = creator_ref + ', and ' + creator_list[-1]
+	
+	if not creator_ref[-1] in ['.', '!', '?']:
+		creator_ref = creator_ref + '.'
 
 	# TODO: ADD FORMATTING FOR OTHER CREATOR TYPES
 

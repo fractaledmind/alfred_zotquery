@@ -5,7 +5,6 @@ import os.path
 from workflow.workflow import (Workflow, MATCH_ALL, MATCH_ALLCHARS)
 
 def main(wf):
-	import applescript
 	import os.path
 	
 	# First, ensure that Configuration has taken place
@@ -19,11 +18,8 @@ def main(wf):
 			f.close()
 		
 		# Get user query and filter's scope
-		query = z.unidecode(wf.args[0])
+		query = wf.args[0]
 		scope = wf.args[1]
-
-		# Define sub-set of acceptable results for fuzzy `filter`
-		my_rules = ['startswith', 'atom', 'substring']
 
 		# Query needs to be at least 3 characters long
 		if len(query) <= 2:
@@ -35,18 +31,17 @@ def main(wf):
 
 			if scope in ['general', 'creators', 'titles', 'notes']:
 				# Fuzzy search against relavant search scope
-				res = wf.filter(query, zot_data, key=lambda x: z.zot_string(x, scope, unicode_strict=False), match_on=MATCH_ALL ^ MATCH_ALLCHARS)
+				res = wf.filter(query, zot_data, key=lambda x: z.zot_string(x, scope), match_on=MATCH_ALL ^ MATCH_ALLCHARS)
 				if res != []:
 					# Format matched items for display
 					alp_res = z.prepare_feedback(res)	
 					for a in alp_res:
 						wf.add_item(**a)
-					wf.send_feedback()
 				else:
 					# If no results
 					wf.add_item(u"Error!", u"No results found.", 
 						icon=u"icons/n_error.png")
-					wf.send_feedback()
+				wf.send_feedback()
 
 			elif scope in ['collections', 'tags']:
 				import sqlite3
@@ -59,7 +54,6 @@ def main(wf):
 						select collections.collectionName, collections.key
 						from collections
 						"""
-					_pre = 'c:'
 					_sub = u"Collection"
 					_icon = u'icons/n_collection.png'
 				elif scope == 'tags':
@@ -67,7 +61,6 @@ def main(wf):
 						select tags.name, tags.key
 						from tags
 						"""
-					_pre = 't:'
 					_sub = u"Tag"
 					_icon = u'icons/n_tag.png'
 
@@ -82,15 +75,14 @@ def main(wf):
 					if res != []:
 						for item in res:
 							wf.add_item(item[0], _sub, 
-								arg=_pre + item[1], 
+								arg=item[1], 
 								valid=True, 
 								icon=_icon)
-					wf.send_feedback()
 				else:
 					# If no results
 					wf.add_item(u"Error!", u"No results found.", 
 						icon=u"icons/n_error.png")
-					wf.send_feedback()
+				wf.send_feedback()
 		
 			elif scope in ['in-collection', 'in-tag']:
 				# get type name
@@ -99,26 +91,27 @@ def main(wf):
 				with open(wf.cachefile(u"{0}_query_result.txt").format(term), 'r') as f:
 					_inp = f.read().decode('utf-8')
 					f.close()
+				
 				# Prepare sub-list of only those items in that collection or with that tag
 				_items = []
 				for item in zot_data:
 					for jtem in item['zot-{0}s'.format(term)]:
-						if _inp == jtem['key']: _items.append(item)
-
+						if _inp == jtem['key']: 
+							_items.append(item)
+				
 				# Fuzzy search against relavant search scope
-				res = wf.filter(query, _items, key=lambda x: z.zot_string(x, unicode_strict=False), match_on=MATCH_ALL ^ MATCH_ALLCHARS)
+				res = wf.filter(query, _items, key=lambda x: z.zot_string(x), match_on=MATCH_ALL ^ MATCH_ALLCHARS)
 
 				if res != []:
 					# Format matched items for display
 					alp_res = z.prepare_feedback(res)	
 					for a in alp_res:
 						wf.add_item(**a)
-					wf.send_feedback()
 				else:
 					# If no results
 					wf.add_item(u"Error!", u"No results found.", 
 						icon=u"icons/n_error.png")
-					wf.send_feedback()
+				wf.send_feedback()
 
 			elif scope == 'attachments':
 				_items = []
@@ -126,7 +119,7 @@ def main(wf):
 					if item['attachments'] != []:
 						_items.append(item)
 				# Fuzzy search against relavant search scope
-				res = wf.filter(query, _items, key=lambda x: z.zot_string(x, unicode_strict=False), match_on=MATCH_ALL ^ MATCH_ALLCHARS)
+				res = wf.filter(query, _items, key=lambda x: z.zot_string(x), match_on=MATCH_ALL ^ MATCH_ALLCHARS)
 
 				if res != []:
 					for item in res:
@@ -138,22 +131,21 @@ def main(wf):
 							valid=True,
 							type='file',
 							icon='icons/n_pdf.png')
-					wf.send_feedback()
 				else:
 					# If no results
 					wf.add_item(u"Error!", u"No results found.", 
 						icon=u"icons/n_error.png")
-					wf.send_feedback()
+				wf.send_feedback()
 
 	# Not configured
 	else:
+		import applescript
 		a_script = """
 				tell application "Alfred 2" to search "z:config"
 				"""
 		applescript.asrun(a_script)
 				
 if __name__ == '__main__':
-	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
+	wf = Workflow(fold_input=True, libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))
-
    
