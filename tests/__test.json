@@ -1,0 +1,385 @@
+[
+    {
+        "id": 1,
+        "key": "xxxxxxx1",
+        "type": "book",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Margheim",
+                "given": "Stephen"
+            }
+        ],
+        "data": {
+            "title": "Book with tags",
+            "issued": "2009"
+        },
+        "zot-collections": [],
+        "zot-tags": [
+            {
+                "name": "tag1",
+                "key": "xxtag1xx"
+            },
+            {
+                "name": "tag2",
+                "key": "xxtag2xx"
+            }
+        ],
+        "attachments": [],
+        "notes": []
+    },
+    {
+        "id": 2,
+        "key": "xxxxxxx2",
+        "type": "webpage",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Smïth",
+                "given": "Jaxyn"
+            }
+        ],
+        "data": {
+            "container-title": "the.webpage.com",
+            "issued": "2012",
+            "title": "Webpage without tags"
+        },
+        "zot-collections": [
+            {
+                "library_id": "0",
+                "group": "personal",
+                "name": "A Personal Collection",
+                "key": "NHAEA4EJ"
+            }
+        ],
+        "zot-tags": [],
+        "attachments": [],
+        "notes": []
+    },
+    {
+        "id": 3,
+        "key": "xxxxxxx3",
+        "type": "chapter",
+        "creators": [
+            {
+                "type": "editor",
+                "family": "Nothing",
+                "given": "Thomas"
+            }
+        ],
+         "data": {
+            "publisher": "University of Nothing",
+            "publisher-place": "Nowhere",
+            "title": "Chapter with attachment",
+            "issued": "1990",
+            "abstract": "Seminar Papers 1987-1998",
+            "container-title": "The Alfred Forum Vol. 1"
+        },
+        "zot-collections": [],
+        "zot-tags": [],
+        "attachments": [
+            {
+                "path": "/Users/path/to/item.pdf",
+                "name": "the_attachment.pdf",
+                "key": "xattachx"
+            }
+        ],
+        "notes": []
+    },
+    {
+        "id": 4,
+        "key": "xxxxxxx4",
+        "type": "article-journal",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Cohen",
+                "given": "Richard S."
+            }
+        ],
+        "data": {
+            "volume": 1,
+            "source": "Google Scholar",
+            "container-title": "Journal of Dumb",
+            "title": "Article",
+            "issue": "2",
+            "page": "1-25"
+        },
+        "zot-collections": [],
+        "zot-tags": [],
+        "attachments": [],
+        "notes": []
+    },
+    {
+        "id": 5,
+        "key": "xxxxxxx5",
+        "type": "book",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Freud",
+                "given": "Sigmund"
+            }
+        ],
+        "data": {
+            "publisher": "Insel-Verlag",
+            "source": "Google Books",
+            "language": "de",
+            "title": "Der Moses des Michelangelo",
+            "issued": "1964",
+            "number-of-pages": 47
+        },
+         "zot-collections": [
+            {
+                "library_id": 266264,
+                "group": "digitalclassics",
+                "name": "open access",
+                "key": "GU45TP7U"
+            }
+        ],
+        "zot-tags": [
+            {
+                "name": "open-access",
+                "key": "9D9XD69I"
+            },
+            {
+                "name": "knowledge-organization",
+                "key": "DS924HTQ"
+            },
+            {
+                "name": "digital-classics",
+                "key": "VKIVB3DE"
+            }
+        ],
+        "attachments": [
+            {
+                "path": "/Users/path/to/attachment.pdf",
+                "name": "hello_wòrld.pdf",
+                "key": "NBUMDEET"
+            },
+            {
+                "path": "/Users/path/to/another-attachment.pdf",
+                "name": "äeîou.pdf",
+                "key": "NNHVMTMN"
+            }
+        ],
+        "notes": [
+            "These are simple notes for testing ZotQuery."
+        ]
+    },
+    {
+        "id": 6,
+        "key": "xxxxxxx6",
+        "type": "article-journal",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Einstein",
+                "given": "Albert"
+            }
+        ],
+        "data": {
+            "volume": 51,
+            "language": "de",
+            "container-title": "Genius",
+            "issued": "1995",
+            "title": "The Theory of Relativity",
+            "issue": 1995,
+            "page": "132-153"
+        },
+        "zot-collections": [],
+        "zot-tags": [
+            {
+                "name": "test",
+                "key": "xxtestxx"
+            }
+        ],
+        "attachments": [],
+        "notes": []
+    },
+    {
+        "id": 7,
+        "key": "xxxxxxx7",
+        "type": "manuscript",
+        "creators": [
+            {
+                "type": "author",
+                "family": "King",
+                "given": "Karen L."
+            },
+            {
+                "type": "author",
+                "family": "Lüijendîjk",
+                "given": "AnneMarie"
+            }
+        ],
+        "data": {
+            "issued": "2012",
+            "abstract": "What is this abstract?",
+            "title": "\u201cUnicode stuff\u201d"
+        },
+        "zot-collections": [],
+        "zot-tags": [
+            {
+                "name": "misc",
+                "key": "UM8XT9W9"
+            }
+        ],
+        "attachments": [
+            {
+                "path": "/Users/path/unicode stuff.pdf",
+                "name": "unicode_attachment.pdf",
+                "key": "W58FR2FU"
+            }
+        ],
+        "notes": [
+            "Koptischer Text aus einem 4 Jh. Papyrus, zotquery"
+        ]
+    },
+    {
+        "id": 8,
+        "key": "xxxxxxx9",
+        "type": "book",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Harvey",
+                "given": "Peter"
+            }
+        ],
+        "data": {
+            "edition": "Reissue",
+            "ISBN": "0700703381",
+            "title": "Selflêss Mind",
+            "shortTitle": "Selfless Mind",
+            "source": "Amazon.com",
+            "issued": "1995",
+            "publisher": "Routledge"
+        },
+        "zot-collections": [],
+        "zot-tags": [
+            {
+                "name": "test1",
+                "key": "9SDK6WVW"
+            },
+            {
+                "name": "hist",
+                "key": "VAKT9XBD"
+            },
+            {
+                "name": "test2",
+                "key": "W8GAPKBE"
+            }
+        ],
+        "attachments": [],
+        "notes": []
+    },
+    {
+        "id": 9,
+        "key": "xxxxxxx9",
+        "type": "book",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Olendzki",
+                "given": "Andrew"
+            }
+        ],
+        "data": {
+            "publisher": "Wisdom Publications",
+            "ISBN": 9780861716203,
+            "source": "Google Books",
+            "shortTitle": "Unlimiting Mind",
+            "title": "Unlimiting Mindfulness",
+            "issued": "2010",
+            "number-of-pages": 160
+        },
+        "zot-collections": [
+            {
+                "name": "book",
+                "key": "VBMDZBN4"
+            }
+        ],
+        "zot-tags": [],
+        "attachments": [],
+        "notes": [
+            "p. 127 Keeping your Balance (Medakathalika - Sedaka)</p>\n<p>&nbsp;"
+        ]
+    },
+    {
+        "id": 10,
+        "key": "xxxxxx10",
+        "type": "article-journal",
+        "creators": [
+            {
+                "type": "author",
+                "family": "Bishop",
+                "given": "S. R"
+            },
+            {
+                "type": "author",
+                "family": "Lau",
+                "given": "M."
+            },
+            {
+                "type": "author",
+                "family": "Carlson",
+                "given": "L."
+            },
+            {
+                "type": "author",
+                "family": "Speca",
+                "given": "M."
+            },
+            {
+                "type": "author",
+                "family": "Abbey",
+                "given": "S."
+            },
+            {
+                "type": "author",
+                "family": "Shapiro",
+                "given": "S."
+            },
+            {
+                "type": "author",
+                "family": "Anderson",
+                "given": "N. D"
+            },
+            {
+                "type": "author",
+                "family": "Segal",
+                "given": "Z. V"
+            },
+            {
+                "type": "author",
+                "family": "Carmody",
+                "given": "J."
+            },
+            {
+                "type": "author",
+                "family": "Margheim",
+                "given": "D."
+            }
+        ],
+        "data": {
+            "volume": 11,
+            "source": "Google Scholar",
+            "shortTitle": "Mindfulness",
+            "container-title": "Clinical Psychology Science and Practice",
+            "issued": "2004",
+            "title": "Mindfulness: A proposed operational definition",
+            "issue": 3,
+            "page": "230\u2013241"
+        },
+        "zot-collections": [
+            {
+                "name": "book",
+                "key": "VBMDZBN4"
+            }
+        ],
+        "zot-tags": [],
+        "attachments": [],
+        "notes": []
+    }
+]
