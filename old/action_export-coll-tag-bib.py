@@ -54,7 +54,7 @@ def main(wf):
 	if prefs['format'] == 'Markdown':
 		import re
 		from dependencies import html2md
-		from _zotquery import set_clipboard
+		from zq_utils import set_clipboard
 
 		md_cites = []
 		for ref in cites:

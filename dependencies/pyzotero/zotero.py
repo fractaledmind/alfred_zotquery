@@ -38,8 +38,9 @@ except ImportError:
     from urllib.parse import urlparse
     from urllib.parse import quote
 
-import xml.etree.ElementTree as et
+
 import requests
+import xml.etree.ElementTree as et
 import socket
 import feedparser
 import json

@@ -102,7 +102,6 @@ def check_cache():
 	return [update, spot]
 		
 
-
 ###########################
 # Query and Result methods
 ###########################
@@ -110,11 +109,10 @@ def check_cache():
 def zot_string(d, scope='general'):
 	"""Convert key values of item into string for fuzzy filtering"""
 	def get_datum(d, key, val):
-		l = []
 		try:
 			return [d[key][val]]
 		except KeyError:
-			return l
+			return []
 		except TypeError:
 			return [x[val] for x in d[key]]
 
@@ -124,6 +122,7 @@ def zot_string(d, scope='general'):
 		l += get_datum(d, 'creators', 'family')
 		l += get_datum(d, 'data', 'collection-title')
 		l += get_datum(d, 'data', 'container-title')
+		l += get_datum(d, 'data', 'issued')
 		l += get_datum(d, 'name', 'zot-collections')
 		l += get_datum(d, 'name', 'zot-tags')
 		l += d['notes']
@@ -131,8 +130,10 @@ def zot_string(d, scope='general'):
 		l += get_datum(d, 'data', 'title')
 		l += get_datum(d, 'data', 'collection-title')
 		l += get_datum(d, 'data', 'container-title')
+		l += get_datum(d, 'data', 'issued')
 	elif scope == 'creators':
 		l += get_datum(d, 'creators', 'family')
+		l += get_datum(d, 'data', 'issued')
 	elif scope == 'notes':
 		l += d['notes']
 	elif scope == 'in-collection':
@@ -142,10 +143,9 @@ def zot_string(d, scope='general'):
 	elif scope == 'attachments':
 		l += get_datum(d, 'name', 'attachments')
 	
-	string = ' '.join(l)
-	uni = to_unicode(string)
+	str = ' '.join(l)
+	uni = to_unicode(str)
 	return uni
-
 
 ###
 def prepare_feedback(results):
@@ -161,9 +161,16 @@ def prepare_feedback(results):
 			# Prepare data for Alfred
 			title = item['data']['title']
 			sub = info[0] + ' ' + info[1]
+
+			try:
+				library_id = item['zot-collections'][0]['library_id']
+			except:
+				library_id = '0'
+			_arg = str(library_id) + '_' + str(item['key'])
+
 			# Create dictionary of necessary Alred result info.
 			# For Alfred to remember results, add 'uid': str(item['id']), to dict
-			res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'arg': str(item['key'])}
+			res_dict = {'title': title, 'subtitle': sub, 'valid': True, 'arg': _arg}
 			
 			# If item has an attachment
 			if item['attachments'] != []:
@@ -226,7 +233,6 @@ def info_format(x):
 		creator_ref = creator_ref + '.'
 
 	# TODO: ADD FORMATTING FOR OTHER CREATOR TYPES
-
 	# Format date string // for all types
 	try:
 		date_final = x['data']['issued'] + '.'
@@ -253,7 +259,6 @@ def scan_cites(zot_data, item_key, uid):
 			if item['key'] == item_key:
 				# Get YEAR var
 				year = item['data']['issued']
-
 				# Get and format CREATOR var
 				if len(item['creators']) == 1:
 					last = item['creators'][0]['family']
@@ -269,11 +274,9 @@ def scan_cites(zot_data, item_key, uid):
 						last
 					except:
 						last = item['creators'][0]['family'] + ', et al.'
-
 	prefix = ''
 	suffix = ''
 
 	scannable_cite = '{' + prefix + ' | ' + last + ', ' + year + ' | | ' + suffix + '|zu:' + uid + ':' + item_key + '}'
 
 	return to_unicode(scannable_cite)
-	#return scannable_cite.encode('utf-8')

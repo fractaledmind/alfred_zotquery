@@ -1286,7 +1286,7 @@
 	<key>createdby</key>
 	<string>Stephen Margheim</string>
 	<key>description</key>
-	<string>Search your Zotero Library (v. 6.6.1)</string>
+	<string>Search your Zotero Library (v. 7.0)</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -1343,8 +1343,7 @@ osascript config_export-prefs.scpt
 touch "$nonvolatile/first-run.txt"
 	
 # attempt to get the library cache	
-python action_update-caches.py True
-</string>
+python _update-caches.py True False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1382,7 +1381,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py True</string>
+				<string>python _update-caches.py True False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1487,7 +1486,7 @@ python action_update-caches.py True
 				<key>keyword</key>
 				<string>z:bug</string>
 				<key>script</key>
-				<string>python filter_debug.py </string>
+				<string>python filters.py "zotquery" "debug"</string>
 				<key>title</key>
 				<string>Debugging Options</string>
 				<key>type</key>
@@ -1508,7 +1507,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python _magic-args.py "{query}"</string>
+				<string>python actions.py "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1550,7 +1549,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
+				<string>python actions.py "{query}" "append"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1573,7 +1572,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "general"</string>
+				<string>python filters.py "{query}" "general"</string>
 				<key>subtext</key>
 				<string>General Query</string>
 				<key>title</key>
@@ -1621,7 +1620,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-ref.py "{query}"</string>
+				<string>python actions.py "{query}" "ref"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1638,7 +1637,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-citation.py "{query}"</string>
+				<string>python actions.py "{query}" "cite"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1680,7 +1679,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python _update-caches.py False False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1720,7 +1719,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "general"</string>
+				<string>python filters.py "{query}" "general"</string>
 				<key>subtext</key>
 				<string>General Query</string>
 				<key>title</key>
@@ -1743,7 +1742,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python actions.py "{query}" "open"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1785,7 +1784,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
+				<string>python actions.py "{query}" "append"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1808,7 +1807,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "titles"</string>
+				<string>python filters.py "{query}" "titles"</string>
 				<key>subtext</key>
 				<string>Titles Query</string>
 				<key>title</key>
@@ -1856,7 +1855,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-ref.py "{query}"</string>
+				<string>python actions.py "{query}" "ref"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1898,7 +1897,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-citation.py "{query}"</string>
+				<string>python actions.py "{query}" "cite"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1932,7 +1931,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python _update-caches.py False False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1955,7 +1954,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "titles"</string>
+				<string>python filters.py "{query}" "titles"</string>
 				<key>subtext</key>
 				<string>Titles Query</string>
 				<key>title</key>
@@ -1978,7 +1977,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python actions.py "{query}" "open"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2020,7 +2019,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
+				<string>python actions.py "{query}" "append"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2043,7 +2042,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "creators"</string>
+				<string>python filters.py "{query}" "creators"</string>
 				<key>subtext</key>
 				<string>Authors Query</string>
 				<key>title</key>
@@ -2066,7 +2065,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-ref.py "{query}"</string>
+				<string>python actions.py "{query}" "ref"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2108,7 +2107,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-citation.py "{query}"</string>
+				<string>python actions.py "{query}" "cite"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2167,7 +2166,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python _update-caches.py False False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2190,7 +2189,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "creators"</string>
+				<string>python filters.py "{query}" "creators"</string>
 				<key>subtext</key>
 				<string>Author Query</string>
 				<key>title</key>
@@ -2213,7 +2212,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python actions.py "{query}" "open"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2255,7 +2254,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
+				<string>python actions.py "{query}" "append"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2278,7 +2277,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "in-collection"</string>
+				<string>python filters.py "{query}" "in-collection"</string>
 				<key>subtext</key>
 				<string>In-Collection Query</string>
 				<key>title</key>
@@ -2301,7 +2300,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-ref.py "{query}"</string>
+				<string>python actions.py "{query}" "ref"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2343,7 +2342,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-citation.py "{query}"</string>
+				<string>python actions.py "{query}" "cite"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2385,7 +2384,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python _update-caches.py False False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2425,7 +2424,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "in-collection"</string>
+				<string>python filters.py "{query}" "in-collection"</string>
 				<key>subtext</key>
 				<string>In-Collection Query</string>
 				<key>title</key>
@@ -2448,7 +2447,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python actions.py "{query}" "open"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2490,7 +2489,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
+				<string>python actions.py "{query}" "append"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2513,7 +2512,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "in-tag"</string>
+				<string>python filters.py "{query}" "in-tag"</string>
 				<key>subtext</key>
 				<string>In-Tag Query</string>
 				<key>title</key>
@@ -2561,7 +2560,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-ref.py "{query}"</string>
+				<string>python actions.py "{query}" "ref"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2578,7 +2577,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-citation.py "{query}"</string>
+				<string>python actions.py "{query}" "cite"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2620,7 +2619,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python _update-caches.py False False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2660,7 +2659,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "in-tag"</string>
+				<string>python filters.py "{query}" "in-tag"</string>
 				<key>subtext</key>
 				<string>In-Tag Query</string>
 				<key>title</key>
@@ -2683,7 +2682,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python actions.py "{query}" "open"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2700,7 +2699,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_append-to-bib.py "{query}"</string>
+				<string>python actions.py "{query}" "append"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2748,7 +2747,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "notes"</string>
+				<string>python filters.py "{query}" "notes"</string>
 				<key>subtext</key>
 				<string>Notes Query</string>
 				<key>title</key>
@@ -2796,7 +2795,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-ref.py "{query}"</string>
+				<string>python actions.py "{query}" "ref"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2813,7 +2812,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-citation.py "{query}"</string>
+				<string>python actions.py "{query}" "cite"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2855,7 +2854,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python _update-caches.py False False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2895,7 +2894,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "notes"</string>
+				<string>python filters.py "{query}" "notes"</string>
 				<key>subtext</key>
 				<string>Notes Query</string>
 				<key>title</key>
@@ -2918,7 +2917,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python actions.py "{query}" "open"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2941,7 +2940,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "attachments"</string>
+				<string>python filters.py "{query}" "attachments"</string>
 				<key>subtext</key>
 				<string>Attachments Query</string>
 				<key>title</key>
@@ -2964,7 +2963,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_open-attachment.py "{query}"</string>
+				<string>python actions.py "{query}" "open"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2987,7 +2986,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "attachments"</string>
+				<string>python filters.py "{query}" "attachments"</string>
 				<key>subtext</key>
 				<string>Attachment Query</string>
 				<key>title</key>
@@ -3016,7 +3015,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "tags"</string>
+				<string>python filters.py "{query}" "tags"</string>
 				<key>subtext</key>
 				<string>Tags Query</string>
 				<key>title</key>
@@ -3056,7 +3055,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_save-tag.py "{query}"</string>
+				<string>python actions.py "{query}" "save_tag"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -3079,7 +3078,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "tags"</string>
+				<string>python filters.py "{query}" "tags"</string>
 				<key>subtext</key>
 				<string>Tags Query</string>
 				<key>title</key>
@@ -3102,7 +3101,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_export-coll-tag-bib.py "{query}"</string>
+				<string>python actions.py "{query}" "cite_group"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -3150,7 +3149,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "collections"</string>
+				<string>python filters.py "{query}" "collections"</string>
 				<key>subtext</key>
 				<string>Collections Query</string>
 				<key>title</key>
@@ -3190,7 +3189,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_save-coll.py "{query}"</string>
+				<string>python actions.py "{query}" "save_coll"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -3213,7 +3212,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_zotquery.py "{query}" "collections"</string>
+				<string>python filters.py "{query}" "collections"</string>
 				<key>subtext</key>
 				<string>Collections Query</string>
 				<key>title</key>
@@ -3236,7 +3235,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_update-caches.py False</string>
+				<string>python _update-caches.py False False</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -3253,7 +3252,7 @@ python action_update-caches.py True
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python action_read-restart-bib.py</string>
+				<string>python actions.py 0 "bib"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -3329,7 +3328,7 @@ python action_update-caches.py True
 				<key>runningsubtext</key>
 				<string>Searching Zotero...</string>
 				<key>script</key>
-				<string>python filter_new-items.py</string>
+				<string>python filters.py "zotquery" "new"</string>
 				<key>subtext</key>
 				<string>New Items</string>
 				<key>title</key>
@@ -3549,7 +3548,7 @@ python action_update-caches.py True
 		<key>65B1B5FF-07A5-46EA-959A-8AACD0A119D0</key>
 		<dict>
 			<key>ypos</key>
-			<real>310</real>
+			<real>340</real>
 		</dict>
 		<key>65E2E223-A4B9-4425-9BA9-5C93A76B8A72</key>
 		<dict>
@@ -3559,7 +3558,7 @@ python action_update-caches.py True
 		<key>67361B13-DB2F-44BF-9CD7-33109A124B14</key>
 		<dict>
 			<key>ypos</key>
-			<real>310</real>
+			<real>340</real>
 		</dict>
 		<key>6BBD6408-F0FC-46C9-8F3E-4F6E034EDE57</key>
 		<dict>

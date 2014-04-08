@@ -32,7 +32,7 @@ def main(wf):
 
 		# Export in chosen format
 		if prefs['format'] == 'Markdown':
-			from _zotquery import set_clipboard
+			from zq_utils import set_clipboard
 
 			with open(wf.cachefile(u"temp_bibliography.txt"), 'r') as f:
 				data = f.read()

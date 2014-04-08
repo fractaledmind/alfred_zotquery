@@ -6,7 +6,7 @@ from workflow import Workflow
 
 def main(wf):
 	import json
-	from _zotquery import prepare_feedback
+	from zq_utils import prepare_feedback
 
 	# Get current Zotero data from JSON cache
 	with open(wf.datafile('zotero_db.json'), 'r') as f:

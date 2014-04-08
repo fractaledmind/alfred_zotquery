@@ -28,7 +28,7 @@ def main(wf):
 
 	# If user exports ODT-RTF Scannable Cites, don't use `pyzotero`
 	if prefs['csl'] == 'odt-scannable-cites':
-		from _zotquery import set_clipboard, scan_cites
+		from zq_utils import set_clipboard, scan_cites
 
 		# Get current Zotero data from JSON cache
 		with open(wf.datafile("zotero_db.json"), 'r') as f:
@@ -46,7 +46,7 @@ def main(wf):
 	# If not ODT, then use `pyzotero`
 	else:
 		from pyzotero import zotero
-		from _zotquery import to_unicode
+		from zq_utils import to_unicode
 
 		# Initiate the call to the Zotero API
 		zot = zotero.Zotero(data['user_id'], data['type'], data['api_key'])
@@ -59,7 +59,7 @@ def main(wf):
 		# Export in chosen format
 		if prefs['format'] == 'Markdown':
 			from dependencies import html2md
-			from _zotquery import set_clipboard
+			from zq_utils import set_clipboard
 
 			# Convert the HTML to Markdown
 			citation = html2md.html2text(uref)

@@ -1,8 +1,10 @@
 #!/usr/bin/python
 # encoding: utf-8
 import sys
+sys.path.insert(0, 'alfred-workflow.zip')
+import workflow
 import os.path
-from workflow import Workflow
+
 
 def main(wf):
 	import sqlite3
@@ -11,7 +13,7 @@ def main(wf):
 	import os.path
 	import shutil
 	import _mappings
-	from _zotquery import get_path, to_unicode, check_cache
+	from zq_utils import get_path, to_unicode, check_cache
 	import applescript
 
 	"""
@@ -34,22 +36,23 @@ def main(wf):
 	"""
 		
 	# First, ensure that Configuration has taken place
-	if os.path.exists(wf.datafile(u"first-run.txt")):
+	if os.path.exists(wf.datafile("first-run.txt")):
 
 		### INITIAL SETUP
 		# Only update if needed
 		force = wf.args[0]
-		#force = False
+		personal_only = wf.args[1]
+		#personal_only = True
 
 		### Back-up old Cache
-		if os.path.exists(wf.datafile(u"zotero_db.json")):
-			shutil.copyfile(wf.datafile(u"zotero_db.json"), wf.datafile(u"old_db.json"))
+		if os.path.exists(wf.datafile("zotero_db.json")):
+			shutil.copyfile(wf.datafile("zotero_db.json"), wf.datafile("old_db.json"))
 
 		### Begin new cache
-		if force or check_cache()[0] == True:		
+		if force == 'True' or check_cache()[0]:		
 			# Create a copy of the user's Zotero database 
 			zotero_path = get_path('database_path')
-			clone_database = wf.datafile(u"zotquery.sqlite")
+			clone_database = wf.datafile("zotquery.sqlite")
 			shutil.copyfile(zotero_path, clone_database)
 			
 			# Connect to Zotero clone database
@@ -59,7 +62,7 @@ def main(wf):
 			### STEP ONE: CREATE DATABASE DICTIONARIES	
 			# This query retrieves tuples containing (id, type, last name, first name, creator type, field name, and field value) for each item in the user's Zotero database
 			info_query = """
-			select items.itemID, items.key, itemTypes.typeName, creatorData.lastName, creatorData.firstName, creatorTypes.creatorType, fields.fieldName, itemDataValues.value
+				select items.itemID, items.key, itemTypes.typeName, creatorData.lastName, creatorData.firstName, creatorTypes.creatorType, fields.fieldName, itemDataValues.value
 				from items, itemTypes, creatorData, creatorTypes, fields,  itemDataValues, itemCreators, creators, itemData
 				where
 					items.itemID = itemData.itemID
@@ -90,9 +93,9 @@ def main(wf):
 			
 			for i, item in enumerate(info):
 				if i == 0:
-					id = {'id': to_unicode(item[0], encoding='utf-8')}
+					id = {'id': to_unicode(item[0])}
 					id_l.append(id)
-					key = {'key': to_unicode(item[1], encoding='utf-8')}
+					key = {'key': to_unicode(item[1])}
 					key_l.append(key)
 				
 					# Uses the Zotero to CSL-JSON _mappings for item types
@@ -102,7 +105,7 @@ def main(wf):
 				
 					# Uses the Zotero to CSL-JSON _mappings for creator types
 					c_type = _mappings.trans_creators(item[5], 'csl')
-					creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
+					creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3])), ('given', to_unicode(item[4]))])
 					last_l.append({'family':item[3]})
 					# Add this item's creator to the sub_creator list
 					sub_creator.append(creator)
@@ -110,18 +113,18 @@ def main(wf):
 					# Uses the Zotero to CSL-JSON _mappings for field names
 					val = _mappings.trans_fields(item[6], 'csl')
 					if val == "issued":
-						v = to_unicode(item[7][0:4], encoding='utf-8')
+						v = to_unicode(item[7][0:4])
 					else:
-						v = to_unicode(item[7], encoding='utf-8')
+						v = to_unicode(item[7])
 					data = {val:v}
 					# Add this item's data to the sub_data dictionary
 					sub_data.update(data)
 					
 				# If not the last item
 				elif i > 0 and i < (len(info) - 1):
-					id = {'id': to_unicode(item[0], encoding='utf-8')}
+					id = {'id': to_unicode(item[0])}
 
-					key = {'key': to_unicode(item[1], encoding='utf-8')}
+					key = {'key': to_unicode(item[1])}
 					
 					type = {'type':_mappings.trans_types(item[2], 'csl')}
 					
@@ -134,9 +137,9 @@ def main(wf):
 							# Place metadata in the dictionary with proper keys
 							val = _mappings.trans_fields(item[6], 'csl')
 							if val == "issued":
-								v = to_unicode(item[7][0:4], encoding='utf-8')
+								v = to_unicode(item[7][0:4])
 							else:
-								v = to_unicode(item[7], encoding='utf-8')
+								v = to_unicode(item[7])
 							data = {val:v}
 							# Add this item's data to the sub_data dictionary
 							sub_data.update(data)
@@ -144,7 +147,7 @@ def main(wf):
 						# If new author for old id
 						else:
 							c_type = _mappings.trans_creators(item[5], 'csl')
-							creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
+							creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3])), ('given', to_unicode(item[4]))])
 							# Add this item's creator to the sub_creator list
 							sub_creator.append(creator)
 							last_l.append({'family':item[3]})
@@ -179,16 +182,16 @@ def main(wf):
 						
 						# Load data into lists	
 						c_type = _mappings.trans_creators(item[5], 'csl')
-						creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3], encoding='utf-8')), ('given', to_unicode(item[4], encoding='utf-8'))])
+						creator = collections.OrderedDict([('type', c_type), ('family', to_unicode(item[3])), ('given', to_unicode(item[4]))])
 						# Add this item's creator to the sub_creator list
 						sub_creator.append(creator)
 						
 						# Place metadata in the dictionary with proper keys
 						val = _mappings.trans_fields(item[6], 'csl')
 						if val == "issued":
-							v = to_unicode(item[7][0:4], encoding='utf-8')
+							v = to_unicode(item[7][0:4])
 						else:
-							v = to_unicode(item[7], encoding='utf-8')
+							v = to_unicode(item[7])
 						data = {val:v}
 						# Add this item's data to the sub_data dictionary
 						sub_data.update(data)
@@ -213,15 +216,17 @@ def main(wf):
 
 
 			### STEP TWO: CREATE COLLECTION DICTIONARIES
+			## 2.1 Personal Collections
 			# Retrieve collection data from Zotero database
 			collection_query = """
-					select items.itemID, collections.collectionName, collections.key
-					from items, collections, collectionItems
-					where
-						items.itemID = collectionItems.itemID
-						and collections.collectionID = collectionItems.collectionID
-					order by collections.key
-					"""
+				select items.itemID, collections.collectionName, collections.key
+				from items, collections, collectionItems
+				where
+					items.itemID = collectionItems.itemID
+					and collections.collectionID = collectionItems.collectionID
+					and collections.libraryID is null
+				order by collections.key
+			"""
 			colls = cur.execute(collection_query).fetchall()
 
 			# Prepare lists
@@ -231,48 +236,98 @@ def main(wf):
 			for i, item in enumerate(colls):
 					# If first item
 					if i == 0:
-						sub.append(to_unicode(item[0], encoding='utf-8'))
-						coll_l.append([item[1], item[2]])
+						sub.append(to_unicode(item[0]))
+						coll_l.append(item[1:])
 						
 					# If not the last item
 					elif i > 0 and i < (len(colls) - 1):
 						if item[1] == coll_l[-1][0]:
-							sub.append(to_unicode(item[0], encoding='utf-8'))
+							sub.append(to_unicode(item[0]))
 						
 						# If new collection
 						else:
 							# Add old data
 							d = collections.OrderedDict()
 							coll = coll_l.pop()
-							d['zot-collection'] = {'name': to_unicode(coll[0], encoding='utf-8'), 'key': to_unicode(coll[1], encoding='utf-8')}
+							d['zot-collection'] = {'name': to_unicode(coll[0]), 'key': to_unicode(coll[1]), 'group': 'personal', 'library_id': '0'}
 							d['items'] = sub
 							coll_res.append(d)		
-						
 							# Restart relevant list
 							sub = []
-						
 							# Load data into lists
-							sub.append(to_unicode(item[0], encoding='utf-8'))
-							coll_l.append([item[1], item[2]])
+							sub.append(to_unicode(item[0]))
+							coll_l.append(item[1:])
 				
 					# If last item
 					elif i == (len(colls) - 1):
 						d = collections.OrderedDict()
 						coll = coll_l.pop()
-						d['zot-collection'] = {'name': to_unicode(coll[0], encoding='utf-8'), 'key': to_unicode(coll[1], encoding='utf-8')}
+						d['zot-collection'] = {'name': to_unicode(coll[0]), 'key': to_unicode(coll[1]), 'group': 'personal', 'library_id': '0'}
 						d['items'] = sub
 						coll_res.append(d)	
+
+			if personal_only == 'False':
+				## 2.2 Group Collections
+				group_query = """
+					select items.itemID, collections.collectionName, collections.key, groups.name, groups.libraryID
+					from items, collections, collectionItems, groups
+					where
+						items.itemID = collectionItems.itemID
+						and collections.collectionID = collectionItems.collectionID
+						and collections.libraryID = groups.libraryID
+					order by collections.key
+				"""
+				groups = cur.execute(group_query).fetchall()
+
+				# Prepare lists
+				group_l = []
+				sub = []
+				for i, item in enumerate(groups):
+
+					# If first item
+					if i == 0:
+						sub.append(to_unicode(item[0]))
+						group_l.append(item[1:])
+						
+					# If not the last item
+					elif i > 0 and i < (len(groups) - 1):
+						if item[1] == group_l[-1][0]:
+							sub.append(to_unicode(item[0]))
+						
+						# If new collection
+						else:
+							# Add old data
+							d = collections.OrderedDict()
+							coll = group_l.pop()
+							d['zot-collection'] = {'name': to_unicode(coll[0]), 'key': to_unicode(coll[1]), 'group': to_unicode(coll[2]), 'library_id': to_unicode(coll[3])}
+							d['items'] = sub
+							coll_res.append(d)		
+							# Restart relevant list
+							sub = []
+							# Load data into lists
+							sub.append(to_unicode(item[0]))
+							group_l.append(item[1:])
+				
+					# If last item
+					elif i == (len(colls) - 1):
+						d = collections.OrderedDict()
+						coll = group_l.pop()
+						d['zot-collection'] = {'name': to_unicode(coll[0]), 'key': to_unicode(coll[1]), 'group': to_unicode(coll[2]), 'library_id': to_unicode(coll[3])}
+						d['items'] = sub
+						coll_res.append(d)
+			else:
+				pass
 
 
 			### STEP THREE: CREATE TAG DICTIONARIES
 			tag_query = """
-					select items.itemID, tags.name, tags.key
-					from items, tags, itemTags
-					where
-						items.itemID = itemTags.itemID
-						and tags.tagID = itemTags.tagID
-					order by tags.key
-					"""
+				select items.itemID, tags.name, tags.key
+				from items, tags, itemTags
+				where
+					items.itemID = itemTags.itemID
+					and tags.tagID = itemTags.tagID
+				order by tags.key
+			"""
 			tags = cur.execute(tag_query).fetchall()
 
 			tag_l = []
@@ -281,19 +336,19 @@ def main(wf):
 			for i, item in enumerate(tags):
 					# If first item
 					if i == 0:
-						sub.append(to_unicode(item[0], encoding='utf-8'))
+						sub.append(to_unicode(item[0]))
 						tag_l.append([item[1], item[2]])
 					
 					# If not the last item
 					elif i > 0 and i < (len(tags) - 1):
 						if item[1] == tag_l[-1][0]:
-							sub.append(to_unicode(item[0], encoding='utf-8'))
+							sub.append(to_unicode(item[0]))
 						# If new collection
 						else:
 							# Add old data
 							d = collections.OrderedDict()
 							tag = tag_l.pop()
-							d['zot-tag'] = {'name': to_unicode(tag[0], encoding='utf-8'), 'key': to_unicode(tag[1], encoding='utf-8')}
+							d['zot-tag'] = {'name': to_unicode(tag[0]), 'key': to_unicode(tag[1])}
 							d['items'] = sub
 							tag_res.append(d)	
 						
@@ -301,14 +356,14 @@ def main(wf):
 							sub = []
 						
 							# Load data into lists
-							sub.append(to_unicode(item[0], encoding='utf-8'))
+							sub.append(to_unicode(item[0]))
 							tag_l.append([item[1], item[2]])
 						
 					# If last item
 					elif i == (len(tags) - 1):
 						d = collections.OrderedDict()
 						tag = tag_l.pop()
-						d['zot-tag'] = {'name': to_unicode(tag[0], encoding='utf-8'), 'key': to_unicode(tag[1], encoding='utf-8')}
+						d['zot-tag'] = {'name': to_unicode(tag[0]), 'key': to_unicode(tag[1])}
 						d['items'] = sub
 						tag_res.append(d)
 				
@@ -322,7 +377,7 @@ def main(wf):
 				select items.itemID, itemAttachments.path, itemAttachments.itemID
 				from items, itemAttachments
 				where items.itemID = itemAttachments.sourceItemID
-				"""
+			"""
 			# Retrieve attachments
 			attachments = cur.execute(attachment_query).fetchall()
 
@@ -378,10 +433,10 @@ def main(wf):
 
 			### STEP FIVE: CREATE NOTES DICTIONARIES
 			notes_query = """
-			select items.itemID, itemNotes.note
-			from items, itemNotes
-			where items.itemID = itemNotes.sourceItemID
-			order by items.itemID
+				select items.itemID, itemNotes.note
+				from items, itemNotes
+				where items.itemID = itemNotes.sourceItemID
+				order by items.itemID
 			"""
 			# Retrieve data from Zotero database
 			notes = cur.execute(notes_query).fetchall()	
@@ -412,7 +467,7 @@ def main(wf):
 			final_json = json.dumps(db_res, sort_keys=False, indent=4, separators=(',', ': '))
 
 			# Write final, formatted json to Alfred cache
-			with open(wf.datafile(u"zotero_db.json"), 'w') as f:
+			with open(wf.datafile("zotero_db.json"), 'w') as f:
 				f.write(final_json.encode('utf-8'))
 				f.close()
 			
@@ -432,5 +487,5 @@ def main(wf):
 		applescript.asrun(a_script)
 
 if __name__ == '__main__':
-	wf = Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
+	wf = workflow.Workflow(libraries=[os.path.join(os.path.dirname(__file__), 'dependencies')])
 	sys.exit(wf.run(main))

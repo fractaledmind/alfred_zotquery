@@ -10,7 +10,7 @@ def main(wf):
 	import os
 	import re
 	import json
-	from _zotquery import get_profile
+	from zq_utils import get_profile
 	import applescript
 
 

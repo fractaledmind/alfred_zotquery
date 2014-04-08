@@ -2,7 +2,7 @@
 # encoding: utf-8
 import os
 import re
-from _zotquery import to_unicode
+from zq_utils import to_unicode
 
 """
 This script defines 3 functions for translating Zotero's terminology to the standardized CSL-JSON format. 

@@ -9,7 +9,7 @@ def main(wf):
 	import re
 	import os.path
 	from pyzotero import zotero
-	from _zotquery import to_unicode
+	from zq_utils import to_unicode
 	"""
 	This script appends a citation to a temporary bibliography file 
 	in the preferred style and format.
