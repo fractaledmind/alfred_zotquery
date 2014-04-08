@@ -2,7 +2,7 @@
 
 ### Search Your Zotero Data From the Comfort of Your Keyboard. ###
 
-####Version 6.4
+####Version 7.0
 
 ![logo](icons/ZotQuery_logo.png)
 
