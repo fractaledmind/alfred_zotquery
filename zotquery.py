@@ -1,5 +1,12 @@
 #!/usr/bin/python
 # encoding: utf-8
+#
+# Copyright © 2014 stephen.margheim@gmail.com
+#
+# MIT Licence. See http://opensource.org/licenses/MIT
+#
+# Created on 17-05-2014
+#
 
 from __future__ import unicode_literals
 
@@ -39,7 +46,7 @@ Usage:
             'tags' = search for a tag
             'notes' = search against item's notes
             'attachments' = search against item's attachments
-            'in-collection' = search within saved collection using `general` scope
+            'in-collection' = search within saved coll using `general` scope
             'in-tag' = search within saved tag using `general` scope
             'debug' = list ZotQuery's directories
             'new' = list item's added since last cache update
@@ -71,96 +78,168 @@ import os.path
 import sqlite3
 import subprocess
 from collections import OrderedDict
-
 # Dependencies
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'dependencies'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'deps'))
 import html2md
-import zq_utils as z
 from pyzotero import zotero
 from workflow import Workflow
+from workflow.workflow import MATCH_ALL, MATCH_ALLCHARS
+
+__version__ = '0.8'
 
 
-################################################################################
-################################################################################
-##########     Cache Object                                           ##########
-################################################################################
-################################################################################
+ # Path to apps
+STANDALONE = os.environ["HOME"] + '/Library/Application Support/Zotero/'
+FIREFOX = os.environ["HOME"] + '/Library/Application Support/Firefox/'
+ATTACHMENT_EXTS = [".pdf", "epub"]
+
+###############################################################################
+# Helper functions                                                            #
+###############################################################################
+
+def unify(text, encoding='utf-8'):
+    """Convert `text` to unicode"""
+
+    # adapted from
+    # https://github.com/kumar303/unicode-in-python/blob/master/unicode.txt
+    if isinstance(text, basestring):
+        if not isinstance(text, unicode):
+            text = unicode(text, encoding)
+    return text
+
+def applescriptify(text):
+    """Replace double quotes in `text` for Applescript"""
+
+    uni_str = unify(text)
+    return uni_str.replace('"', '" & quote & "')
+
+def run_applescript(scpt_str):
+    """Run an applescript"""
+
+    process = subprocess.Popen(['osascript', '-e', scpt_str],
+                                stdout=subprocess.PIPE)
+    out = process.communicate()[0]
+    return out.strip()
+ 
+def set_clipboard(data):
+    """Set clipboard to `data`"""
+
+    encoded_str = unify(data).encode('utf-8')
+    scpt_str = 'set the clipboard to "{0}"'.format(applescriptify(encoded_str))
+    run_applescript(scpt_str)
+
+def make_query(_list):
+    """Prepare SQLITE query string"""
+
+    [_sel, _src, _mtch, _id] = _list
+    sql = """SELECT {sel} FROM {src} WHERE {mtch} = {id}"""
+    query = sql.format(sel=_sel, src=_src, mtch=_mtch, id=_id)
+    return query
+
+def html2rtf(html_path):
+    """Convert html to RTF and copy to clipboard"""
+    scpt_str = """
+        do shell script "textutil -convert rtf " & quoted form of "{0}" & " -stdout | pbcopy"
+        """.format(applescriptify(html_path))
+    run_applescript(scpt_str)
+    return True
+
+###############################################################################
+# Cache Object                                                                #
+###############################################################################
 
 class ZotCache(object):
+    """Caching Object"""
 
     def __init__(self, force, personal_only):
-        """Initialize the cache object"""
-
         self.force = force
         self.personal_only = personal_only
-        self.wf = Workflow()
-
+        self.wf_obj = Workflow()
+        # Get various databases
         self.zot_db = self.get_path('database_path')
-        self.json_db = self.wf.datafile("zotero_db.json")
-        self.clone_db = self.wf.datafile("zotquery.sqlite")
-        self.backup_db = self.wf.datafile("old_db.json")
+        self.clone_db = self.wf_obj.datafile("zotquery.sqlite")
+        self.db_json = self.wf_obj.datafile("zotero_db.json")
+        self.backup_json = self.wf_obj.datafile("old_db.json")
 
-        self.conn = sqlite3.connect(self.clone_db)
-        self.attachment_exts = [".pdf", "epub"]
+        if os.path.exists(self.clone_db):
+            self.conn = sqlite3.connect(self.clone_db)
+        else:
+            self.conn = sqlite3.connect(self.zot_db)
 
 
-    ################################################################################
-    ### Setup Functions                                                          ###
-    ################################################################################
+    ###########################################################################
+    ### Setup Methods                                                       ###
+    ###########################################################################
 
     def setup(self):
         """Ensure configuration and create copies"""
 
-        if os.path.exists(self.wf.datafile("first-run.txt")):
+        if os.path.exists(self.wf_obj.datafile("first-run.txt")):
             # Back-up old Cache
-            if os.path.exists(self.json_db):
-                shutil.copyfile(self.json_db, 
-                                self.backup_db)
-
+            if os.path.exists(self.db_json):
+                shutil.copyfile(self.db_json, 
+                                self.backup_json)
             # Begin new cache?
-            if self.force or z.check_cache()[0]:     
+            if self.force or self.check_cache()[0]:     
                 shutil.copyfile(self.zot_db, self.clone_db)
                 return True
             else:
                 return False
-
-        # Not configured
-        else:
-            script = 'tell application "Alfred 2" to search "z:config"'
-            subprocess.call(['osascript', '-e', script])
+        else: # Not configured
+            scpt_str = 'tell application "Alfred 2" to search "z:config"'
+            run_applescript(scpt_str)
             return False
 
+    def get_path(self, path): 
+        """Get `path` val from paths.json file in Alfred non-volatile storage"""
 
-    def get_path(self, _type): 
-        """Read paths.json file from non-volatile storage"""
+        with open(self.wf_obj.datafile("paths.json"), 'r') as file_obj:
+            paths_dct = json.load(file_obj)
+            file_obj.close()
+        return unify(paths_dct[path])
 
-        with open(self.wf.datafile("paths.json"), 'r') as f:
-            _paths = json.load(f)
-            f.close()
-        return z.to_unicode(_paths[_type])
+    def check_cache(self):
+        """Does the cache need to be updated?"""
+
+        [update, spot] = [False, None]
+        zotero_mod = os.stat(self.get_path('database_path'))[8]
+        clone_mod = os.stat(self.wf_obj.datafile('zotquery.sqlite'))[8]
+        cache_mod = os.stat(self.wf_obj.datafile('zotero_db.json'))[8]
+        # Check if cloned .sqlite database is up-to-date with Zotero database
+        if zotero_mod > clone_mod:
+            [update, spot] = [True, "Clone"]
+        # Check if JSON cache is up-to-date with the cloned database
+        if (cache_mod - clone_mod) > 10:
+            [update, spot] = [True, "JSON"]
+        return [update, spot]
 
 
-    ################################################################################
-    ### SQLite Functions                                                         ###
-    ################################################################################
+    ###########################################################################
+    ### SQLite Methods                                                      ###
+    ###########################################################################
 
     def sqlite_get(self, _sql):
         """Retrieve data from Zotero sqlite database"""
-        
+
         cur = self.conn.cursor() 
         _info = cur.execute(_sql)
         return _info
 
-
     def sqlite_close(self):
         """Close connection to database"""
-        self.conn.close() 
+
+        self.conn.close()
+
+    def query(self, sql_obj):
+        """Pass `sql_obj` to query string and return results"""
+
+        sql_query = make_query(sql_obj) 
+        return self.sqlite_get(sql_query)
 
 
-    ################################################################################
-    ### SQLite Methods                                                         ###
-    ################################################################################
-
+    ###########################################################################
+    ### SQLite Methods                                                      ###
+    ###########################################################################
 
     def info_query(self):
         """Retrieve (key, id, type id) from item"""
@@ -173,164 +252,60 @@ class ZotCache(object):
             ORDER BY dateAdded DESC"""
         return self.sqlite_get(info_sql)
 
-
-    def creator_info_query(self, creator_data_id, creator_type_id):
+    def creator_query(self, creator_data_id, creator_type_id):
         """Retrieve (last name, first name, type) from item"""
 
-        creator_info_sql = """SELECT creatorData.lastName, creatorData.firstName, creatorTypes.creatorType 
+        creator_info_sql = """SELECT creatorData.lastName, 
+            creatorData.firstName, creatorTypes.creatorType 
             FROM creatorData, creatorTypes
             WHERE
                 creatorDataID = {0}
-                and creatorTypeID = {1}""".format(creator_data_id, creator_type_id)
+                and creatorTypeID = {1}""".format(creator_data_id, 
+                                                  creator_type_id)
         return self.sqlite_get(creator_info_sql)
 
-
-    def attachment_info_query(self, item_id):
-        """Retrieve (tag id) from item"""
-
-        attachment_info_sql = """SELECT path, itemID
-            FROM itemAttachments
-            WHERE sourceItemID = {0}""".format(item_id)
-        return self.sqlite_get(attachment_info_sql)
-
-
-    def collection_info_query(self, collection_id):
+    def collection_query(self, coll_id):
         """Retrieve (collection name, collection key) from item"""
 
         collection_info_sql = """SELECT collectionName, key
             FROM collections
             WHERE 
                 collectionID = {0}
-                and libraryID is null""".format(collection_id)
+                and libraryID is null""".format(coll_id)
         return self.sqlite_get(collection_info_sql)
 
+    def group_query(self, coll_id):
+        """Retrieve (coll name, coll key, group name, group id) from item"""
 
-    def group_info_query(self, collection_id):
-        """Retrieve (collection name, collection key, group name, group id) from item"""
-
-        group_info_sql = """SELECT collections.collectionName, collections.key, groups.name, groups.libraryID
+        group_info_sql = """SELECT collections.collectionName,
+            collections.key, groups.name, groups.libraryID
             FROM collections, groups
             WHERE 
                 collections.collectionID = {0}
-                and collections.libraryID is not null""".format(collection_id)
+                and collections.libraryID is not null""".format(coll_id)
         return self.sqlite_get(group_info_sql)  
+    
 
-
-    def tag_info_query(self, tag_id):
-        """Retrieve (tag name, tag key) from item"""
-
-        tag_info_sql = """SELECT name, key
-                FROM tags
-                WHERE tagID = {0}""".format(tag_id)
-        return self.sqlite_get(tag_info_sql)
-
-
-    def note_info_query(self, item_id):
-        """Retrieve (note) from item"""
-
-        note_info_sql = """SELECT note
-            FROM itemNotes
-            WHERE sourceItemID = {0}""".format(item_id)
-        return self.sqlite_get(note_info_sql)
-
-
-    def type_query(self, type_id):
-        """Retrieve (type name) from item"""
-
-        type_sql = """SELECT typeName
-            FROM itemTypes
-            WHERE itemTypeID = {0}""".format(type_id)
-        return self.sqlite_get(type_sql)
-
-
-    def creators_query(self, item_id):
-        """Retrieve (creator id, creator type id, order index) from item"""
-
-        creators_sql = """SELECT creatorID, creatorTypeID, orderIndex
-            FROM itemCreators
-            WHERE itemID = {0}""".format(item_id)
-        return self.sqlite_get(creators_sql)
-
-
-    def creator_id_query(self, creator_id):
-        """Retrieve (creator data id) from item"""
-
-        creator_id_sql = """SELECT creatorDataID
-            FROM creators
-            WHERE creatorID = {0}""".format(creator_id)
-        return self.sqlite_get(creator_id_sql)
-
-
-    def metadata_id_query(self, item_id):
-        """Retrieve (field id, value id) from item"""
-
-        metadata_id_sql = """SELECT fieldID, valueID
-            FROM itemData
-            WHERE itemID = {0}""".format(item_id)
-        return self.sqlite_get(metadata_id_sql)
-
-
-    def field_name_query(self, field_id):
-        """Retrieve (field name) from item"""
-
-        field_name_sql = """SELECT fieldName
-            FROM fields
-            WHERE fieldID = {0}""".format(field_id)
-        return self.sqlite_get(field_name_sql)
-
-
-    def value_name_query(self, value_id):
-        """Retrieve (value name) from item"""
-
-        value_name_sql = """SELECT value
-            FROM itemDataValues
-            WHERE valueID = {0}""".format(value_id)
-        return self.sqlite_get(value_name_sql)
-
-
-    def collection_id_query(self, item_id):
-        """Retrieve (collection id) from item"""
-
-        collection_id_sql = """SELECT collectionID
-            FROM collectionItems
-            WHERE itemID = {0}""".format(item_id)
-        return self.sqlite_get(collection_id_sql)
-
-
-    def tag_id_query(self, item_id):
-        """Retrieve (tag id) from item"""
-
-        tag_id_sql = """SELECT tagID
-            FROM itemTags
-            WHERE itemID = {0}""".format(item_id)
-        return self.sqlite_get(tag_id_sql)
-
-
-    def attachment_key_query(self, attachment_id):
-        """Retrieve (attachment key) from item"""
-
-        attachment_key_sql = """SELECT items.key
-            FROM items
-            WHERE itemID = {0}""".format(attachment_id)
-        return self.sqlite_get(attachment_key_sql)
-
-
-    ################################################################################
-    ### Cache Methods                                                            ###
-    ################################################################################
+    ############################################################################
+    ### Cache Methods                                                        ###
+    ############################################################################
 
     def cache(self):
+        """Update cache if neccessary"""
 
         if self.setup():
             json_cache = self.get_cache()
 
-            with open(self.wf.datafile("zotero_db.json"), 'w') as f:
-                f.write(json_cache.encode('utf-8'))
-                f.close()
-
+            with open(self.wf_obj.datafile("zotero_db.json"), 'w') as file_:
+                file_.write(json_cache.encode('utf-8'))
+                file_.close()
+            return "Cache Updated!"
+        else:
+            return "Cache up-to-date."
 
     def get_cache(self):
         """Convert Zotero .sqlite database to JSON file"""
+
         # adapted from:
         # https://github.com/pkeane/zotero_hacks
         _items = []
@@ -342,619 +317,804 @@ class ZotCache(object):
             item_meta = OrderedDict()
 
             item_key = item_id = item_type_id = library_id = ''
-            (item_key, item_id, item_type_id, library_id) = basic
+            (item_key,
+             item_id,
+             item_type_id,
+             library_id) = basic
             item_dict['key'] = item_key
-            if library_id == None: library_id = '0'
+            if library_id == None: 
+                library_id = '0'
             item_dict['library'] = unicode(library_id)
 
             type_name = ''
-            (type_name,) = self.type_query(item_type_id).fetchone()
+            type_query = ['typeName', 'itemTypes', 'itemTypeID', item_type_id]
+            (type_name,) = self.query(type_query).fetchone()
             item_dict['type'] = type_name
 
             ##### Creators Info
             item_dict['creators'] = []
-            creators_data = self.creators_query(item_id)
+            creators_query = ['creatorID, creatorTypeID, orderIndex',
+                              'itemCreators', 'itemID', item_id]
+            creators_data = self.query(creators_query)
             for _creator in creators_data:
                 creator_id = creator_type_id = creator_id = order_index = ''
-                (creator_id, creator_type_id, order_index) = _creator
-                (creator_data_id,) = self.creator_id_query(creator_id).fetchone()
-                creators_info = self.creator_info_query(creator_data_id, creator_type_id)
+                (creator_id, 
+                 creator_type_id, 
+                 order_index) = _creator
+                creators_id_query = ['creatorDataID', 'creators',
+                                    'creatorID', creator_id]
+                (creator_data_id,) = self.query(creators_id_query).fetchone()
+                creators_info = self.creator_query(creator_data_id, 
+                                                        creator_type_id)
                 for creator_info in creators_info:
                     first_name = last_name = ''
-                    (last_name, first_name, c_type) = creator_info
+                    (last_name, 
+                     first_name, 
+                     c_type) = creator_info
                     item_dict['creators'].append({'family': last_name, 
-                                                'given': first_name, 
-                                                'type': c_type, 
-                                                'index': order_index})
-
+                                                  'given': first_name, 
+                                                  'type': c_type, 
+                                                  'index': order_index})
             ##### Meta-Data Info
-            items_data = self.metadata_id_query(item_id)
+            metadata_id_query = ['fieldID, valueID',
+                                 'itemData', 'itemID', item_id]
+            items_data = self.query(metadata_id_query)
             for _item in items_data:
                 field_id = value_id = value_name = ''
-                (field_id, value_id) = _item
-                (field_name,) = self.field_name_query(field_id).fetchone()
+                (field_id, 
+                 value_id) = _item
+                field_name_query = ['fieldName', 'fields', 'fieldID', field_id]
+                (field_name,) = self.query(field_name_query).fetchone()
                 if field_name not in item_meta:
                     item_meta[field_name] = ''
-                    (value_name,) = self.value_name_query(value_id).fetchone()
-                    try:
-                        if field_name == 'date':
-                            item_meta[field_name] = str(value_name[0:4])
-                        else:
-                            item_meta[field_name] = str(value_name)
-                    except:
-                        item_meta[field_name] = unicode(value_name)
+                    value_name_query = ['value', 'itemDataValues',
+                                        'valueID', value_id]
+                    (value_name,) = self.query(value_name_query).fetchone()
+                    if field_name == 'date':
+                        item_meta[field_name] = unify(value_name[0:4])
+                    else:
+                        item_meta[field_name] = unify(value_name)
             item_dict['data'] = item_meta
-
             ##### Collection Info
             item_dict['zot-collections'] = []
-            collections_data = self.collection_id_query(item_id)
+            coll_id_query = ['collectionID', 'collectionItems',
+                                   'itemID', item_id]
+            collections_data = self.query(coll_id_query)
             for _collection in collections_data:
-                collection_id = ''
-                (collection_id,) = _collection
-                collection_info = self.collection_info_query(collection_id).fetchall()
+                coll_id = ''
+                (coll_id,) = _collection
+                collection_info = self.collection_query(coll_id).fetchall()
                 if collection_info != []:
-                    (collection_name, collection_key) = collection_info[0]
-                    item_dict['zot-collections'].append({'name': collection_name,
+                    (collection_name, 
+                     collection_key) = collection_info[0]
+                    item_dict['zot-collections'].append(
+                                                    {'name': collection_name,
                                                     'key': collection_key,
                                                     'library_id': '0',
                                                     'group': 'personal'})
                 else:
                     if self.personal_only == False:
-                        (collection_name, collection_key, group_name, library_id) = self.group_info_query(collection_id).fetchone()
-                        item_dict['zot-collections'].append({'name': collection_name,
-                                                        'key': collection_key,
-                                                        'library_id': str(library_id),
-                                                        'group': group_name})
-
+                        (collection_name, 
+                        collection_key, 
+                        group_name, 
+                        library_id) = self.group_query(coll_id).fetchone()
+                        item_dict['zot-collections'].append(
+                                                    {'name': collection_name,
+                                                    'key': collection_key,
+                                                    'library_id': library_id,
+                                                    'group': group_name})
             ##### Tag Info
             item_dict['zot-tags'] = []
-            tags_data = self.tag_id_query(item_id)
+            tag_id_query = ['tagID', 'itemTags', 'itemID', item_id]
+            tags_data = self.query(tag_id_query)
             for _tag in tags_data:
                 tag_id = ''
                 (tag_id,) = _tag
-                (tag_name, tag_key) = self.tag_info_query(tag_id).fetchone()
+                tag_info_query = ['name, key', 'tags', 'tagID', tag_id]
+                (tag_name,
+                 tag_key) = self.query(tag_info_query).fetchone()
                 item_dict['zot-tags'].append({'name': tag_name,
                                             'key': tag_key})
-
             ##### Attachment Info
             item_dict['attachments'] = []
-            attachments_data = self.attachment_info_query(item_id)
+            attachment_info_query = ['path, itemID', 'itemAttachments',
+                                     'sourceItemID', item_id]
+            attachments_data = self.query(attachment_info_query)
             for _attachment in attachments_data:
                 if _attachment[0] != None:
-                    (attachment_path, attachment_id) = _attachment
-                    if attachment_path[:8] == "storage:":
-                        attachment_path = attachment_path[8:]
-                        if attachment_path[-4:].lower() in self.attachment_exts:
-                            (attachment_key,) = self.attachment_key_query(attachment_id).fetchone()
-                            storage_path = z.get_path('storage_path')
-                            base_path = os.path.join(storage_path, attachment_key)
-                            final_path = os.path.join(base_path, attachment_path)
-                            item_dict['attachments'].append({'name': attachment_path,
-                                                        'key': attachment_key,
-                                                        'path': final_path})
-                    elif attachment_path[:12] == "attachments:":
-                        attachment_path = attachment_path[12:]
-                        if attachment_path[-4:].lower() in self.attachment_exts:
-                            (attachment_key,) = self.attachment_key_query(attachment_id).fetchone()
-                            base = z.get_path('link-attachments_path')
-                            final_path = os.path.join(base, attachment_path)
-                            item_dict['attachments'].append({'name': attachment_path,
-                                                        'key': attachment_key,
+                    (att_path, 
+                        attachment_id) = _attachment
+                    if att_path[:8] == "storage:":
+                        att_path = att_path[8:]
+                        if att_path[-4:].lower() in ATTACHMENT_EXTS:
+                            att_query = ['key', 'items',
+                                         'itemID', attachment_id]
+                            (att_key,) = self.query(att_query).fetchone()
+                            storage_path = self.get_path('storage_path')
+                            base_path = os.path.join(storage_path,
+                                                     att_key)
+                            final_path = os.path.join(base_path,
+                                                      att_path)
+                            item_dict['attachments'].append({'name': att_path,
+                                                            'key': att_key,
+                                                            'path': final_path})
+                    elif att_path[:12] == "attachments:":
+                        att_path = att_path[12:]
+                        if att_path[-4:].lower() in ATTACHMENT_EXTS:
+                            att_query = ['key', 'items',
+                                         'itemID', attachment_id]
+                            (att_key,) = self.query(att_query).fetchone()
+                            base = self.get_path('link-attachments_path')
+                            final_path = os.path.join(base, att_path)
+                            item_dict['attachments'].append({'name': att_path,
+                                                        'key': att_key,
                                                         'path': final_path})
                     else:
-                        attachment_name = attachment_path.split('/')[-1]
-                        item_dict['attachments'].append({'name': attachment_name,
+                        attachment_name = att_path.split('/')[-1]
+                        item_dict['attachments'].append(
+                                                    {'name': attachment_name,
                                                     'key': None,
-                                                    'path': attachment_path})
-
+                                                    'path': att_path})
             ##### Notes Info
             item_dict['notes'] = []
-            notes_data = self.note_info_query(item_id)
+            note_info_query = ['note', 'itemNotes', 'sourceItemID', item_id]
+            notes_data = self.query(note_info_query)
             for _note in notes_data:
                 note = ''
                 (note,) = _note
                 item_dict['notes'].append(note[33:-10])
-
             ##### Add item dict to running list
             _items.append(item_dict)
 
-        final_json = json.dumps(_items, sort_keys=False, indent=4, separators=(',', ': '))
+        final_json = json.dumps(_items, 
+                                sort_keys=False, 
+                                indent=4, 
+                                separators=(',', ': '))
         self.sqlite_close()
 
         return final_json
 
 
-################################################################################
-################################################################################
-##########   Config Class                                             ##########
-################################################################################
-################################################################################
 
+###############################################################################
+# Config Class                                                                #
+###############################################################################
 
 class ZotConfig(object):
+    """Configurator Object"""
 
     def __init__(self, scope):
-        self.zot_api = wf.workflowfile('dependencies/config_zotero-api.scpt')
-        self.set_prefs = wf.workflowfile('dependencies/config_export-prefs.scpt')
-
         self.scope = scope
+        self.wf_obj = Workflow()
+        self.api_scpt = self.wf_obj.workflowfile('deps/config_zotero-api.scpt')
+        self.pref_scpt = self.wf_obj.workflowfile('deps/config_export-prefs.scpt')
+        self.ui_scpt = self.wf_obj.workflowfile('deps/_ui-helpers.scpt')
 
+        if not os.path.exists(self.wf_obj.datafile('zot_filters.json')):
+            self.zot_string_prefs()
+
+    ###########################################################################
+    ### Primary API Method                                                  ###
+    ###########################################################################
 
     def config(self):
+        """Call proper config action"""
 
         if self.scope == 'api':
-            self.set_api_data()
-
+            return self.set_api_data()
         elif self.scope == 'prefs':
-            self.set_export_prefs()
-
+            return self.set_export_prefs()
         elif self.scope == 'paths':
-            self.set_zot_paths()
+            return self.set_zot_paths()
 
-
-    
+    ###########################################################################
+    ### Config Methods                                                      ###
+    ###########################################################################
+ 
     def set_api_data(self):
         """Save Zotero API info to `settings.json` file"""
 
-        return subprocess.call(['osascript', self.zot_api])
-
+        process = subprocess.Popen(['osascript', self.api_scpt],
+                                    stdout=subprocess.PIPE)
+        out = process.communicate()[0]
+        return out.strip()
 
     def set_export_prefs(self):
         """Save export prefs to `prefs.json` file"""
 
-        subprocess.call(['osascript', self.set_prefs])
-
+        process = subprocess.Popen(['osascript', self.pref_scpt],
+                                    stdout=subprocess.PIPE)
+        out = process.communicate()[0]
+        return out.strip()
 
     def set_zot_paths(self):
         """Save paths to key Zotero items to `paths.json` file"""
 
-        # Check to see if already configured
-        if not os.path.exists(wf.datafile("paths.json")):
+        # Path to preferences files
+        zs_pref_path = self._get_profile(STANDALONE) + '/prefs.js'
+        zf_pref_path = self._get_profile(FIREFOX) + '/prefs.js'
 
-            # Path to apps
-            _zs = os.environ["HOME"] + '/Library/Application Support/Zotero/'
-            _zf = os.environ["HOME"] + '/Library/Application Support/Firefox/'
+        data_path = attach_path = ''
+        if self._get_paths(zf_pref_path)[0]:
+            data_path = self._get_paths(zf_pref_path)[0]
+            default_path = zf_pref_path
+        elif self._get_paths(zs_pref_path)[0]:
+            data_path = self._get_paths(zs_pref_path)[0]
+            default_path = zs_pref_path
+        storage_path = os.path.join(data_path, 'storage')
+        db_path = os.path.join(data_path, 'zotero.sqlite')
 
-            # Profile paths
-            zs_path = z.get_profile(_zs)
-            zf_path = z.get_profile(_zf)
+        if self._get_paths(zf_pref_path)[1]:
+            attach_path = self._get_paths(zf_pref_path)[1]
+        elif self._get_paths(zs_pref_path)[1]:
+            attach_path = self._get_paths(zs_pref_path)[1]
 
-            # Path to preferences files
-            zs_pref_path = zs_path + '/prefs.js'
-            zf_pref_path = zf_path + '/prefs.js'
+        # Check if prefs paths exist
+        if not os.path.exists(storage_path): 
+            scpt_str = """
+                set ui to load script POSIX file "{0}"
+                set prompt to "Select Zotero storage folder."
+                ui's choose_folder({{z_prompt:prompt, z_def:"{1}"}})
+            """.format(self.ui_scpt, default_path)
+            storage_path = run_applescript(scpt_str)
 
-            
-            # If only Firefox extension
-            if os.path.exists(zf_pref_path):
-                # Try to get data dir and linked attachments from Firefox prefs
-                data_path = self._get_paths(zf_pref_path)[0]
-                attach_path = self._get_paths(zf_pref_path)[1]
-                default_path = zf_path
+        if not os.path.exists(db_path):
+            scpt_str = """
+                set ui to load script POSIX file "{0}"
+                set prompt to "Select Zotero sqlite database."
+                ui's choose_file({{z_prompt:prompt, z_def:"{1}"}})
+            """.format(self.ui_scpt, default_path)
+            db_path = run_applescript(scpt_str)
 
-                if data_path == None:
-                    if os.path.exists(zs_pref_path):
-                        # Try to get data directory from ZS prefs
-                        data_path = self._get_paths(zs_pref_path)[0]
-                        default_path = zs_path
-                elif attach_path == None:
-                    if os.path.exists(zs_pref_path):
-                        # Try to get linked attachments directory from ZS prefs
-                        attach_path = self._get_paths(zs_pref_path)[1]
-                        default_path = zs_path
-                
-            elif os.path.exists(zs_pref_path):
-                data_path = self._get_paths(zs_pref_path)[0]
-                attach_path = self._get_paths(zs_pref_path)[1]
-                default_path = zs_path
+        if not os.path.exists(attach_path): 
+            scpt_str = """
+                set ui to load script POSIX file "{0}"
+                set prompt to "Select Zotero folder for linked attachments."
+                set path to POSIX path of (path to documents folder)
+                ui's choose_folder({{z_prompt:prompt, z_def:path}})
+            """.format(self.ui_scpt)
+            attach_path = run_applescript(scpt_str)
 
-            # Try paths to storage directory and zotero.sqlite file
-            storage_path = os.path.join(data_path, 'storage')
-            db_path = os.path.join(data_path, 'zotero.sqlite')
+        _dict = {'storage_path': storage_path, 
+                 'database_path': db_path, 
+                 'link-attachments_path': attach_path}
+        _json = json.dumps(_dict, 
+                            sort_keys=False, 
+                            indent=4, 
+                            separators=(',', ': '))
+        # Store the paths in non-volatile storage
+        with open(self.wf_obj.datafile("paths.json"), 'w') as file_obj:
+            file_obj.write(_json.encode('utf-8'))
+            file_obj.close()
+        
+        return "Zotero paths saved!"
 
-            # Check if prefs paths exist
-            if os.path.exists(storage_path):
-                pass
-            else:
-                # If not, have user select
-                a_script = """
-                    set ui to load script POSIX file (POSIX path of "{0}")
-                    set choice to ui's choose_folder({{z_prompt:"Select Zotero storage folder.", z_def:"{1}"}})
-                """.format(wf.workflowfile('dependencies/_ui-helpers.scpt'), default_path)
-                #storage_path = applescript.asrun(a_script)[0:-1]
-                storage_path = subprocess.call(['osascript', '-e', a_script])
+    ###########################################################################
+    ### Helper Functions                                                    ###
+    ###########################################################################
 
-            if os.path.exists(db_path):
-                pass
-            else:
-                a_script = """
-                    set ui to load script POSIX file (POSIX path of "{0}")
-                    set choice to ui's choose_file({{z_prompt:"Select Zotero sqlite database.", z_def:"{1}"}})
-                """.format(wf.workflowfile('dependencies/_ui-helpers.scpt'), default_path)
-                #db_path = applescript.asrun(a_script)[0:-1]
-                db_path = subprocess.call(['osascript', '-e', a_script])
+    def _get_profile(self, root):
+        """Read the Zotero profiles.ini file from `root`"""
 
-            if os.path.exists(attach_path): 
-                pass
-            else:
-                a_script = """
-                    set ui to load script POSIX file (POSIX path of "{0}")
-                    set choice to ui's choose_folder({{z_prompt:"Select Zotero folder where linked attachments reside.", z_def:POSIX path of (path to documents folder)}})
-                """.format(wf.workflowfile('dependencies/_ui-helpers.scpt'))
-                #attach_path = applescript.asrun(a_script)[0:-1]
-                attach_path = subprocess.call(['osascript', '-e', a_script])
-
-            # Store the paths in non-volatile storage
-            with open(wf.datafile("paths.json"), 'w') as f:
-                _dict = {'storage_path': storage_path, 
-                        'database_path': db_path, 
-                        'link-attachments_path': attach_path}
-                _json = json.dumps(_dict, 
-                                    sort_keys=False, 
-                                    indent=4, 
-                                    separators=(',', ': '))
-                f.write(_json.encode('utf-8'))
-                f.close()
-                return "Zotero paths saved!"
+        profile_path = root + 'profiles.ini'
+        if os.path.exists(profile_path):
+            with open(profile_path, 'r') as file_obj:
+                data_str = file_obj.read()
+                file_obj.close()
+            partial_path = re.search(r"(?<=^Path=)(.*?)$", data_str, re.M)
+            full_path = root + partial_path.group()
+            return unify(full_path)
         else:
-            return "Zotero paths alread saved."
-
+            return 'None'
 
     def _get_paths(self, prefs):
-        """Search prefs.js file for Firefox or Standalone for all data"""
+        """Search `prefs` file for all data paths"""
 
-        # Regexs
-        last_data_dir_re = re.compile(r"user_pref\(\"extensions\.zotero\.lastDataDir\",\s\"(.*?)\"\);")
-        data_dir_re = re.compile(r"user_pref\(\"extensions\.zotero\.dataDir\",\s\"(.*?)\"\);")
-        base_dir_re = re.compile(r"user_pref\(\"extensions\.zotero\.baseAttachmentPath\",\s\"(.*?)\"\);")
+        last_data_dir_re = re.compile(r"""
+            user_pref\("extensions\.zotero\.lastDataDir",\s"(.*?)"\);
+            """.strip())
+        data_dir_re = re.compile(r"""
+            user_pref\(\"extensions\.zotero\.dataDir\",\s\"(.*?)\"\);
+            """.strip())
+        base_dir_re = re.compile(r"""
+            user_pref\(\"extensions\.zotero\.baseAttachmentPath\",\s\"(.*?)\"\);
+            """.strip())
 
-        with open(prefs, 'r') as f:
-            _prefs = f.read()
-            f.close()
+        with open(prefs, 'r') as file_obj:
+            _prefs = file_obj.read()
+            file_obj.close()
         # Get path to data directory
         data_dir = re.search(last_data_dir_re, _prefs)
         try:
             data_path = data_dir.group(1)
-        except:
+        except AttributeError:
             try:
                 data_dir = re.search(data_dir_re, _prefs)
                 data_path = data_dir.group(1)
-            except:
+            except AttributeError:
                 data_path = None
-
         # Get path to directory for linked attachments
         attach_dir = re.search(base_dir_re, _prefs)
         try:    
             attach_path = attach_dir.group(1)
-        except:
+        except AttributeError:
             attach_path = None
         return [data_path, attach_path]
 
+    def zot_string_prefs(self):
+        """Ensure prefs for `zot_string` function exist"""
+        zot_string_prefs = {'general': [
+                                ['data', 'title'],
+                                ['creators', 'family'],
+                                ['data', 'publicationTitle'],
+                                ['data', 'bookTitle'],
+                                ['data', 'proceedingsTitle'],
+                                ['data', 'date'],
+                                ['zot-collections', 'name'],
+                                ['zot-tags', 'name'],
+                                ['notes']],
+                            'titles': [
+                                ['data', 'title'],
+                                ['data', 'publicationTitle'],
+                                ['data', 'bookTitle'],
+                                ['data', 'proceedingsTitle'],
+                                ['data', 'date']],
+                            'creators': [
+                                ['creators', 'family'],
+                                ['data', 'date']],
+                            'in-collection': [
+                                ['zot-collections', 'name']],
+                            'attachments': [
+                                ['attachments', 'name']],
+                            'in-tag': [
+                                ['zot-tags', 'name']],
+                            'notes': [
+                                ['notes']]
+                            }
+        _json = json.dumps(zot_string_prefs, 
+                           sort_keys=False, 
+                           indent=4, 
+                           separators=(',', ': '))
+        with open(self.wf_obj.datafile('zot_filters.json'), 'w') as file_obj:
+            file_obj.write(_json)
+            file_obj.close()
 
 
-################################################################################
-################################################################################
-##########   Filter Class                                             ##########
-################################################################################
-################################################################################
 
+###############################################################################
+# Filter Class                                                                #
+###############################################################################
 
 class ZotFilter(object):
-    
-    def __init__(self, query, scope, data=[], test_group=None, personal_only=False):
-        self.wf = Workflow()
-        self.queries = query.split()
+    """Filtering Object"""
+
+    def __init__(self, query, scope, personal_only=False,
+                 test_data=None, test_group=None):
+        self.wf_obj = Workflow()
+        self.query = query
         self.scope = scope
 
         if self.first_run_test() and self.query_len_test(): 
-            pass
-            
-        if data == []:
-            with open(self.wf.datafile("zotero_db.json"), 'r') as f:
-                self.data = json.load(f)
-                f.close()
+            pass   
+        if test_data == None:
+            with open(self.wf_obj.datafile("zotero_db.json"), 'r') as file_obj:
+                self.data = json.load(file_obj)
+                file_obj.close()
             if personal_only == True:
                 personal_data = []
                 ids = []
                 for i in self.data:
                     if i['zot-collections'] != []:
-                        for c in i['zot-collections']:
-                            if c['group'] == 'personal':
+                        for coll in i['zot-collections']:
+                            if coll['group'] == 'personal':
                                 if not i['id'] in ids:
                                     personal_data.append(i)
                                     ids.append(i['id'])
                 self.data = personal_data
         else:
-            self.data = data
+            self.data = test_data
 
-        self.test_group = test_group
+        if test_group != None:
+            self.filters_in_groups(test_group)
 
     
-    ####################################################################
-    # API method
-    ####################################################################
+    ###########################################################################
+    ### Primary API Method                                                  ###
+    ###########################################################################
 
     def filter(self):
         """Main API method"""
 
         if self.scope in ['general', 'creators', 'titles', 'notes']:
             self.filters_simple()
-
         elif self.scope in ['collections', 'tags']:
             self.filters_groups()
-
         elif self.scope in ['in-collection', 'in-tag']:
             self.filters_in_groups()
-
         elif self.scope == 'attachments':
-            self.filters_atts()
-
+            self.filter_atts()
         elif self.scope == 'debug':
-            self.filters_debug()
-
+            return self.filter_debug()
         elif self.scope == 'new':
-            return self.filters_new()
+            return self.filter_new()
 
-    ####################################################################
-    # Sub-Methods
-    ####################################################################
+    ############################################################################
+    ### Sub-Methods                                                          ###
+    ############################################################################
 
     def filters_simple(self):
         """Simple Filter method"""
-        
-        data = self.data
-        for query in self.queries:
-            data = self.wf.filter(query, data, key=lambda x: z.zot_string(x, self.scope))
-        
-        if data != []:
+
+        filtered_lst = self.wf_obj.filter(self.query, self.data, 
+                            key=lambda x: self.zot_string(x, self.scope),
+                            match_on=MATCH_ALL ^ MATCH_ALLCHARS) 
+        if filtered_lst != []:
             # Format matched items for display
-            prep_res = z.prepare_feedback(data)  
+            prep_res = self.prepare_feedback(filtered_lst)  
             for item in prep_res:
-                self.wf.add_item(**item)
-            self.wf.send_feedback()
+                self.wf_obj.add_item(**item) # Pass pre-formatted `dict`
+            self.wf_obj.send_feedback()
         else:
             self.no_results()
 
     def filters_groups(self):
         """Group Filter method"""
-        
-        data = self._get_group_data(self.test_group)
-        if data != []:
-            for query in self.queries:
-                data = self.wf.filter(query, data, key=lambda x: x[0])
-            
-            if data != []:
+
+        res_dict = self._get_group_data()
+        if res_dict['data'] != []:
+            filtered_lst = self.wf_obj.filter(self.query, res_dict['data'],
+                                key=lambda x: x[0],
+                                match_on=MATCH_ALL ^ MATCH_ALLCHARS)
+            if filtered_lst != []:
                 if self.scope == "collections":
                     _pre = "c:"
                 elif self.scope == "tags":
                     _pre = "t:"
-                for item in data:
-                    self.wf.add_item(item[0], self._sub, 
+                for item in filtered_lst:
+                    self.wf_obj.add_item(item[0], res_dict['sub'], 
                         arg=_pre + item[1], 
                         valid=True, 
-                        icon=self._icon)
-                self.wf.send_feedback()
+                        icon=res_dict['icon'])
+                self.wf_obj.send_feedback()
             else:
                 self.no_results()
         else:
             self.no_results()
 
-    def filters_in_groups(self):
+    def filters_in_groups(self, test_group=None):
         """In-Group Filter method"""
 
-        data = self._get_ingroup_data()
-        if data != []:
-            for query in self.queries:
-                data = self.wf.filter(query, data, key=lambda x: z.zot_string(x))
-            
-            if data != []:
-                prep_res = z.prepare_feedback(data)  
+        res_lst = self._get_ingroup_data(test_group)
+        if res_lst != []:
+            filtered_lst = self.wf_obj.filter(self.query, res_lst, 
+                                key=lambda x: self.zot_string(x, 'general'),
+                                match_on=MATCH_ALL ^ MATCH_ALLCHARS)
+            if filtered_lst != []:
+                prep_res = self.prepare_feedback(filtered_lst)  
                 for item in prep_res:
-                    self.wf.add_item(**item)
-                self.wf.send_feedback()
+                    self.wf_obj.add_item(**item) # Pass pre-formatted `dict`
+                self.wf_obj.send_feedback()
             else:
                 self.no_results()
         else:
             self.no_results()
 
-    def filters_atts(self):
+    def filter_atts(self):
         """Attachments Filter method"""
 
-        data = self._get_atts_data()
-        if data != []:
-            for query in self.queries:
-                data = self.wf.filter(query, data, key=lambda x: z.zot_string(x))
-            
-            if data != []:
-                for item in data:
-                    info = z.info_format(item)
+        res_lst = self._get_atts_data()
+        if res_lst != []:
+            filtered_lst = self.wf_obj.filter(self.query, res_lst, 
+                                key=lambda x: self.zot_string(x, 'general'),
+                                match_on=MATCH_ALL ^ MATCH_ALLCHARS)
+            if filtered_lst != []:
+                for item in filtered_lst:
+                    info = self.info_format(item)
                     title = item['data']['title']
                     sub = info[0] + ' ' + info[1]
-                    self.wf.add_item(title, sub, 
+                    self.wf_obj.add_item(title, sub, 
                         arg=item['attachments'][0]['path'], 
                         valid=True,
                         type='file',
                         icon='icons/n_pdf.png')
-                self.wf.send_feedback()
+                self.wf_obj.send_feedback()
             else:
                 self.no_results()
         else:
             self.no_results()
 
-    def filters_debug(self):
+    def filter_debug(self):
         """Debug options Filter method"""
 
-        self.wf.add_item("Root", "Open ZotQuery's Root Folder?", 
+        self.wf_obj.add_item("Root", "Open ZotQuery's Root Folder?", 
             valid=True, 
             arg='workflow:openworkflow', 
             icon='icons/n_folder.png')
-        self.wf.add_item("Storage", "Open ZotQuery's Storage Folder?", 
+        self.wf_obj.add_item("Storage", "Open ZotQuery's Storage Folder?", 
             valid=True, 
             arg='workflow:opendata', 
             icon='icons/n_folder.png')
-        self.wf.add_item("Cache", "Open ZotQuery's Cache Folder?", 
+        self.wf_obj.add_item("Cache", "Open ZotQuery's Cache Folder?", 
             valid=True, 
             arg='workflow:opencache', 
             icon='icons/n_folder.png')
-        self.wf.add_item("Logs", "Open ZotQuery's Logs?", 
+        self.wf_obj.add_item("Logs", "Open ZotQuery's Logs?", 
             valid=True, 
             arg='workflow:openlog', 
             icon='icons/n_folder.png')
-        self.wf.send_feedback()
+        self.wf_obj.send_feedback()
 
-    def filters_new(self):
+    def filter_new(self):
         """New items Filter method"""
 
-        curr_ids = [item['id'] for item in self.data]
+        curr_keys = [item['key'] for item in self.data]
         # Get previous Zotero data from JSON cache
-        with open(self.wf.datafile('old_db.json'), 'r') as f:
-            old_data = json.load(f)
-            f.close()
-        old_ids = [item['id'] for item in old_data]
+        with open(self.wf_obj.datafile('old_db.json'), 'r') as file_obj:
+            old_data = json.load(file_obj)
+            file_obj.close()
+        old_keys = [item['key'] for item in old_data]
         # Get list of newly added items
-        new_ids = list(set(curr_ids) - set(old_ids))
-        new_items = []
-        for i in new_ids:
-            new_items += [item for item in self.data if item['id'] == i]
-        #return new_items
-        res = z.prepare_feedback(new_items)
-        if res != []:
-            for a in res:
-                self.wf.add_item(**a)
-            self.wf.send_feedback()
+        new_keys = list(set(curr_keys) - set(old_keys))
+        new_items = [item for item in self.data if item['key'] in new_keys]
+        if new_items != []:
+            prep_res = self.prepare_feedback(new_items)
+            for item in prep_res:
+                self.wf_obj.add_item(**item) # Pass pre-formatted `dict`
+            self.wf_obj.send_feedback()
         else:
-            self.no_results()
+            self.wf_obj.add_item("No new items!",
+                    "You have not added any new items to your Zotero library.", 
+                    icon="icons/n_error.png")
+            self.wf_obj.send_feedback()
 
-    ####################################################################
-    # Get sub-sets of data methods
-    ####################################################################
+    ###########################################################################
+    ### Get sub-sets of data methods                                        ###
+    ###########################################################################
 
-    def _get_group_data(self, test_group):
+    def _get_group_data(self):
         """Sub-Method for Group data"""
 
-        if test_group == None:
-            conn = sqlite3.connect(self.wf.datafile("zotquery.sqlite"))
-            cur = conn.cursor()
-            
-            if self.scope == "collections":
-                sql_query = """
-                    select collections.collectionName, collections.key
-                    from collections
-                """
-                self._sub = "Collection"
-                self._icon = "icons/n_collection.png"
-            elif self.scope == "tags":
-                sql_query = """
-                    select tags.name, tags.name
-                    from tags
-                """
-                self._sub = "Tag"
-                self._icon = "icons/n_tag.png"
+        conn = sqlite3.connect(self.wf_obj.datafile("zotquery.sqlite"))
+        cur = conn.cursor()
+        if self.scope == "collections":
+            sql_query = """SELECT collectionName, key
+                FROM collections"""
+            _sub = "Collection"
+            _icon = "icons/n_collection.png"
+        elif self.scope == "tags":
+            sql_query = """SELECT name, key
+                FROM tags"""
+            _sub = "Tag"
+            _icon = "icons/n_tag.png"
+        group_data = cur.execute(sql_query).fetchall()
+        conn.close()
+        return {'data': group_data,
+                'sub': _sub,
+                'icon': _icon}
 
-            group_data = cur.execute(sql_query).fetchall()
-            conn.close()
-        else:
-            group_data = test_group
-            self._sub = "Test"
-            self._icon = "icon.png"
-        return group_data   
-
-    def _get_ingroup_data(self, test_group=None):
+    def _get_ingroup_data(self, test_group):
         """Sub-Method for In-Group data"""
 
         term = self.scope.split('-')[1]
         if test_group == None:
-            with open(self.wf.cachefile("{0}_query_result.txt").format(term), 'r') as f:
-                _inp = f.read().decode('utf-8')
-                f.close()
+            path = self.wf_obj.cachefile("{0}_query_result.txt").format(term)
+            with open(path, 'r') as file_obj:
+                inp_str = unify(file_obj.read())
+                file_obj.close()
+            inp_key = inp_str.split(':')[1]
         else:
-            _inp = test_group
-        
-        _items = []
+            inp_key = test_group
+
+        items = []
         for item in self.data:
             for jtem in item['zot-{0}s'.format(term)]:
-                if _inp == jtem['key']: 
-                    _items.append(item)
-        return _items
+                if inp_key == jtem['key']: 
+                    items.append(item)
+        return items
     
     def _get_atts_data(self):
         """Sub-Method for Attachments data"""
 
-        _items = []
+        items = []
         for item in self.data:
             if item['attachments'] != []:
-                _items.append(item)
-        return _items
+                items.append(item)
+        return items
 
-
-    ####################################################################
-    # Helper functions
-    ####################################################################
+    ###########################################################################
+    ### Helper Functions                                                    ###
+    ###########################################################################
 
     def first_run_test(self):
         """Check if workflow is configured"""
 
-        if not os.path.exists(self.wf.datafile("first-run.txt")):
-            script = 'tell application "Alfred 2" to search "z:config"'
-            subprocess.call(['osascript', '-e', script])
+        if not os.path.exists(self.wf_obj.datafile("first-run.txt")):
+            scpt_str = 'tell application "Alfred 2" to search "z:config"'
+            run_applescript(scpt_str)
         else: return True
 
     def query_len_test(self):
         """Check if query terms have enough letters"""
 
-        for query in self.queries:
-            if len(query) <= 2:
-                self.wf.add_item("Error!", "Need at least 3 letters to execute search", 
-                    icon="icons/n_delay.png")
-                self.wf.send_feedback()
-                sys.exit(0)
-            else: return True
+        if len(self.query) <= 2:
+            self.wf_obj.add_item("Error!", 
+                "Need at least 3 letters to execute search", 
+                icon="icons/n_delay.png")
+            self.wf_obj.send_feedback()
+            sys.exit(0)
+        else: return True
 
     def no_results(self):
         """Return no results"""
 
-        self.wf.add_item("Error!", "No results found.", 
+        self.wf_obj.add_item("Error!", "No results found.", 
                         icon="icons/n_error.png")
-        self.wf.send_feedback()
+        self.wf_obj.send_feedback()
+        sys.exit(0)
+
+    def get_datum(self, _item, pair):
+        """Retrieve value from item as list"""
+
+        try:
+            [key, val] = pair
+            try:
+                return [_item[key][val]]
+            except TypeError:
+                return [x[val] for x in _item[key]]
+        except ValueError:
+            [key] = pair
+            return _item[key]
+        except:
+            return []
+
+    def zot_string(self, _item, scope='general'):
+        """Convert key values of item into string for fuzzy filtering"""
+
+        with open(self.wf_obj.datafile('zot_filters.json')) as file_obj:
+            filters = json.load(file_obj)
+            file_obj.close()
+
+        _list = []
+        for key, val in filters.items():
+            if key == scope:
+                for pair in val:
+                    _list += self.get_datum(_item, pair)
+        
+        _list = [unicode(x) for x in _list]
+        _str = ' '.join(_list)
+        return unify(_str)
+
+    def prepare_feedback(self, results):
+        """Prepare dictionary for workflow results"""
+
+        xml_lst = []
+        ids = []
+        for item in results:
+            if item['key'] not in ids:
+                ids.append(item['key'])
+                # Format the Zotero match results
+                info = self.info_format(item)
+                # Prepare data for Alfred
+                _title = item['data']['title']
+                _sub = info[0] + ' ' + info[1]
+                _pre = 'n'
+                _arg = str(item['library']) + '_' + str(item['key'])
+                # Create dictionary of necessary Alred result info.
+                # For Alfred to remember results, add 'uid': str(item['id'])
+                dct = {'title': _title, 'subtitle': _sub, 
+                            'valid': True, 'arg': _arg}
+                # If item has an attachment
+                if item['attachments'] != []:
+                    _pre = 'att'
+                    dct.update({'subtitle': _sub + ' Attachments: ' 
+                                    + str(len(item['attachments']))})
+                # Export items to Alfred xml with appropriate icons
+                if item['type'] == 'journalArticle':
+                    dct.update({'icon': 'icons/{}_article.png'.format(_pre)})
+                elif item['type'] == 'book':
+                    dct.update({'icon': 'icons/{}_book.png'.format(_pre)})
+                elif item['type'] == 'bookSection':
+                    dct.update({'icon': 'icons/{}_chapter.png'.format(_pre)})
+                elif item['type'] == 'conferencePaper':
+                    dct.update({'icon': 'icons/{}_conference.png'.format(_pre)})
+                else:
+                    dct.update({'icon': 'icons/{}_written.png'.format(_pre)})   
+                xml_lst.append(dct)
+        return xml_lst          
+
+
+    def info_format(self, _item):
+        """Format key information for item subtitle"""
+
+        # Format creator string
+        creator_list = []
+        for item in _item['creators']:
+            last = item['family']
+            index = item['index']
+            if item['type'] == 'editor':
+                last = last + ' (ed.)'
+            elif item['type'] == 'translator':
+                last = last + ' (trans.)'
+            creator_list.insert(index, last)
+        
+        if len(_item['creators']) == 0:
+            creator_ref = 'xxx.'
+        elif len(_item['creators']) == 1:
+            creator_ref = ''.join(creator_list)
+        elif len(_item['creators']) == 2:
+            creator_ref = ' and '.join(creator_list)
+        elif len(_item['creators']) > 2:
+            creator_ref = ', '.join(creator_list[:-1])
+            creator_ref = creator_ref + ', and ' + creator_list[-1]
+        
+        if not creator_ref[-1] in ['.', '!', '?']:
+            creator_ref = creator_ref + '.'
+        # Format date string
+        try:
+            date_final = _item['data']['date'] + '.'
+        except KeyError:
+            date_final = 'xxx.'
+        # Format title string
+        try:
+            if not _item['data']['title'][-1] in ['.', '?', '!']:
+                title_final = _item['data']['title'] + '.'
+            else:
+                title_final = _item['data']['title']
+        except KeyError:
+            title_final = "xxx."
+
+        return [creator_ref, date_final, title_final]
 
 
 
-################################################################################
-################################################################################
-########## Action Class                                               ##########
-################################################################################
-################################################################################
+###############################################################################
+# Action Class                                                                #
+###############################################################################
 
 class ZotAction(object):
-    
-    def __init__(self, _input, _action, data=[], settings=[], prefs=[]):
-        self.wf = Workflow()
+    """Actions Object"""
+
+    def __init__(self, _input, _action,
+                 data=None, settings=None, prefs=None):
+        self.wf_obj = Workflow()
         self.input = _input
         self.action = _action
 
-        if data == []:
-            with open(self.wf.datafile("zotero_db.json"), 'r') as f:
-                self.data = json.load(f)
-                f.close()
+        if data == None:
+            with open(self.wf_obj.datafile("zotero_db.json"), 'r') as file_obj:
+                self.data = json.load(file_obj)
+                file_obj.close()
         else: self.data = data
 
-        if settings == []:
-            with open(self.wf.datafile("settings.json"), 'r') as f:
-                self.settings = json.load(f)
-                f.close()
+        if settings == None:
+            with open(self.wf_obj.datafile("settings.json"), 'r') as file_obj:
+                self.settings = json.load(file_obj)
+                file_obj.close()
         else: self.settings = settings
 
-        if prefs == []:
-            with open(self.wf.datafile("prefs.json"), 'r') as f:
-                self.prefs = json.load(f)
-                f.close()
+        if prefs == None:
+            with open(self.wf_obj.datafile("prefs.json"), 'r') as file_obj:
+                self.prefs = json.load(file_obj)
+                file_obj.close()
         else: self.prefs = prefs
 
-        cache_files = ["temp_export.html", "temp_bibliography.txt", "temp_bibliography.html", "temp_attach_path.txt", "full_bibliography.html", "collection_query_result.txt", "tag_query_result.txt"]
-        for _file in cache_files:
-            self.wf.cachefile(_file)
+        cache_files = ["temp_export.html", 
+                       "temp_bibliography.txt", 
+                       "temp_bibliography.html", 
+                       "temp_attach_path.txt", 
+                       "full_bibliography.html", 
+                       "collection_query_result.txt", 
+                       "tag_query_result.txt"]
+        for file_ in cache_files:
+            self.wf_obj.cachefile(file_) # Ensure all cache files exist
 
+    ###########################################################################
+    ### Primary API Method                                                  ###
+    ###########################################################################
 
     def act(self):
+        """Call proper method for action"""
+
         if self.action == 'cite':
             return self.export_citation()
         elif self.action == 'ref':
@@ -974,89 +1134,84 @@ class ZotAction(object):
         elif self.action == 'open':
             return self.open_item()
 
-
-    ####################################################################
-    # Export API methods
-    ####################################################################
+    ###########################################################################
+    ### Export Methods                                                      ###
+    ###########################################################################
 
     def export_citation(self):
-        item_id = self.input.split('_')[1]
+        """Export full citation in MD or RTF format"""
 
+        item_id = self.input.split('_')[1]
         if self.prefs['csl'] == "odt-scannable-cites":
             self._export_scannable_cite()
-
         else:
-
-            zot = zotero.Zotero(self.settings['user_id'], self.settings['type'], self.settings['api_key'])
+            zot = zotero.Zotero(self.settings['user_id'], 
+                                self.settings['type'], 
+                                self.settings['api_key'])
             ref = zot.item(item_id, content='bib', style=self.prefs['csl'])
-            uref = z.to_unicode(ref[0])
+            uref = unify(ref[0])
 
             if self.prefs['format'] == 'Markdown':
                 citation = self._export_markdown(uref, 'citation')
-                z.set_clipboard(citation.strip())
-
+                set_clipboard(citation.strip())
             elif self.prefs['format'] == 'Rich Text':
                 self._export_rtf(uref, 'citation')
         return self.prefs['format']
 
-
     def export_ref(self):
-        item_id = self.input.split('_')[1]
+        """Export short reference in MD or RTF format"""
 
+        item_id = self.input.split('_')[1]
         if self.prefs['csl'] == 'odt-scannable-cites':
             self._export_scannable_cite()
-
         else:
-
-            zot = zotero.Zotero(self.settings['user_id'], self.settings['type'], self.settings['api_key'])
+            zot = zotero.Zotero(self.settings['user_id'], 
+                                self.settings['type'], 
+                                self.settings['api_key'])
             ref = zot.item(item_id, content='citation', style=self.prefs['csl'])
-            uref = z.to_unicode(ref[0][6:-7])
+            uref = unify(ref[0][6:-7])
 
             if self.prefs['format'] == 'Markdown':
                 citation = self._export_markdown(uref, 'ref')
-                z.set_clipboard(citation.strip())
-                
+                set_clipboard(citation.strip())
             elif self.prefs['format'] == 'Rich Text':
                 self._export_rtf(uref, 'ref')
         return self.prefs['format']
 
-    
     def export_group(self):
+        """Export full bibliography in MD or RTF format"""
 
-        _inp = self.input.split(':')
-        zot = zotero.Zotero(self.settings['user_id'], self.settings['type'], self.settings['api_key'])
+        [pre, item_id] = self.input.split(':')
+        zot = zotero.Zotero(self.settings['user_id'], 
+                            self.settings['type'], 
+                            self.settings['api_key'])
 
-        if _inp[0] == 'c':
-            cites = zot.collection_items(_inp[1], content='bib', style=self.prefs['csl'])
-        elif _inp[0] == 't':
-            cites = zot.tag_items(_inp[1], content='bib', style=self.prefs['csl'])
+        if pre == 'c':
+            cites = zot.collection_items(item_id, 
+                                        content='bib', 
+                                        style=self.prefs['csl'])
+        elif pre == 't':
+            tag_name = self._get_tag_name(item_id)
+            cites = zot.tag_items(tag_name, 
+                                content='bib', 
+                                style=self.prefs['csl'])
 
         if self.prefs['format'] == 'Markdown':
-
             md_cites = []
-            for ref in cites:
-                citation = html2md.html2text(ref)
-                if self.prefs['csl'] != 'bibtex':
-                    citation = re.sub("(?:http|doi)(.*?)$|pp. ", "", citation)
-                    citation = re.sub("_(.*?)_", "*\\1*", citation)
+            for cite in cites:
+                citation = self._export_markdown(cite, 'citation')
                 md_cites.append(citation)
 
             sorted_md = sorted(md_cites)
             sorted_md.insert(0, 'WORKS CITED\n')
-            z.set_clipboard('\n'.join(sorted_md))
+            set_clipboard('\n'.join(sorted_md))
 
         elif self.prefs['format'] == 'Rich Text':
+            full_bib = self.wf_obj.cachefile("full_bibliography.html")
 
-            with open(self.wf.cachefile("full_bibliography.html"), 'w') as f:
-                for ref in cites:
-                    f.write(ref.encode('ascii', 'xmlcharrefreplace'))
-                    f.write('<br>')
-                f.close()
+            bib_html = '<br>'.join([cite.encode('ascii', 'xmlcharrefreplace')
+                                    for cite in cites])
 
-            with open(self.wf.cachefile("full_bibliography.html"), 'r') as f:
-                bib_html = f.read()
-                f.close()
-            
             if self.prefs['csl'] != 'bibtex':
                 bib_html = re.sub(r"http(.*?)\.(?=<)", "", bib_html)
                 bib_html = re.sub(r"doi(.*?)\.(?=<)", "", bib_html)
@@ -1067,49 +1222,49 @@ class ZotAction(object):
             sorted_html.insert(0, 'WORKS CITED<br>')
             final_html = '<br>'.join(sorted_html)
 
-            with open(self.wf.cachefile("full_bibliography.html"), 'w') as f:
-                f.write(final_html)
-                f.close()
+            with open(full_bib, 'w') as file_obj:
+                file_obj.write(final_html)
+                file_obj.close()
 
-            a_script = """
-                do shell script "textutil -convert rtf " & quoted form of "{0}" & " -stdout | pbcopy"
-                """.format(self.wf.cachefile("full_bibliography.html"))
-            #applescript.asrun(a_script)
-            subprocess.call(['osascript', '-e', a_script])
-
-            with open(self.wf.cachefile("full_bibliography.html"), 'w') as f:
-                f.write('')
-                f.close()
+            if html2rtf(full_bib):
+                with open(full_bib, 'w') as file_obj:
+                    file_obj.write('')
+                    file_obj.close()
         return self.prefs['format']
-
 
     def append_to_bib(self):
+        """Append full citation in MD or RTF format to temp bibliography"""
 
         item_id = self.input.split('_')[1]
-
-        zot = zotero.Zotero(self.settings['user_id'], self.settings['type'], self.settings['api_key'])
-        ref = zot.item(item_id, content='bib', style=self.prefs['csl'])
-        uref = z.to_unicode(ref[0])
+        zot = zotero.Zotero(self.settings['user_id'], 
+                            self.settings['type'], 
+                            self.settings['api_key'])
+        ref = zot.item(item_id, 
+                       content='bib', 
+                       style=self.prefs['csl'])
+        uref = unify(ref[0])
 
         if self.prefs['format'] == 'Markdown':
+            path = self.wf_obj.cachefile("temp_bibliography.txt")
             citation = self._export_markdown(uref, 'citation')
-            with open(self.wf.cachefile("temp_bibliography.txt"), 'a') as f:
-                f.write(citation.strip())
-                f.write('\n\n')
-                f.close()
-
+            with open(path, 'a') as file_obj:
+                file_obj.write(citation.strip())
+                file_obj.write('\n\n')
+                file_obj.close()
         elif self.prefs['format'] == 'Rich Text':
-            with open(self.wf.cachefile("temp_bibliography.html"), 'a') as f:
-                f.write(uref[23:])
-                f.write('<br>')
-                f.close()
+            path = self.wf_obj.cachefile("temp_bibliography.html")
+            with open(path, 'a') as file_obj:
+                file_obj.write(uref[23:])
+                file_obj.write('<br>')
+                file_obj.close()
         return self.prefs['format']
 
-    ####################################################################
-    # Export helper functions
-    ####################################################################
+    ###########################################################################
+    ### Export helper functions                                             ###
+    ###########################################################################
 
     def _export_markdown(self, html, style):
+        """Convert to Markdown"""
         
         if self.prefs['csl'] != 'bibtex':
             html = re.sub("(?:http)(.*?)$|pp. ", "", html)
@@ -1120,9 +1275,12 @@ class ZotAction(object):
         elif style == 'ref':
             if self.prefs['csl'] == 'bibtex':
                 citation = '[@' + citation.strip() + ']'
-        return citation
+        return unify(citation)
 
     def _export_rtf(self, html, style):
+        """Convert to RTF"""
+        
+        path = self.wf_obj.cachefile("temp_export.html")
 
         if self.prefs['csl'] != 'bibtex':
             html = re.sub("(?:http)(.*?)$|pp. ", "", html)
@@ -1134,58 +1292,106 @@ class ZotAction(object):
                 html = '[@' + html.strip() + ']'    
             html = html.encode('ascii', 'xmlcharrefreplace')
 
-        with open(self.wf.cachefile("temp_export.html"), 'w') as f:
-            f.write(html)
-            f.close()
-        a_script = """
-            do shell script "textutil -convert rtf " & quoted form of "{0}" & " -stdout | pbcopy"
-            """.format(self.wf.cachefile("temp_export.html"))
-        #applescript.asrun(a_script)
-        subprocess.call(['osascript', '-e', a_script])
+        with open(path, 'w') as file_:
+            file_.write(html)
+            file_.close()
 
+        html2rtf(path) # Copy RTF to clipboard
 
     def _export_scannable_cite(self):
+        """Convert to ODT Scannable Cite"""
+
         item_id = self.input.split('_')[1]
         uid = self.settings['user_id']
-        z.set_clipboard(z.scan_cites(self.data, item_id, uid))
+        set_clipboard(self._scan_cites(self.data, item_id, uid))
         return self.prefs['format']
 
+    def _get_tag_name(self, key):
+        """Get name of tag from `key`"""
+        conn = sqlite3.connect(self.wf_obj.datafile("zotquery.sqlite"))
+        cur = conn.cursor()
+        sql_query = """SELECT name
+            FROM tags
+            WHERE key = "{}" """.format(key)
+        tag_name = cur.execute(sql_query).fetchone()
+        conn.close()
+        return unify(tag_name[0])
 
-    ####################################################################
-    # Save API methods
-    ####################################################################
+    def _scan_cites(self, zot_data, item_key, uid):
+        """Exports ODT-RTF styled Scannable Cite"""
+
+        for item in zot_data:
+            if item['key'] == item_key:
+                # Get YEAR var
+                year = item['data']['date']
+                # Get and format CREATOR var
+                if len(item['creators']) == 1:
+                    last = item['creators'][0]['family']
+                elif len(item['creators']) == 2:
+                    last1 = item['creators'][0]['family']
+                    last2 = item['creators'][1]['family']
+                    last = last1 + ', & ' + last2
+                elif len(item['creators']) > 2:
+                    for i in item['creators']:
+                        if i['type'] == 'author':
+                            last = i['family'] + ', et al.'
+                    try:
+                        last
+                    except NameError:
+                        last = item['creators'][0]['family'] + ', et al.'
+        prefix = ''
+        suffix = ''
+        info = last + ', ' + year
+        data = 'zu:' + uid + ':' + item_key
+        scannable_str = ' | '.join([prefix, info, '', suffix, data])
+
+        scannable_cite = '{' + scannable_str + '}'
+        return unify(scannable_cite)
+
+    ############################################################################
+    ### Save sub-methods                                                     ###
+    ############################################################################
 
     def save_collection(self):
-        with open(self.wf.cachefile("collection_query_result.txt"), 'w') as f:
-            f.write(self.input.encode('utf-8'))
-            f.close()
+        """Save collection info to cache"""
+
+        path = self.wf_obj.cachefile("collection_query_result.txt")
+        with open(path, 'w') as file_obj:
+            file_obj.write(self.input.encode('utf-8'))
+            file_obj.close()
 
     def save_tag(self):
-        with open(self.wf.cachefile("tag_query_result.txt"), 'w') as f:
-            f.write(self.input.encode('utf-8'))
-            f.close()
+        """Save tag info to cache"""
+
+        path = self.wf_obj.cachefile("tag_query_result.txt")
+        with open(path, 'w') as file_obj:
+            file_obj.write(self.input.encode('utf-8'))
+            file_obj.close()
 
     def read_save_bib(self):
+        """Read saved biblio from cache"""
         if self.prefs['format'] == 'Markdown':
-            with open(self.wf.cachefile("temp_bibliography.txt"), 'r') as f:
-                bib = f.read()
-                f.close()
+            txt_path = self.wf_obj.cachefile("temp_bibliography.txt")
+            with open(txt_path, 'r') as file_obj:
+                bib = file_obj.read()
+                file_obj.close()
             sorted_l = sorted(bib.split('\n\n'))
             if sorted_l[0] == '':
                 sorted_l[0] = 'WORKS CITED'
             else:
                 sorted_l.insert(0, 'WORKS CITED')
-            z.set_clipboard('\n\n'.join(sorted_l))
+            set_clipboard('\n\n'.join(sorted_l))
 
-            with open(self.wf.cachefile("temp_bibliography.txt"), 'w') as f:
-                f.write('')
-                f.close()
+            with open(txt_path, 'w') as file_obj:
+                file_obj.write('')
+                file_obj.close()
             return self.prefs['format']
 
         elif self.prefs['format'] == 'Rich Text':
-            with open(self.wf.cachefile("temp_bibliography.html"), 'r') as f:
-                bib = f.read()
-                f.close()
+            html_path = self.wf_obj.cachefile("temp_bibliography.html")
+            with open(html_path, 'r') as file_obj:
+                bib = file_obj.read()
+                file_obj.close()
             sorted_l = sorted(bib.split('<br>'))
             if sorted_l[0] == '':
                 sorted_l[0] = 'WORKS CITED<br>'
@@ -1193,74 +1399,53 @@ class ZotAction(object):
                 sorted_l.insert(0, 'WORKS CITED<br>')
             html_string = '<br><br>'.join(sorted_l)
             # Write html to temporary bib file
-            with open(self.wf.cachefile("temp_bibliography.html"), 'w') as f:
-                f.write(html_string)
-                f.close()
+            with open(html_path, 'w') as file_obj:
+                file_obj.write(html_string)
+                file_obj.close()
             # Convert html to RTF and copy to clipboard
-            a_script = """
-                do shell script "textutil -convert rtf " & quoted form of "{0}" & " -stdout | pbcopy"
-                """.format(self.wf.cachefile("temp_bibliography.html"))
-            #applescript.asrun(a_script)
-            subprocess.call(['osascript', '-e', a_script])
-
-            # Write blank file to bib file
-            with open(self.wf.cachefile("temp_bibliography.html"), 'w') as f:
-                f.write('')
-                f.close()
-            return self.prefs['format']
+            if html2rtf(html_path):
+                # Write blank file to bib file
+                with open(html_path, 'w') as file_:
+                    file_.write('')
+                    file_.close()
+                return self.prefs['format']
 
 
     ####################################################################
-    # Attachment API method
+    # Open sub-methods
     ####################################################################
 
     def open_item(self):
-        """Open item in Zotero"""
+        """Open item in Zotero client"""
 
-        client = self.prefs['client']
+        if self.prefs['client'] == "Standalone":
+            app_id = "org.zotero.zotero"
+        elif self.prefs['client'] == "Firefox":
+            app_id = "org.mozilla.firefox"
 
-        if client == "Standalone":
-            a_script = """
-                if application id "org.zotero.zotero" is not running then
-                    tell application id "org.zotero.zotero"
-                        launch
-                        activate
-                        delay 1
-                        open location "zotero://select/items/" & "{0}"
-                    end tell
-                else
-                    tell application id "org.zotero.zotero"
-                        activate
-                        open location "zotero://select/items/" & "{0}"
-                    end tell
-                end if
-            """
-        elif client == "Firefox":
-            a_script = """   
-                if application id "org.mozilla.firefox" is not running then
-                    tell application id "org.mozilla.firefox"
-                        launch
-                        activate
-                        delay 1
-                        open location "zotero://select/items/" & "{0}"                 
-                        delay 1
-                        open location "zotero://select/items/" & "{0}"             
-                    end tell
-                else
-                    tell application id "org.mozilla.firefox"
-                        activate
-                        delay 0.5
-                        open location "zotero://select/items/" & "{0}"             
-                    end tell
-                end if
-            """.format(self.input)
-        return subprocess.call(['osascript', '-e', a_script])
-
+        scpt_str = """
+            if application id "{1}" is not running then
+                tell application id "{1}"
+                    activate
+                    delay 0.5
+                    activate
+                    delay 0.5
+                    open location "zotero://select/items/" & "{0}"
+                end tell
+            else
+                tell application id "{1}"
+                    activate
+                    delay 0.5
+                    open location "zotero://select/items/" & "{0}"
+                end tell
+            end if
+            """.format(self.input, app_id)
+        return run_applescript(scpt_str)
 
     def open_attachment(self):
-
+        """Open item's attachment in default app"""
         if os.path.isfile(self.input):
-            subprocess.Popen(['open', self.input], shell=False, stdout=subprocess.PIPE)
+            subprocess.Popen(['open', self.input], stdout=subprocess.PIPE)
         # if self.input is item key
         else:
             # Get the item's attachement path and attachment key
@@ -1268,68 +1453,46 @@ class ZotAction(object):
             for item in self.data:
                 if item_id == item['key']:
                     for jtem in item['attachments']:
-                        path = jtem['path']
-                        key = jtem['key']
-
-                        if os.path.isfile(path):
-                            subprocess.Popen(['open', path], shell=False, 
-                                            stdout=subprocess.PIPE)
-                        else:
-                            # Open the attachment in Zotero
-                            a_script = """
-                            if application id "org.zotero.zotero" is not running then
-                                tell application id "org.zotero.zotero" to launch
-                            end if
-                            delay 0.5
-                            tell application id "org.zotero.zotero"
-                                activate
-                                delay 0.3
-                                open location "zotero://select/items/0_{0}"
-                            end tell
-                            """.format(key)
-                            subprocess.call(['osascript', '-e', a_script])
+                        if os.path.isfile(jtem['path']):
+                            subprocess.Popen(['open', jtem['path']],
+                                             stdout=subprocess.PIPE)
 
 
-################################################################################
-################################################################################
-##########     Main Function                                          ##########
-################################################################################
-################################################################################
 
-def main(wf):
+###############################################################################
+# Main Function                                                               #
+###############################################################################
+
+def main(wf_obj):
     """Accept Alfred's args and pipe to proper Class"""
 
-    argv = wf.args
+    argv = wf_obj.args
+    #argv = ['--action', 't:P89IJCMX', 'cite_group']
 
     if argv[0] == '--cache':
-        _force = argv[1] # True
-        _personal_only = argv[2] # False
-        zc = ZotCache(_force, _personal_only)
-        zc.cache()
+        _force = bool(argv[1]) # True
+        _personal_only = bool(argv[2]) # False
+        z_cacher = ZotCache(_force, _personal_only)
+        print z_cacher.cache()
     
     elif argv[0] == '--config':
-        _method = argv[1] # 'api'
-        zc = ZotConfig(_method)
-        zc.config()
+        _method = argv[1] # 'prefs'
+        z_configurator = ZotConfig(_method)
+        print z_configurator.config()
     
     elif argv[0] == '--filter':
         _query = argv[1] # "oeuvre inconnue"
         _scope = argv[2] # "titles"
-        zf = ZotFilter(_query, _scope)
-        zf.filter()
+        z_filter = ZotFilter(_query, _scope)
+        z_filter.filter()
     
     elif argv[0] == '--action':
         _key = argv[1] # '266264_JGI5I4TE'
         _action = argv[2] # 'open'
-        za = ZotAction(_key, _action)
-        za.act()
+        z_actor = ZotAction(_key, _action)
+        print z_actor.act()
     
 
-
-
-
-
-
 if __name__ == '__main__':
-    wf = Workflow()
-    sys.exit(wf.run(main))
+    WF = Workflow()
+    sys.exit(WF.run(main))
