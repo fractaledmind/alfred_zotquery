@@ -205,7 +205,7 @@ class FilterTests(unittest.TestCase):
             base + path)
 
 
-
+"""
 class ActionTests(unittest.TestCase):
 
     def setUp(self):
@@ -221,7 +221,7 @@ class ActionTests(unittest.TestCase):
     ####################################################################
 
     def test_action_export_citation(self):
-        """Test full citation action"""
+        "Test full citation action"
         zot_action = z.ZotAction("0_C3KEUQJW", "cite",
                         settings=self.settings, prefs=self.prefs)
         zot_action.act()
@@ -229,7 +229,7 @@ class ActionTests(unittest.TestCase):
             "Margheim, Stephen. 2013. “Test Item.” *A Sample Publication* 1 (1): 1–14.")
         
     def test_action_export_ref(self):
-        """Test full citation action"""
+        Test full citation action"
         zot_action = z.ZotAction("0_C3KEUQJW", "ref",
                         settings=self.settings, prefs=self.prefs)
         zot_action.act()
@@ -237,19 +237,19 @@ class ActionTests(unittest.TestCase):
             "(Margheim 2013)")
 
     def test_action_export_collection(self):
-        """Test full citation action"""
+        Test full citation action"
         zot_action = z.ZotAction("c:NHAEA4EJ", "cite_group",
             settings=self.settings, prefs=self.prefs)
         zot_action.act()
         self.assertEqual(get_clipboard(), EXPECTED_COLL)
 
     def test_action_export_tag(self):
-        """Test full citation action"""
+        Test full citation action"
         zot_action = z.ZotAction("t:Semantics", "cite_group",
             settings=self.settings, prefs=self.prefs)
         zot_action.act()
         self.assertEqual(get_clipboard(), EXPECTED_TAG)
-
+"""
 
 
 
