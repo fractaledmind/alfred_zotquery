@@ -5,69 +5,9 @@
 #
 # MIT Licence. See http://opensource.org/licenses/MIT
 #
-# Created on 17-05-2014
+# Created on 06-08-2014
 #
-
 from __future__ import unicode_literals
-
-"""zotquery.py -- Zotero interface for Alfred
-
-Usage:
-
-    zotquery.py uses bash-style flags to specify object classes, 
-    followed by one or more args necessary for that object.
-
-    zotquery.py --cache <force> <personal_only>
-        type <force> = Boolean
-        vals <force>:
-            True = update cache regardless of freshness
-            False = update cache only if `zotero.sqlite` has changed
-        type <personal_only> = Boolean
-        vals <personal_only>:
-            True = restrict cached data to user's personal Zotero library
-            False = cache all data (personal and group libraries)
-
-    zotquery.py --config <method>
-        type <method> = string
-        vals <method>:
-            'api' = Setup/update user's Zotero API data
-            'prefs' = Setup/update user's export preferences
-            'paths' = Setup paths to user's key Zotero directories
-
-    zotquery.py --filter <query> <scope>
-        type <query> = string
-        vals <query>: any
-        type <scope> = string
-        vals <scope>:
-            'general' = search against all relevant item data
-            'titles' = search against item's title and collection title
-            'creators' = search against item's creators' last names
-            'collections' = search for a collection
-            'tags' = search for a tag
-            'notes' = search against item's notes
-            'attachments' = search against item's attachments
-            'in-collection' = search within saved coll using `general` scope
-            'in-tag' = search within saved tag using `general` scope
-            'debug' = list ZotQuery's directories
-            'new' = list item's added since last cache update
-
-    zotquery.py --action <key> <command>
-        type <key> = string
-        vals <key> = item's Zotero key
-        type <command> = string
-        vals <command>:
-            'cite' = copy full citation of item to clipboard
-            'ref' = copy short reference of item to clipboard
-            'cite_group' = copy full bibliography of collection/tag to clipboard
-            'append' = append full citation of item to temporary bibliography
-            'save_coll' = save name of chosen collection to temporary file 
-                (for `in-collection` filter)
-            'save_tag' = save name of chosen tag to temporary file
-                (for `in-tag` filter)
-            'att' = open item's attachment in default app
-            'bib' = copy temporary bibliography to clipboard
-            'open' = open item in Zotero client
-"""
 
 # Standard Library
 import re
@@ -79,65 +19,47 @@ import sqlite3
 import subprocess
 from collections import OrderedDict
 
-# Dependencies
-DEPS = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'deps')
-# Use bundler for external dependencies
+# Internal Dependencies
+import utils
+from workflow import Workflow
+from workflow.workflow import MATCH_ALL, MATCH_ALLCHARS
+
+# Use bundler for External Dependencies
 import bundler
 bundler.init()
 import html2text
 from pyzotero import zotero
-from workflow import Workflow
-from workflow.workflow import MATCH_ALL, MATCH_ALLCHARS
 
-__version__ = '0.9'
 
+__version__ = '0.9.1'
+
+__usage__ = """
+ZotQuery -- An Alfred GUI for `zotero`
+
+Usage:
+    zotquery.py cache <force> <personal_only>
+    zotquery.py config <method>
+    zotquery.py filter <query> <scope>
+    zotquery.py action <key> <command>
+
+Arguments:
+    <force>         Boolean; update cache regardless of freshness?
+    <personal_only> Boolean; restrict cached data to user's personal Zotero library?
+    <method>        String; api, prefs, or paths
+    <query>         String; term(s) for searching ZotQuery db
+    <scope>         String; general, titles, creators, collections, tags, notes, attachments, in-collection, in-tag, debug, new
+    <key>           String; item's Zotero key
+    <command>       String; cite, ref, cite_group, append, save_coll, save_tag, att, bib, open
+"""
+
+
+# Dependencies
+DEPS = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'deps')
 # Path to apps
 STANDALONE = os.path.expanduser('~/Library/Application Support/Zotero/')
 FIREFOX = os.path.expanduser('~/Library/Application Support/Firefox/')
 ATTACHMENT_EXTS = [".pdf", "epub"]      # Needs to be 4 chars long
 
-
-###############################################################################
-# Helper functions                                                            #
-###############################################################################
-
-def unify(text, encoding='utf-8'):
-    """Convert `text` to unicode"""
-
-    # https://github.com/kumar303/unicode-in-python/blob/master/unicode.txt
-    if isinstance(text, basestring):
-        if not isinstance(text, unicode):
-            text = unicode(text, encoding)
-    return text
-
-def boolify(text):
-    """Convert string to Boolean"""
-
-    if str(text).lower() in ('true', 't', '1'):
-        return True
-    elif str(text).lower() in ('false', 'f', '0'):
-        return False
-
-def applescriptify(text):
-    """Replace double quotes in `text` for Applescript"""
-
-    uni_str = unify(text)
-    return uni_str.replace('"', '" & quote & "')
-
-def run_applescript(scpt_str):
-    """Run an applescript"""
-
-    process = subprocess.Popen(['osascript', '-e', scpt_str],
-                                stdout=subprocess.PIPE)
-    out = process.communicate()[0]
-    return out.strip()
- 
-def set_clipboard(data):
-    """Set clipboard to `data`"""
-
-    encoded_str = unify(data).encode('utf-8')
-    scpt_str = 'set the clipboard to "{0}"'.format(applescriptify(encoded_str))
-    run_applescript(scpt_str)
 
 def make_query(_list):
     """Prepare SQLITE query string"""
@@ -147,13 +69,6 @@ def make_query(_list):
     query = sql.format(sel=_sel, src=_src, mtch=_mtch, id=_id)
     return query
 
-def html2rtf(html_path):
-    """Convert html to RTF and copy to clipboard"""
-    scpt_str = """
-        do shell script "textutil -convert rtf " & quoted form of "{0}" & " -stdout | pbcopy"
-        """.format(applescriptify(html_path))
-    run_applescript(scpt_str)
-    return True
 
 ###############################################################################
 # Cache Object                                                                #
@@ -318,7 +233,7 @@ class ZotCache(object):
 
         # adapted from:
         # https://github.com/pkeane/zotero_hacks
-        _items = []
+        _items = {}
         basic_info = self.info_query()
 
         for basic in basic_info:
@@ -480,7 +395,7 @@ class ZotCache(object):
                 (note,) = _note
                 item_dict['notes'].append(note[33:-10])
             ##### Add item dict to running list
-            _items.append(item_dict)
+            _items[item_key] = item_dict
 
         final_json = json.dumps(_items, 
                                 sort_keys=False, 
