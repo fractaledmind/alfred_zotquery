@@ -5,7 +5,7 @@
 #
 # MIT Licence. See http://opensource.org/licenses/MIT
 #
-# Created on 18-08-2014
+# Created on 19-08-2014
 #
 from __future__ import unicode_literals
 
@@ -25,6 +25,8 @@ from collections import OrderedDict
 import utils
 from lib import pashua, bundler
 from lib.docopt import docopt
+
+# Alfred-Workflow
 from workflow import Workflow, ICON_WARNING, PasswordNotFound
 from workflow.workflow import isascii, split_on_delimiters
 
@@ -88,12 +90,23 @@ def quick_copy(item):
 
     scannable_str = '_'.join([last, year, item['key'][-3:]])
     return '{@' + scannable_str + '}'
-
 QUICK_COPY = quick_copy
 #QUICK_COPY = 'key'
 # What is shown in Alfred's large text with `cmd+l`?
 # Same as above [1] or [2]
-LARGE_TEXT = 'notes'
+def large_text(item):
+    """Get large text"""
+    large = ''
+    try:
+        large = '\n'.join(item['notes'])
+    except KeyError:
+        pass
+    try:
+        large = item['data']['abstractNote']
+    except KeyError:
+        pass
+    return large
+LARGE_TEXT = large_text
 # Only save items from your Personal Zotero library?
 PERSONAL_ONLY = False
 # Cache formatted references for faster re-retrieval?
@@ -2100,7 +2113,7 @@ def main(wf):
     args = wf.args
     #md = '/Users/smargheim/Documents/DEVELOPMENT/GitHub/pandoc-templates/examples/academic_test.txt'
     #args = ['scan', md, 'Moritz_1969']
-    #args = ['search', 'creators', 'rosen']
+    #args = ['config', 'all']
     args = docopt(__usage__, argv=args, version=__version__)
     log.info(args)
     pd = ZotWorkflow(wf)
