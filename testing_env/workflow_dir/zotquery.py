@@ -26,7 +26,7 @@ import utils
 from lib import pashua, bundler
 from lib.docopt import docopt
 from workflow import Workflow, ICON_WARNING, PasswordNotFound
-from workflow.workflow import isascii
+from workflow.workflow import isascii, split_on_delimiters
 
 # Use `bundler` for External Dependencies
 bundler.init()
@@ -40,16 +40,71 @@ __usage__ = """
 ZotQuery -- An Alfred GUI for `zotero`
 
 Usage:
-    zotquery.py config <flag>
+    zotquery.py config <flag> [<argument>]
     zotquery.py search <flag> <argument>
     zotquery.py store <flag> <argument>
     zotquery.py export <flag> <argument>
     zotquery.py open <flag> <argument>
+    zotquery.py scan <flag> <argument>
 
 Arguments:
     <flag>      Determines which specific code-path to follow
     <argument>  The value to be stored, searched, or passed on
 """
+
+# ------------------------------------------------------------------------------
+# WORKFLOW USAGE PREFERENCES 
+# Feel free to change
+# ------------------------------------------------------------------------------
+
+# What is copied to the clipboard with `cmd+c`?
+# Can be [1] a `key` from FILTERS_MAP (so a `str`)
+# OR [2] a user-made function to generate a `str`
+#that takes the dictionary of `item` as its argument
+def quick_copy(item):
+    """Generate `str` for QUICK_COPY"""
+    # Get YEAR var
+    try:
+        year = item['data']['date']
+    except KeyError:
+        year = 'xxxx'
+    # Get and format CREATOR var
+    if len(item['creators']) == 0:
+        last = 'xxx'
+    elif len(item['creators']) == 1:
+        last = item['creators'][0]['family']
+    elif len(item['creators']) == 2:
+        last1 = item['creators'][0]['family']
+        last2 = item['creators'][1]['family']
+        last = last1 + ', & ' + last2
+    elif len(item['creators']) > 2:
+        for i in item['creators']:
+            if i['type'] == 'author':
+                last = i['family'] + ', et al.'
+        try:
+            last
+        except NameError:
+            last = item['creators'][0]['family'] + ', et al.'
+
+    scannable_str = '_'.join([last, year, item['key'][-3:]])
+    return '{@' + scannable_str + '}'
+
+QUICK_COPY = quick_copy
+#QUICK_COPY = 'key'
+# What is shown in Alfred's large text with `cmd+l`?
+# Same as above [1] or [2]
+LARGE_TEXT = 'notes'
+# Only save items from your Personal Zotero library?
+PERSONAL_ONLY = False
+# Cache formatted references for faster re-retrieval?
+CACHE_REFERENCES = True
+# Allow ZotQuery to learn which items are used more frequently?
+ALFRED_LEARN = False
+
+# ------------------------------------------------------------------------------
+# WORKFLOW USAGE SETTINGS 
+# These are dangerous to change
+# ------------------------------------------------------------------------------
 
 # Accepted extensions for ZotQuery attachments
 ATTACH_EXTS = [
@@ -444,6 +499,7 @@ class ZotQuery(object):
             clone_path = self.wf.datafile("zotquery.sqlite")
             if not os.path.exists(clone_path):
                 copyfile(self.zotero.original_sqlite, clone_path)
+                log.info('Created Clone SQLITE file')
             return clone_path
 
     @property
@@ -533,8 +589,25 @@ class ZotQuery(object):
         # Check if JSON cache is up-to-date with the cloned database
         elif (cache_mod - clone_mod) > 10:
             update, spot = (True, "JSON")
-        log.debug('Update {}? {}'.format(spot, update))
-        return update, spot
+        if update:
+            log.debug('Update {}? {}'.format(spot, update))
+        return (update, spot)
+
+    def update_clone(self):
+        """Update `cloned_sqlite` so that it's current with `original_sqlite`.
+
+        """
+        clone_path = self.wf.datafile("zotquery.sqlite")
+        copyfile(self.zotero.original_sqlite, clone_path)
+        log.info('Updated Clone SQLITE file')
+
+    def update_json(self):
+        """Update `json_data` so that it's current with `cloned_sqlite`.
+
+        """
+        self.con = sqlite3.connect(self.cloned_sqlite)
+        self.to_json()
+
 
     @staticmethod
     def create_index_db(db):
@@ -553,7 +626,7 @@ class ZotQuery(object):
                 # convert list to string
                 columns = ', '.join(columns)
                 sql = """CREATE VIRTUAL TABLE zotquery
-                         USING fts3({columns})""".format(columns=columns)
+                         USING fts3({cols})""".format(cols=columns)
                 cur.execute(sql)
                 log.debug('Created FTS database: {}'.format(db))
 
@@ -635,6 +708,9 @@ class ZotQuery(object):
              item_id,
              item_type_id,
              library_id) = basic
+            # If user only wants personal library
+            if PERSONAL_ONLY == True and library_id != None:
+                continue
             library_id = library_id if library_id != None else '0'
             # place key ids in item's root dict
             item_dict['key'] = item_key
@@ -656,7 +732,7 @@ class ZotQuery(object):
             all_items[item_key] = item_dict
         self.con.close()
         self.wf.store_data('zotquery', all_items, serializer='json')
-        log.debug('Created JSON file in {:0.3} seconds'.format(time() - start))
+        log.info('Created JSON file in {:0.3} seconds'.format(time() - start))
 
     # JSON to FTS sub-methods --------------------------------------------------
 
@@ -1143,7 +1219,7 @@ class ZotWorkflow(object):
         self.flag = args['<flag>']
         self.arg = args['<argument>']
         # list of all possible actions
-        actions = ('search', 'store', 'export', 'open', 'config', 'help')
+        actions = ('search', 'store', 'export', 'open', 'config', 'scan')
         for action in actions:
             if args.get(action):
                 method_name = '{}_codepath'.format(action)
@@ -1196,23 +1272,13 @@ class ZotWorkflow(object):
         :rtype: :class:`boolean`
 
         """
-        # Set ``act`` properties
+        # Set `export` properties
         self.settings = self.zotero.api_settings
         self.prefs = self.zotquery.output_settings
-        self.zot = zotero.Zotero(self.settings['user_id'], 
-                                 self.settings['user_type'], 
-                                 self.settings['api_key'])
-        # Choose appropriate code branch
-        if self.flag in ('bib', 'citation', 'append'):
-            cites = self.export_item()
-        elif self.flag == 'group':
-            cites = self.export_group()
-        # more info
-        if self.flag == 'append':
-            self.append_item(cites)
-        else:
-            text = self.export_formatted(cites)
-            utils.set_clipboard(text.strip())
+        # Retrieve HTML of item
+        cites = self.get_export_html()
+        # Export text of item to appropriate location
+        self.send_export_text(cites)
         return True
 
     # `open` paths  ------------------------------------------------------------
@@ -1232,13 +1298,59 @@ class ZotWorkflow(object):
         """Configure ZotQuery
 
         """
-        if self.flag == 'api':
+        if self.flag == 'freshen':
+            self.config_freshen()
+        elif self.flag == 'api':
             self.zotero.set_api()
         elif self.flag == 'prefs':
             self.zotquery.set_output()
         elif self.flag == 'all':
             self.zotero.set_api()
             self.zotquery.set_output()
+
+    def scan_codepath(self):
+        """Scan Markdown document for reference
+
+        """
+        md_text = utils.path_read(self.flag)
+        self.reference_scan(md_text)
+
+    def reference_scan(self, md_text):
+        """Scan Markdown document for reference
+
+        Adapted from <https://github.com/smathot/academicmarkdown>
+
+        """
+        ref_count = 0
+        zot_items = []
+        found_cks = []
+        regexp = re.compile(r"(?:@|#)([^\s?!,.\t\n\r\v\]\[;#]+)")
+        for reg_obj in re.finditer(regexp, md_text):
+            cite_key = reg_obj.groups()[0]
+            log.info("Found reference (#{}) {}".format(ref_count, cite_key))
+            if cite_key in found_cks:
+                continue
+            ref_count += 1
+            ck_parts = split_on_delimiters(cite_key)
+            ck_query = ' '.join(ck_parts)
+            matches = self._get_items(ck_query)
+            if len(matches) == 0:
+                log.debug('No matches for {}'.format(cite_key))
+                return 1
+            elif len(matches) > 1:
+                log.debug('{} matches for {}'.format(len(matches), cite_key))
+                log.debug("Matches: {}".format(matches))
+                return 1
+            match = matches[0]
+            if match in zot_items and cite_key not in found_cks:
+                for ck in sorted(found_cks):
+                    log.debug('Ref: {}'.format(ck))
+                raise Exception('"{}" refers to a pre-existent reference. \
+                                Use consistent references (see log)!'.format(
+                                                                      cite_key))
+            zot_items.append(match)
+            found_cks.append(cite_key)
+        return zot_items
 
 
 #-------------------------------------------------------------------------------
@@ -1329,18 +1441,19 @@ class ZotWorkflow(object):
 
     ## Get keys of individual `items`  -----------------------------------------
 
-    def _get_items(self):
+    def _get_items(self, arg=None):
         """Search the FTS database for query.
 
         :returns: all items that match query
         :rtype: :class:`list`
 
         """
+        query = self.arg if arg == None else arg
         # Prepare proper `sqlite` query for individual items
-        sql = self._make_items_query()
+        sql = self._make_items_query(query)
         log.info('Item sqlite query: {}'.format(sql.strip()))
         # Search against either Unicode or ASCII database
-        if not isascii(self.arg):
+        if not isascii(query):
             db = self.zotquery.fts_sqlite
         else:
             db = self.zotquery.folded_sqlite
@@ -1426,7 +1539,7 @@ class ZotWorkflow(object):
 
     ### Query maker for searching Zotero `items`  ------------------------------
 
-    def _make_items_query(self):
+    def _make_items_query(self, arg=None):
         """Create the proper sqlite query given the ``flag`` and ``arg``
         to get all items' keys.
 
@@ -1439,8 +1552,12 @@ class ZotWorkflow(object):
             WHERE zotquery MATCH '{}'
         """
         # Make query term fuzzy searched
-        fuzzy_term = '*' + self.arg + '*'
+        if arg == None:
+            fuzzy_term = '*' + self.arg + '*'
+        else:
+            fuzzy_term = '*' + arg + '*'
         # if `general`, search all columns
+        final = fuzzy_term
         if self.flag == 'general':
             final = fuzzy_term
         # if scoped, search only relevant columns
@@ -1582,7 +1699,12 @@ class ZotWorkflow(object):
         alfred['valid'] = True
         alfred['arg'] = '_'.join([str(item['library']), str(item['key'])])
         alfred['icon'] = self._format_icon(item, icn_type)
-        # For Alfred to remember results, add alfred['uid'] = str(item['id'])
+        if LARGE_TEXT:
+            alfred['largetext'] = self._format_largetext(item)
+        if QUICK_COPY:
+            alfred['copytext'] = self._format_quickcopy(item)
+        if ALFRED_LEARN:
+            alfred['uid'] = str(item['id'])
         return alfred
 
     #### Prepare Alfred dictionary of `group` for feedback  --------------------
@@ -1598,7 +1720,8 @@ class ZotWorkflow(object):
         alfred['valid'] = True
         alfred['arg'] = '_'.join([self.flag[0], key])
         alfred['icon'] = "icons/n_{}.png".format(self.flag[:-1])
-        # For Alfred to remember results, add alfred['uid'] = str(item['id'])
+        if ALFRED_LEARN:
+            alfred['uid'] = str(key)
         return alfred
 
     ##### ----------------------------------------------------------------------
@@ -1681,12 +1804,92 @@ class ZotWorkflow(object):
             icon = 'icons/{}_conference.png'.format(icn_type)
         return icon
 
+    ##### Properly format `item`'s largetext  ----------------------------------
+
+    def _format_largetext(self, item):
+        """Generate `str` to be displayed by Alfred's large text.
+
+        """
+        if isinstance(LARGE_TEXT, unicode):
+            # get search map from column
+            json_map = FILTERS_MAP.get(LARGE_TEXT, None)
+            if json_map:
+                # get data from `item` using search map
+                largetext = self.zotquery.get_datum(item, json_map)
+        elif hasattr(LARGE_TEXT, '__call__'):
+            largetext = LARGE_TEXT(item)
+        else:
+            largetext = ''
+        return largetext
+
+    ##### Properly format `item`'s quickcopy text  -----------------------------
+
+    def _format_quickcopy(self, item):
+        """Generate `str` to be copied to clipboard by `cmd+c`.
+
+        """
+        if isinstance(QUICK_COPY, unicode):
+            # get search map from column
+            json_map = FILTERS_MAP.get(QUICK_COPY, None)
+            if json_map:
+                # get data from `item` using search map
+                quickcopy = self.zotquery.get_datum(item, json_map)
+        elif hasattr(QUICK_COPY, '__call__'):
+            quickcopy = QUICK_COPY(item)
+        else:
+            quickcopy = ''
+        return quickcopy
+
 
 #-------------------------------------------------------------------------------
 ### `Export` method
 #-------------------------------------------------------------------------------
+    
+    # Retrieve HTML of item  ---------------------------------------------------
 
-    # Export individual `items`  -----------------------------------------------
+    def get_export_html(self):
+        """Get HTML of item reference.
+
+        """
+        # check if item reference has already been generated and cached
+        cached = self.wf.cached_data(self.arg, max_age=0)
+        if cached:
+            # check if item reference is right kind
+            if self.flag in cached.keys():
+                cites = cached[self.flag]
+        # if not exported before
+        else:
+            self.zot = zotero.Zotero(self.settings['user_id'], 
+                                     self.settings['user_type'], 
+                                     self.settings['api_key'])
+            # Choose appropriate code branch
+            if self.flag in ('bib', 'citation', 'append'):
+                cites = self.export_item()
+            elif self.flag == 'group':
+                cites = self.export_group()
+            # Cache exported HTML?
+            if CACHE_REFERENCES:
+                cache = {self.flag: cites}
+                self.wf.cache_data(self.arg, cache)
+        return cites
+
+    # Export formatted text of item  -------------------------------------------
+
+    def send_export_text(self, cites):
+        """Send item reference text to right place in right format.
+
+        """
+        # Where does the data go?
+        if self.flag == 'append':
+            self.append_item(cites)
+        else:
+            text = self.export_formatted(cites)
+            utils.set_clipboard(text.strip())
+        return True
+
+    ## -------------------------------------------------------------------------
+
+    ## Export individual `items`  ----------------------------------------------
 
     def export_item(self):
         """Export individual item in preferred format.
@@ -1700,7 +1903,7 @@ class ZotWorkflow(object):
 
         return '\n'.join(cites)
 
-    # Export entire `tag` or `collection`  -------------------------------------
+    ## Export entire `tag` or `collection`  ------------------------------------
 
     def export_group(self):
         """Export entire group in preferred format.
@@ -1718,9 +1921,9 @@ class ZotWorkflow(object):
                                        style=self.prefs['csl'])
         return '\n'.join(cites)
 
-    ## -------------------------------------------------------------------------
+    ### ------------------------------------------------------------------------
 
-    ## Append `item` to temporary bibliography  --------------------------------
+    ### Append `item` to temporary bibliography  -------------------------------
 
     def append_item(self, cites):
         """Append citation to appropriate bibliography file.
@@ -1739,7 +1942,7 @@ class ZotWorkflow(object):
             file_obj.write(text.strip().encode('utf-8'))
             file_obj.write(post_text)
 
-    ## Export properly formatted text  -----------------------------------------
+    ### Export properly formatted text  ----------------------------------------
 
     def export_formatted(self, cites):
         """Format the HTML citations in the proper format.
@@ -1751,9 +1954,9 @@ class ZotWorkflow(object):
             final = self._export_rtf(cites)
         return final
 
-    ### ------------------------------------------------------------------------
+    #### -----------------------------------------------------------------------
 
-    ### Export text as Markdown  -----------------------------------------------
+    #### Export text as Markdown  ----------------------------------------------
 
     def _export_markdown(self, html):
         """Convert to Markdown
@@ -1768,7 +1971,7 @@ class ZotWorkflow(object):
                 markdown = '[@' + markdown.strip() + ']'
         return markdown
 
-    ### Export text as Rich Text  ----------------------------------------------
+    #### Export text as Rich Text  ---------------------------------------------
 
     def _export_rtf(self, html):
         """Convert to RTF
@@ -1783,9 +1986,9 @@ class ZotWorkflow(object):
         rtf = self.html2rtf(path)
         return rtf
 
-    #### -----------------------------------------------------------------------
+    ##### ----------------------------------------------------------------------
 
-    #### Clean up and stringify HTML  ------------------------------------------
+    ##### Clean up and stringify HTML  -----------------------------------------
 
     def _prepare_html(self, html):
         """Prepare HTML
@@ -1794,7 +1997,7 @@ class ZotWorkflow(object):
         html = self._preprocess(html)
         return html.encode('ascii', 'xmlcharrefreplace')
 
-    #### Convert HTML to Rich Text  --------------------------------------------
+    ##### Convert HTML to Rich Text  -------------------------------------------
 
     @staticmethod
     def html2rtf(path):
@@ -1805,7 +2008,7 @@ class ZotWorkflow(object):
                                         path,
                                         '-stdout'])
 
-    #### Clean up odd formatting  ----------------------------------------------
+    ##### Clean up odd formatting  ---------------------------------------------
 
     def _preprocess(self, item):
         """Clean up `item` formatting"""
@@ -1867,20 +2070,44 @@ class ZotWorkflow(object):
 
 
 #-------------------------------------------------------------------------------
+### `Config` codepaths
+#-------------------------------------------------------------------------------
+
+    def config_freshen(self):
+        """Update relevant data stores.
+
+        """
+        if self.arg == 'True':
+            self.zotquery.update_clone()
+            self.zotquery.update_json()
+            return 0
+        update, spot = self.zotquery.is_fresh()
+        if update == True:
+            if spot == 'Clone':
+                self.zotquery.update_clone()
+            elif spot == 'JSON':
+                self.zotquery.update_json()
+        return 0
+
+
+#-------------------------------------------------------------------------------
 # Main Script
 #-------------------------------------------------------------------------------
 
 def main(wf):
     """Accept Alfred's args and pipe to proper Class"""
 
-    #args = wf.args
-    args = ['search', 'creators', 'muller']
+    args = wf.args
+    #md = '/Users/smargheim/Documents/DEVELOPMENT/GitHub/pandoc-templates/examples/academic_test.txt'
+    #args = ['scan', md, 'Moritz_1969']
+    #args = ['search', 'creators', 'rosen']
     args = docopt(__usage__, argv=args, version=__version__)
     log.info(args)
     pd = ZotWorkflow(wf)
     res = pd.run(args)
     if res:
-        print res
+        print(res)
+
 
 
 
