@@ -66,7 +66,7 @@ class FilterTests(unittest.TestCase):
                                 'search', 'creators', 'rosen'])
         uids = capture_output(zot_filter)
         self.assertEqual(uids,
-                         ['0_7VPPEPGQ', '0_MK8GBNFH', '0_3G9MDISQ'])
+                         ['0_7VPPEPGQ', '0_MK8GBNFH', '0_3G9MDISQ', '0_D2FZJ3VG'])
 
     # Titles Scope ----------------------------------------------
     def test_filter_titles(self):
