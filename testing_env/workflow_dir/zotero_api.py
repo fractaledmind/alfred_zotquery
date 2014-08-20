@@ -94,52 +94,55 @@ class ZotAPI(object):
     ## Full Reference Read API requests  ---------------------------------------
 
     def item_reference(self, item, **kwargs):
-        if 'style' not in kwargs.keys():
-            kwargs.update({'style': 'chicago-author-date'})
-        kwargs.update({'include': 'bib'})
-        data = self.get_item(item, kwargs)
-        return data['bib']
+        return self._get_template('bib',
+                                  self.get_item,
+                                  item,
+                                  **kwargs)
 
     def tag_references(self, tag, **kwargs):
-        if 'style' not in kwargs.keys():
-            kwargs.update({'style': 'chicago-author-date'})
-        kwargs.update({'include': 'bib'})
-        data = self.get_tag_items(tag, kwargs)
-        return [item['bib'] for item in data]
+        return self._get_template('bib',
+                                  self.get_tag_items,
+                                  tag,
+                                  **kwargs)
 
     def collection_references(self, collection, **kwargs):
-        if 'style' not in kwargs.keys():
-            kwargs.update({'style': 'chicago-author-date'})
-        kwargs.update({'include': 'bib'})
-        data = self.get_collection_items(collection, kwargs)
-        return [item['bib'] for item in data]
-
+        return self._get_template('bib',
+                                  self.get_collection_items,
+                                  collection,
+                                  **kwargs)
 
     ## -------------------------------------------------------------------------
 
     ## Short Citation Read API requests  ---------------------------------------
 
     def item_citation(self, item, **kwargs):
-        if 'style' not in kwargs.keys():
-            kwargs.update({'style': 'chicago-author-date'})
-        kwargs.update({'include': 'citation'})
-        data = self.get_item(item, kwargs)
-        return data['citation']
+        return self._get_template('citation',
+                                  self.get_item,
+                                  item,
+                                  **kwargs)
 
     def tag_citations(self, tag, **kwargs):
-        if 'style' not in kwargs.keys():
-            kwargs.update({'style': 'chicago-author-date'})
-        kwargs.update({'include': 'citation'})
-        data = self.get_tag_items(tag, kwargs)
-        return [item['citation'] for item in data]
+        return self._get_template('citation',
+                                  self.get_tag_items,
+                                  tag,
+                                  **kwargs)
 
     def collection_citations(self, collection, **kwargs):
+        return self._get_template('citation',
+                                  self.get_collection_items,
+                                  collection,
+                                  **kwargs)
+        
+
+    def _get_template(self, type, func, item, **kwargs):
         if 'style' not in kwargs.keys():
             kwargs.update({'style': 'chicago-author-date'})
-        kwargs.update({'include': 'data'})
-        data = self.get_collection_items(collection, kwargs)
-        #return [item['citation'] for item in data]
-        return data
+        kwargs.update({'include': type})
+        data = func(item, kwargs)
+        try:
+            return [item[type] for item in data]
+        except TypeError:
+            return data[type]
 
 
 
@@ -157,13 +160,13 @@ def main(wf):
     #print z.get_tag_items('Mathematics', include='citation', style='apa')
     #print z.get_collection_items('5JBVB4Q4', include='citation')
     
-    #print z.item_reference('3KFT2HQ9', style='apa')
+    print z.item_reference('3KFT2HQ9', style='apa')
     #print z.tag_references('Mathematics')
-    print len(z.collection_references('5JBVB4Q4', limit=50))
+    #print z.collection_references('5JBVB4Q4')
 
     #print z.item_citation('3KFT2HQ9')
     #print z.tag_citations('Mathematics')
-    print len(z.collection_citations('5JBVB4Q4', limit=50))
+    #print z.collection_citations('5JBVB4Q4')
 
 
 
