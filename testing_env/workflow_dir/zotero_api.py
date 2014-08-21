@@ -34,7 +34,7 @@ class ZotAPI(object):
             'item_sub': "/{t}/{u}/items/{i}/children",
             'item_tags': "/{t}/{u}/items/{i}/tags",
             'tags': "/{t}/{u}/tags",
-            'tag': "/{t}/{u}/tags/{e}",
+            'tag': "/{t}/{u}/tags/{ta}",
             'tag_items': "/{t}/{u}/tags/{ta}/items",
             'collections': "/{t}/{u}/collections",
             'collections_top': "/{t}/{u}/collections/top",
@@ -60,6 +60,16 @@ class ZotAPI(object):
 
         self.request.raise_for_status()
         return self.request.json()
+
+    def _get_template(self, type, func, item, **kwargs):
+        if 'style' not in kwargs.keys():
+            kwargs.update({'style': 'chicago-author-date'})
+        kwargs.update({'include': type})
+        data = func(item, kwargs)
+        try:
+            return [item[type] for item in data]
+        except TypeError:
+            return data[type]
 
     ## -------------------------------------------------------------------------
 
@@ -132,17 +142,6 @@ class ZotAPI(object):
                                   self.get_collection_items,
                                   collection,
                                   **kwargs)
-        
-
-    def _get_template(self, type, func, item, **kwargs):
-        if 'style' not in kwargs.keys():
-            kwargs.update({'style': 'chicago-author-date'})
-        kwargs.update({'include': type})
-        data = func(item, kwargs)
-        try:
-            return [item[type] for item in data]
-        except TypeError:
-            return data[type]
 
 
 
