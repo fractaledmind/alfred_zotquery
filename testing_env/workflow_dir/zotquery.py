@@ -41,6 +41,7 @@ Usage:
     zotquery.py search <flag> [<argument>]
     zotquery.py store <flag> <argument>
     zotquery.py export <flag> <argument>
+    zotquery.py append <flag> <argument>
     zotquery.py open <flag> <argument>
     zotquery.py scan <flag> [<argument>]
 
@@ -1444,7 +1445,8 @@ class ZotWorkflow(object):
         self.flag = args['<flag>']
         self.arg = args['<argument>']
         # list of all possible actions
-        actions = ('search', 'store', 'export', 'open', 'config', 'scan')
+        actions = ('search', 'store', 'export', 'append',
+                   'open', 'config', 'scan')
         for action in actions:
             if args.get(action):
                 method_name = '{}_codepath'.format(action)
@@ -1499,14 +1501,32 @@ class ZotWorkflow(object):
         """
         # Set `export` properties
         self.api = self.zotero.api_settings
-        self.prefs = self.zotquery.output_settings
         self.zot = ZotAPI(library_id=self.api['user_id'],
                           library_type='user',
                           api_key=self.api['api_key'])
         # Retrieve HTML of item
         cites = self.get_export_html()
-        # Export text of item to appropriate location
-        self.send_export_text(cites)
+        # Export text of item to clipboard
+        text = self.export_formatted(cites)
+        utils.set_clipboard(text.strip())
+        return self.prefs['fmt']
+
+    def append_codepath(self):
+        """Use Zotero API to export formatted references.
+
+        :returns: status of export process
+        :rtype: :class:`boolean`
+
+        """
+        # Set `export` properties
+        self.api = self.zotero.api_settings
+        self.zot = ZotAPI(library_id=self.api['user_id'],
+                          library_type='user',
+                          api_key=self.api['api_key'])
+        # Retrieve HTML of item
+        cites = self.get_export_html()
+        # Append text of temp biblio
+        self.append_item(cites)
         return self.prefs['fmt']
 
     # `open` paths  ------------------------------------------------------------
@@ -2084,16 +2104,17 @@ class ZotWorkflow(object):
 
         """
         # check if item reference has already been generated and cached
+        no_cache = True
         cached = self.wf.cached_data(self.arg, max_age=0)
         if cached:
-            flag = self.flag if self.flag != 'append' else 'bib'
             # check if item reference is right kind
-            if flag in cached.keys():
-                cites = cached[flag]
+            if self.flag in cached.keys():
+                cites = cached[self.flag]
+                no_cache = False
         # if not exported before
-        else:
+        if no_cache:
             # Choose appropriate code branch
-            if self.flag in ('bib', 'citation', 'append'):
+            if self.flag in ('bib', 'citation'):
                 cites = self.export_item()
             elif self.flag == 'group':
                 cites = self.export_group()
@@ -2102,20 +2123,6 @@ class ZotWorkflow(object):
                 cache = {self.flag: cites}
                 self.wf.cache_data(self.arg, cache)
         return cites
-
-    # Export formatted text of item  -------------------------------------------
-
-    def send_export_text(self, cites):
-        """Send item reference text to right place in right format.
-
-        """
-        # Where does the data go?
-        if self.flag == 'append':
-            self.append_item(cites)
-        else:
-            text = self.export_formatted(cites)
-            utils.set_clipboard(text.strip())
-        return True
 
     ## -------------------------------------------------------------------------
 
@@ -2195,7 +2202,7 @@ class ZotWorkflow(object):
         """
         html = self._preprocess(html)
         markdown = html2text.html2text(html, bodywidth=0)
-        if self.flag in ('bib', 'append'):
+        if self.flag == 'bib':
             markdown = re.sub(r"_(.*?)_", r"*\1*", markdown, re.S)
         elif self.flag == 'citation':
             if self.prefs['csl'] == 'bibtex':
