@@ -1219,10 +1219,11 @@ class ZotAPI(object):
         Returns an JSON object
         """
         full_url = '{}{}'.format(self.base, request)
-        log.debug('API request: {}'.format(full_url))
+        #log.debug('API request: {}'.format(full_url))
         headers = {'User-Agent': "ZotQuery/{}".format(__version__),
                    'Authorization': "Bearer {}".format(self.api_key),
-                   'Zotero-API-Version': 3}
+                   'Zotero-API-Version': 3}#,
+                   #'If-Modified-Since-Version': 645}
         kwargs.update({'format': 'json'})
         self.request = web.get(url=full_url,
                                headers=headers,
