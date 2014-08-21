@@ -42,7 +42,7 @@ Usage:
     zotquery.py store <flag> <argument>
     zotquery.py export <flag> <argument>
     zotquery.py open <flag> <argument>
-    zotquery.py scan <flag> <argument>
+    zotquery.py scan <flag> [<argument>]
 
 Arguments:
     <flag>      Determines which specific code-path to follow
@@ -1427,6 +1427,7 @@ class ZotWorkflow(object):
         self.api = None
         self.prefs = None
 
+
   #-----------------------------------------------------------------------------
   ## Main API methods
   #-----------------------------------------------------------------------------
@@ -1539,8 +1540,12 @@ class ZotWorkflow(object):
         """Scan Markdown document for reference
 
         """
-        md_text = utils.path_read(self.flag)
-        self.reference_scan(md_text)
+        self.prefs = self.zotquery.output_settings
+        if self.flag == 'temp_bib':
+            return self.read_temp_bib()
+        else:
+            md_text = utils.path_read(self.flag)
+            self.reference_scan(md_text)
 
     def reference_scan(self, md_text):
         """Scan Markdown document for reference
@@ -2150,18 +2155,23 @@ class ZotWorkflow(object):
         """Append citation to appropriate bibliography file.
 
         """
-        path = "temp_bibliography.{}"
-        if self.prefs['fmt'] == 'Markdown':
-            text = self._export_markdown(cites)
-            path = self.wf.cachefile(path.format('txt'))
-            post_text = '\n\n'
-        elif self.prefs['fmt'] == 'Rich Text':
-            text = self._prepare_html(cites)
-            path = self.wf.cachefile(path.format('html'))
-            post_text = '<br>'
+        path = "temp_bibliography.html"
+        text = self._prepare_html(cites)
+        path = self.wf.cachefile(path)
         with open(path, 'a') as file_obj:
             file_obj.write(text.strip().encode('utf-8'))
-            file_obj.write(post_text)
+
+
+    def read_temp_bib(self):
+        """Read content of temporary bibliography.
+
+        """
+        path = self.wf.cachefile("temp_bibliography.html")
+        bib = utils.path_read(path)
+        text = self.export_formatted(bib)
+        utils.set_clipboard(text)
+        return self.prefs['fmt']
+
 
     ### Export properly formatted text  ----------------------------------------
 
