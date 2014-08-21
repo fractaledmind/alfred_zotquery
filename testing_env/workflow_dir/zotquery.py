@@ -101,7 +101,7 @@ def large_text(item):
         large = item['data']['abstractNote']
     except KeyError:
         pass
-    return large
+    return re.sub(r"\r|\n", ' ', large)
 LARGE_TEXT = large_text
 # Only save items from your Personal Zotero library?
 PERSONAL_ONLY = False
@@ -1217,6 +1217,7 @@ class ZotAPI(object):
         Returns an JSON object
         """
         full_url = '{}{}'.format(self.base, request)
+        log.debug('API request: {}'.format(full_url))
         headers = {'User-Agent': "ZotQuery/{}".format(__version__),
                    'Authorization': "Bearer {}".format(self.api_key),
                    'Zotero-API-Version': 3}
@@ -1501,6 +1502,7 @@ class ZotWorkflow(object):
         """
         # Set `export` properties
         self.api = self.zotero.api_settings
+        self.prefs = self.zotquery.output_settings
         self.zot = ZotAPI(library_id=self.api['user_id'],
                           library_type='user',
                           api_key=self.api['api_key'])
@@ -1520,6 +1522,7 @@ class ZotWorkflow(object):
         """
         # Set `export` properties
         self.api = self.zotero.api_settings
+        self.prefs = self.zotquery.output_settings
         self.zot = ZotAPI(library_id=self.api['user_id'],
                           library_type='user',
                           api_key=self.api['api_key'])
@@ -1535,6 +1538,7 @@ class ZotWorkflow(object):
         """Open item or item's attachment.
 
         """
+        self.prefs = self.zotquery.output_settings
         if self.flag == 'item':
             self.open_item()
         elif self.flag == 'attachment':
@@ -2265,7 +2269,6 @@ class ZotWorkflow(object):
 
     def open_item(self):
         """Open item in Zotero client"""
-        self.prefs = self.zotquery.output_settings
         if self.prefs['app'] == "Standalone":
             app_id = "org.zotero.zotero"
         elif self.prefs['app'] == "Firefox":
