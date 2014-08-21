@@ -2156,7 +2156,8 @@ class ZotWorkflow(object):
             tag_name = self._get_tag_name(item_id)
             cites = self.zot.tag_references(tag_name,
                                             style=self.prefs['csl'])
-        return '\n'.join(cites)
+        bib = '\n\n'.join(cites)
+        return self._bib_sort(bib, '\n\n') 
 
     ### ------------------------------------------------------------------------
 
@@ -2180,8 +2181,20 @@ class ZotWorkflow(object):
         path = self.wf.cachefile("temp_bibliography.html")
         bib = utils.path_read(path)
         text = self.export_formatted(bib)
-        utils.set_clipboard(text)
+        bib = self._bib_sort(text, '\n\n')
+        utils.set_clipboard(bib)
         return self.prefs['fmt']
+
+    def _bib_sort(self, bib, delim):
+        """Sort multi item bibliography.
+
+        """
+        sorted_bib = sorted(bib.split(delim))
+        if sorted_bib[0] == '':
+            sorted_bib[0] = 'WORKS CITED'
+        else:
+            sorted_bib.insert(0, 'WORKS CITED')
+        return delim.join(sorted_bib)
 
 
     ### Export properly formatted text  ----------------------------------------
