@@ -23,17 +23,12 @@ from collections import OrderedDict
 
 # Internal Dependencies
 import utils
-from lib import pashua, bundler
+from lib import pashua, bundler, html2text
 from lib.docopt import docopt
 
 # Alfred-Workflow
-from workflow import Workflow, ICON_WARNING, PasswordNotFound
+from workflow import Workflow, web, ICON_WARNING, PasswordNotFound
 from workflow.workflow import isascii, split_on_delimiters
-
-# Use `bundler` for External Dependencies
-bundler.init()
-import html2text
-from pyzotero import zotero
 
 
 __version__ = '10.0'
@@ -43,7 +38,7 @@ ZotQuery -- An Alfred GUI for `zotero`
 
 Usage:
     zotquery.py config <flag> [<argument>]
-    zotquery.py search <flag> <argument>
+    zotquery.py search <flag> [<argument>]
     zotquery.py store <flag> <argument>
     zotquery.py export <flag> <argument>
     zotquery.py open <flag> <argument>
@@ -113,12 +108,6 @@ PERSONAL_ONLY = False
 CACHE_REFERENCES = True
 # Allow ZotQuery to learn which items are used more frequently?
 ALFRED_LEARN = False
-
-# ------------------------------------------------------------------------------
-# WORKFLOW USAGE SETTINGS 
-# These are dangerous to change
-# ------------------------------------------------------------------------------
-
 # Accepted extensions for ZotQuery attachments
 ATTACH_EXTS = [
     'pdf',
@@ -126,6 +115,12 @@ ATTACH_EXTS = [
     'docx',
     'epub'
 ]
+
+# ------------------------------------------------------------------------------
+# WORKFLOW USAGE SETTINGS 
+# These are dangerous to change
+# ------------------------------------------------------------------------------
+
 # Map of search columns (`key`) to JSON location (`value`)
 FILTERS_MAP = {
     'key': 'key',
@@ -180,7 +175,6 @@ PASHUA = bundler.utility('pashua')
 log = None
 decode = None
 fold = None
-
 
 #-------------------------------------------------------------------------------
 # :class:`Zotero` --------------------------------------------------------------
@@ -380,7 +374,6 @@ class Zotero(object):
         output = subprocess.check_output(cmd)
         output = [s.strip() for s in decode(output).split('\n')]
         return filter(None, output)
-
 
 #-------------------------------------------------------------------------------
 # :class:`ZotQuery` ------------------------------------------------------------
@@ -1431,12 +1424,12 @@ class ZotWorkflow(object):
         self.zotero = self.zotquery.zotero
         # set in `export` actions
         self.zot = None
-        self.settings = None
+        self.api = None
         self.prefs = None
 
-#-------------------------------------------------------------------------------
-## Main API methods
-#-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
+  ## Main API methods
+  #-----------------------------------------------------------------------------
 
     def run(self, args):
         """Main API method.
@@ -1587,9 +1580,9 @@ class ZotWorkflow(object):
         return zot_items
 
 
-#-------------------------------------------------------------------------------
-### `Search` codepaths
-#-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
+  ### `Search` codepaths
+  #-----------------------------------------------------------------------------
 
     # Search debugging meta options  -------------------------------------------
 
@@ -2247,18 +2240,18 @@ class ZotWorkflow(object):
         return item
 
 
-#-------------------------------------------------------------------------------
-### `Open` method
-#-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
+  ### `Open` method
+  #-----------------------------------------------------------------------------
 
     # Open individual `items`  -------------------------------------------------
 
     def open_item(self):
         """Open item in Zotero client"""
-
-        if self.prefs['client'] == "Standalone":
+        self.prefs = self.zotquery.output_settings
+        if self.prefs['app'] == "Standalone":
             app_id = "org.zotero.zotero"
-        elif self.prefs['client'] == "Firefox":
+        elif self.prefs['app'] == "Firefox":
             app_id = "org.mozilla.firefox"
 
         scpt_str = """
@@ -2293,13 +2286,13 @@ class ZotWorkflow(object):
             item = data.get(item_id, None)
             if item:
                 for att in item['attachments']:
-                    if os.path.isfile(att['path']):
+                    if os.path.exists(att['path']):
                         subprocess.check_output(['open', att['path']])
 
 
-#-------------------------------------------------------------------------------
-### `Config` codepaths
-#-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
+  ### `Config` codepaths
+  #-----------------------------------------------------------------------------
 
     def config_freshen(self):
         """Update relevant data stores.
@@ -2317,7 +2310,6 @@ class ZotWorkflow(object):
                 self.zotquery.update_json()
         return 0
 
-
 #-------------------------------------------------------------------------------
 # Main Script
 #-------------------------------------------------------------------------------
@@ -2326,17 +2318,13 @@ def main(wf):
     """Accept Alfred's args and pipe to proper Class"""
 
     args = wf.args
-    #md = '/Users/smargheim/Documents/DEVELOPMENT/GitHub/pandoc-templates/examples/academic_test.txt'
-    #args = ['scan', md, 'Moritz_1969']
-    #args = ['config', 'all']
+    #args = ['search', 'debug']
     args = docopt(__usage__, argv=args, version=__version__)
     log.info(args)
     pd = ZotWorkflow(wf)
     res = pd.run(args)
     if res:
         print(res)
-
-
 
 
 if __name__ == '__main__':
