@@ -167,8 +167,8 @@ FILTERS = {
 SCOPE_TYPES = {
     'items': ['general', 'titles', 'creators', 'attachments', 'notes'],
     'groups': ['collections', 'tags'],
-    'in-groups': ['in-collection', 'in-tag', 'new'],
-    'meta': ['debug']
+    'in-groups': ['in-collection', 'in-tag'],
+    'meta': ['debug', 'new']
 }
 # Path to `pashua` housed in bundler directory
 PASHUA = bundler.utility('pashua')
@@ -614,6 +614,8 @@ class ZotQuery(object):
         """
         self.con = sqlite3.connect(self.cloned_sqlite)
         self.to_json()
+        copyfile(self.json_data, self.wf.datafile('backup.json'))
+        log.info('Updated and backed-up JSON file')
 
 
     @staticmethod
@@ -1474,7 +1476,10 @@ class ZotWorkflow(object):
             self.search_in_groups()
         # Search for certain debugging options
         elif self.flag in SCOPE_TYPES['meta']:
-            self.search_debug()
+            if self.flag == 'debug':
+                self.search_debug()
+            elif self.flag == 'new':
+                self.search_new()
         # Return whatever feedback is generated to Alfred
         self.wf.send_feedback()
 
@@ -1692,6 +1697,29 @@ class ZotWorkflow(object):
                 # Prepare dictionary for Alfred
                 alfred = self._prepare_item_feedback(item)
                 self.wf.add_item(**alfred)
+
+    def search_new(self):
+        """Show only the newest added items.
+
+        """
+        old_data = utils.json_read(self.wf.datafile('backup.json'))
+        old_keys = old_data.keys()
+        current_data = utils.json_read(self.zotquery.json_data)
+        current_keys = current_data.keys()
+        # Get list of newly added items
+        new_keys = list(set(current_keys) - set(old_keys))
+        if new_keys != []:
+            for key in new_keys:
+                # Get JSON info for that item
+                item = data.get(key, None)
+                if item:
+                    # Prepare dictionary for Alfred
+                    alfred = self._prepare_item_feedback(item)
+                    self.wf.add_item(**alfred)
+        else:
+            self.wf.add_item("No new items!",
+                    "You have not added any new items to your Zotero library.", 
+                    icon="icons/n_error.png")
 
     ## -------------------------------------------------------------------------
 
