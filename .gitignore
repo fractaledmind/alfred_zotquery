@@ -1,2 +1,7 @@
 zotquery.scap
 0_5SFSEF7M.cpickle
+testing_env/cache_dir/0_MBXHR545.cpickle
+*.cpickle
+*.log
+*.txt
+*.pyc
