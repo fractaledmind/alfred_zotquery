@@ -1384,7 +1384,7 @@ class ZotAPI(object):
     def tag_references(self, tag_name, **kwargs):
         info = self.items(include='bib',
                           tag=tag_name,
-                          itemtype='-attachment || note',
+                          itemType='-attachment || note',
                           limit=100,
                           **kwargs)
         return [x['bib'] for x in info]
@@ -1392,7 +1392,7 @@ class ZotAPI(object):
     def collection_references(self, collection, **kwargs):
         info = self.collection_items(collection,
                                      include='bib',
-                                     itemtype='-attachment || note',
+                                     itemType='-attachment || note',
                                      limit=100,
                                      **kwargs)
         return [x['bib'] for x in info]
