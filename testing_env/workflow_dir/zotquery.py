@@ -613,8 +613,11 @@ class ZotQuery(object):
 
         """
         self.con = sqlite3.connect(self.cloned_sqlite)
+        # backup previous version of library
+        if os.path.exists(self.json_data):
+            copyfile(self.json_data, self.wf.datafile('backup.json'))
+        # update library
         self.to_json()
-        copyfile(self.json_data, self.wf.datafile('backup.json'))
         log.info('Updated and backed-up JSON file')
 
 
