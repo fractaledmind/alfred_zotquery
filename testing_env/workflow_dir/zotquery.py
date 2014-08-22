@@ -1219,7 +1219,6 @@ class ZotAPI(object):
         Returns an JSON object
         """
         full_url = '{}{}'.format(self.base, request)
-        #log.debug('API request: {}'.format(full_url))
         headers = {'User-Agent': "ZotQuery/{}".format(__version__),
                    'Authorization': "Bearer {}".format(self.api_key),
                    'Zotero-API-Version': 3}#,
@@ -1400,6 +1399,14 @@ class ZotAPI(object):
                                      **kwargs)
         return [x['bib'] for x in info]
 
+    def items_references(self, item_keys, **kwargs):
+        keys = ','.join(item_keys)
+        info = self.items(include='bib',
+                          itemKeys=keys,
+                          limit=100,
+                          **kwargs)
+        return [x['bib'] for x in info]
+
     ## -------------------------------------------------------------------------
 
     ## Short Citation Read API requests  ---------------------------------------
@@ -1409,6 +1416,23 @@ class ZotAPI(object):
                          include='citation',
                          **kwargs)
         return info['citation']
+
+    def items_citations(self, item_keys, **kwargs):
+        keys = ','.join(item_keys)
+        info = self.items(include='citation',
+                          itemKeys=keys,
+                          limit=100,
+                          **kwargs)
+        return [x['citation'] for x in info]
+
+    def items_bibliography(self, item_keys, **kwargs):
+        keys = ','.join(item_keys)
+        info = self.items(include='citation,bib',
+                          itemKey=keys,
+                          **kwargs)
+        citations = [x['citation'] for x in info]
+        references = [x['bib'] for x in info]
+        return {'cites': citations, 'refs': references}
 
 #-------------------------------------------------------------------------------
 # :class:`ZotWorkflow` 
@@ -1575,7 +1599,26 @@ class ZotWorkflow(object):
             return self.read_temp_bib()
         else:
             md_text = utils.path_read(self.flag)
-            self.reference_scan(md_text)
+            key_dicts = self.reference_scan(md_text)
+            self.generate_bibliography(key_dicts, md_text)
+
+
+    def generate_bibliography(self, key_dicts, md_text):
+        self.api = self.zotero.api_settings
+        self.prefs = self.zotquery.output_settings
+        self.zot = ZotAPI(library_id=self.api['user_id'],
+                          library_type='user',
+                          api_key=self.api['api_key'])
+        keys = [x['key'] for x in key_dicts]
+        print len(keys)
+        citekeys = [x['citekey'] for x in key_dicts]
+        dict = self.zot.items_bibliography(keys, style=self.prefs['csl'])
+        citations, references = dict['cites'], dict['refs']
+        print len(citations)
+        #citations, references = '\n'.join(citations), '\n'.join(references)
+        #print self.export_formatted(citations)
+        
+
 
     def reference_scan(self, md_text):
         """Scan Markdown document for reference
@@ -1583,37 +1626,34 @@ class ZotWorkflow(object):
         Adapted from <https://github.com/smathot/academicmarkdown>
 
         """
-        ref_count = 0
+        data = utils.json_read(self.zotquery.json_data)
+        keys = data.keys()
+        ref_count = 1
         zot_items = []
         found_cks = []
-        regexp = re.compile(r"(?:@|#)([^\s?!,.\t\n\r\v\]\[;#]+)")
+        # Needs to match patter created in QUICK_COPY
+        regexp = re.compile(r"{@([^_]*?)_(\d*?)_([A-Z1-9]{3})}")
         for reg_obj in re.finditer(regexp, md_text):
-            cite_key = reg_obj.groups()[0]
-            log.info("Found reference (#{}) {}".format(ref_count, cite_key))
-            if cite_key in found_cks:
+            family, date, key_end = reg_obj.groups()
+            citekey = '{@' + '_'.join([family, date, key_end]) + '}'
+            if key_end in found_cks:
                 continue
             ref_count += 1
-            ck_parts = split_on_delimiters(cite_key)
-            ck_query = ' '.join(ck_parts)
-            matches = self._get_items(ck_query)
-            if len(matches) == 0:
-                log.debug('No matches for {}'.format(cite_key))
-                return 1
-            elif len(matches) > 1:
-                log.debug('{} matches for {}'.format(len(matches), cite_key))
-                log.debug("Matches: {}".format(matches))
-                return 1
-            match = matches[0]
-            if match in zot_items and cite_key not in found_cks:
-                for ck in sorted(found_cks):
-                    log.debug('Ref: {}'.format(ck))
-                raise Exception('"{}" refers to a pre-existent reference. \
-                                Use consistent references (see log)!'.format(
-                                                                      cite_key))
-            zot_items.append(match)
-            found_cks.append(cite_key)
-        return zot_items
-
+            possible_keys = [key for key in keys if key.endswith(key_end)]
+            if len(possible_keys) > 1:
+                for key in possible_keys:
+                    item = data.get(key)
+                    try:
+                        if item['data']['date'] == date:
+                            key = key
+                            break
+                    except KeyError:
+                        pass
+            else:
+                key = possible_keys[0]
+            zot_items.append({'key': key, 'citekey': citekey})
+            found_cks.append(key_end)
+        return zot_items   
 
   #-----------------------------------------------------------------------------
   ### `Search` codepaths
@@ -2379,8 +2419,9 @@ class ZotWorkflow(object):
 def main(wf):
     """Accept Alfred's args and pipe to proper Class"""
 
-    args = wf.args
-    #args = ['search', 'debug']
+    #args = wf.args
+    md = '/Users/smargheim/Documents/DEVELOPMENT/GitHub/pandoc-templates/examples/academic_test.txt'
+    args = ['scan', md]
     args = docopt(__usage__, argv=args, version=__version__)
     log.info(args)
     pd = ZotWorkflow(wf)
