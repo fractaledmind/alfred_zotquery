@@ -45,6 +45,10 @@ import re
 import unicodedata
 import codecs
 
+from workflow import Workflow
+
+log = Workflow().logger
+
 
 USER_AGENT = u'alfred-workflow-0.1'
 
@@ -398,7 +402,7 @@ def request(method, url, params=None, data=None, headers=None, cookies=None,
 
     if params:  # GET args (POST args are handled in encode_multipart_formdata)
         url = url + '?' + urllib.urlencode(str_dict(params))
-
+    log.debug('URL: {}'.format(url))
     req = urllib2.Request(url, data, headers)
     return Response(req)
 
