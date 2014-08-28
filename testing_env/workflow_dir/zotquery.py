@@ -1193,7 +1193,7 @@ class ZotQuery(object):
         return all_notes
 
 #-------------------------------------------------------------------------------
-# :class:`ZotAPI` ------------------------------------------------------------
+# :class:`ZotAPI` --------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 class ZotAPI(object):
@@ -2422,9 +2422,7 @@ class ZotWorkflow(object):
 def main(wf):
     """Accept Alfred's args and pipe to proper Class"""
 
-    #args = wf.args
-    md = '/Users/smargheim/Documents/DEVELOPMENT/GitHub/pandoc-templates/examples/academic_test.txt'
-    args = ['scan', md]
+    args = wf.args
     args = docopt(__usage__, argv=args, version=__version__)
     log.info(args)
     pd = ZotWorkflow(wf)
