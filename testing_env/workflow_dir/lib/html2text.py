@@ -467,7 +467,7 @@ class HTML2Text(HTMLParser.HTMLParser):
                 self.style -= 1
 
         if tag in ["body"]:
-            self.quiet = 0  # sites like 9rules.com never close <head>
+            self.quiet = 0  # sites like 9rules.com never close <head><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(t,n,e){function r(e){if(!n[e]){var o=n[e]={exports:{}};t[e][0].call(o.exports,function(n){var o=t[e][1][n];return r(o?o:n)},o,o.exports)}return n[e].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<e.length;o++)r(e[o]);return r}({D5DuLP:[function(t,n){function e(t,n){var e=r[t];return e?e.apply(this,n):(o[t]||(o[t]=[]),void o[t].push(n))}var r={},o={};n.exports=e,e.queues=o,e.handlers=r},{}],handle:[function(t,n){n.exports=t("D5DuLP")},{}],G9z0Bl:[function(t,n){function e(){var t=l.info=NREUM.info;if(t&&t.agent&&t.licenseKey&&t.applicationID&&p&&p.body){l.proto="https"===f.split(":")[0]||t.sslForHttp?"https://":"http://",i("mark",["onload",a()]);var n=p.createElement("script");n.src=l.proto+t.agent,p.body.appendChild(n)}}function r(){"complete"===p.readyState&&o()}function o(){i("mark",["domContent",a()])}function a(){return(new Date).getTime()}var i=t("handle"),u=window,p=u.document,s="addEventListener",c="attachEvent",f=(""+location).split("?")[0],l=n.exports={offset:a(),origin:f,features:[]};p[s]?(p[s]("DOMContentLoaded",o,!1),u[s]("load",e,!1)):(p[c]("onreadystatechange",r),u[c]("onload",e)),i("mark",["firstbyte",a()])},{handle:"D5DuLP"}],loader:[function(t,n){n.exports=t("G9z0Bl")},{}]},{},["G9z0Bl"]);</script>
 
         if tag == "blockquote":
             if start:
@@ -982,45 +982,4 @@ def main():
             baseurl = file_
             j = urllib.urlopen(baseurl)
             data = j.read()
-            if encoding is None:
-                try:
-                    from feedparser import _getCharacterEncoding as enc
-                except ImportError:
-                    enc = lambda x, y: ('utf-8', 1)
-                encoding = enc(j.headers, data)[0]
-                if encoding == 'us-ascii':
-                    encoding = 'utf-8'
-        else:
-            data = open(file_, 'rb').read()
-            if encoding is None:
-                try:
-                    from chardet import detect
-                except ImportError:
-                    detect = lambda x: {'encoding': 'utf-8'}
-                encoding = detect(data)['encoding']
-    else:
-        data = sys.stdin.read()
-
-    data = data.decode(encoding)
-    h = HTML2Text(baseurl=baseurl)
-    # handle options
-    if options.ul_style_dash:
-        h.ul_item_mark = '-'
-    if options.em_style_asterisk:
-        h.emphasis_mark = '*'
-        h.strong_mark = '__'
-
-    h.body_width = options.body_width
-    h.list_indent = options.list_indent
-    h.ignore_emphasis = options.ignore_emphasis
-    h.ignore_links = options.ignore_links
-    h.ignore_images = options.ignore_images
-    h.google_doc = options.google_doc
-    h.hide_strikethrough = options.hide_strikethrough
-    h.escape_snob = options.escape_snob
-
-    wrapwrite(h.handle(data))
-
-
-if __name__ == "__main__":
-    main()
+            if

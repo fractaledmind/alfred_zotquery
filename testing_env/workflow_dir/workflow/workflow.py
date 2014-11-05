@@ -1074,6 +1074,11 @@ class Workflow(object):
             dirpath = os.path.join(os.path.expanduser(
                 '~/Documents/DEVELOPMENT/GitHub/ZotQuery/testing_env/'),
                 'cache_dir')
+            #dirpath = os.path.join(
+            #    os.path.expanduser(
+            #        '~/Library/Caches/com.runningwithcrayons.Alfred-2/'
+            #        'Workflow Data/'),
+            #    self.bundleid)
 
         return self._create(dirpath)
 
@@ -1097,6 +1102,9 @@ class Workflow(object):
             dirpath = os.path.join(os.path.expanduser(
                 '~/Documents/DEVELOPMENT/GitHub/ZotQuery/testing_env/'),
                 'storage_dir')
+            #dirpath = os.path.join(os.path.expanduser(
+            #    '~/Library/Application Support/Alfred 2/Workflow Data/'),
+            #    self.bundleid)
 
         return self._create(dirpath)
 

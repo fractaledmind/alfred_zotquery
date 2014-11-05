@@ -29,6 +29,7 @@ from lib.docopt import docopt
 # Alfred-Workflow
 from workflow import Workflow, web, ICON_WARNING, PasswordNotFound
 from workflow.workflow import isascii, split_on_delimiters
+from workflow.background import run_in_background
 
 
 __version__ = '10.0'
@@ -192,7 +193,7 @@ class Zotero(object):
         self.wf = wf
         self.me = self.paths()
 
-    # `self.me` setter method --------------------------------------------------
+# `self.me` setter method --------------------------------------------------
 
     def paths(self):
         """Dictionary of paths to relevant Zotero data:
@@ -393,7 +394,7 @@ class ZotQuery(object):
         self.con = None
         self.me = self.paths()
 
-    # `self.me` setter method --------------------------------------------------
+# `self.me` setter method --------------------------------------------------
 
     def paths(self):
         """Dictionary of paths to relevant ZotQuery data:
@@ -526,7 +527,6 @@ class ZotQuery(object):
         except AttributeError:
             json_path = self.wf.datafile("zotquery.json")
             if not os.path.exists(json_path):
-                self.con = sqlite3.connect(self.cloned_sqlite)
                 self.to_json()
             return json_path
 
@@ -599,26 +599,6 @@ class ZotQuery(object):
         if update:
             log.debug('Update {}? {}'.format(spot, update))
         return (update, spot)
-
-    def update_clone(self):
-        """Update `cloned_sqlite` so that it's current with `original_sqlite`.
-
-        """
-        clone_path = self.wf.datafile("zotquery.sqlite")
-        copyfile(self.zotero.original_sqlite, clone_path)
-        log.info('Updated Clone SQLITE file')
-
-    def update_json(self):
-        """Update `json_data` so that it's current with `cloned_sqlite`.
-
-        """
-        self.con = sqlite3.connect(self.cloned_sqlite)
-        # backup previous version of library
-        if os.path.exists(self.json_data):
-            copyfile(self.json_data, self.wf.datafile('backup.json'))
-        # update library
-        self.to_json()
-        log.info('Updated and backed-up JSON file')
 
 
     @staticmethod
@@ -701,6 +681,7 @@ class ZotQuery(object):
         
         """
         start = time()
+        self.con = sqlite3.connect(self.cloned_sqlite)
         all_items = {}
         info_sql = """
             SELECT key, itemID, itemTypeID, libraryID
@@ -2400,19 +2381,11 @@ class ZotWorkflow(object):
   #-----------------------------------------------------------------------------
 
     def config_freshen(self):
-        """Update relevant data stores.
+        """Update relevant data stores in the background
 
         """
-        if self.arg == 'True':
-            self.zotquery.update_clone()
-            self.zotquery.update_json()
-            return 0
-        update, spot = self.zotquery.is_fresh()
-        if update == True:
-            if spot == 'Clone':
-                self.zotquery.update_clone()
-            elif spot == 'JSON':
-                self.zotquery.update_json()
+        cmd = ['/usr/bin/python', self.wf.workflowfile('freshen.py'), self.arg]
+        run_in_background('freshen', cmd)
         return 0
 
 #-------------------------------------------------------------------------------
@@ -2422,7 +2395,8 @@ class ZotWorkflow(object):
 def main(wf):
     """Accept Alfred's args and pipe to proper Class"""
 
-    args = wf.args
+    #args = wf.args
+    args = ['config', 'freshen', 'True']
     args = docopt(__usage__, argv=args, version=__version__)
     log.info(args)
     pd = ZotWorkflow(wf)
