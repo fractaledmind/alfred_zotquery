@@ -1,3 +1,0 @@
-pyzotero
-xmltodict
-html2text

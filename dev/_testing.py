@@ -1,24 +1,22 @@
 #!/usr/bin/python
 # encoding: utf-8
+from __future__ import unicode_literals
+import re
 import sys
+import subprocess
+
+import utils
+from lib import html2text, bundler
 from workflow import Workflow
-import zot_helpers as zot
-import json
+import zotquery as z
 
 
 def main(wf):
-    lib = zot.json_read(wf.datafile('zotero_db.json'))
-    new_dict = {}
-    for item in lib:
-        d = {item['key']: item}
-        new_dict.update(d)
+
+    print(z.fold)
+
+
     
-    zot.json_write(new_dict, wf.datafile('zotero_dict.json'))
-    
-
-
-
-
 
 
 if __name__ == '__main__':

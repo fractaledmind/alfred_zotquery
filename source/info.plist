@@ -1545,8 +1545,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py export citation "{query}"
-</string>
+				<string>/usr/bin/python zotquery.py export citation "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1810,8 +1809,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py export citation "{query}"
-</string>
+				<string>/usr/bin/python zotquery.py export citation "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2017,8 +2015,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py export citation "{query}"
-</string>
+				<string>/usr/bin/python zotquery.py export citation "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2282,8 +2279,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py export citation "{query}"
-</string>
+				<string>/usr/bin/python zotquery.py export citation "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2489,8 +2485,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py export citation "{query}"
-</string>
+				<string>/usr/bin/python zotquery.py export citation "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -2729,8 +2724,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py export citation "{query}"
-</string>
+				<string>/usr/bin/python zotquery.py export citation "{query}"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>

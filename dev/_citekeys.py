@@ -3,7 +3,11 @@
 from __future__ import unicode_literals
 import sys
 from workflow import Workflow
-from zot_helpers import json_read
+from utils import json_read
+from lib import bundler
+
+bundler.init()
+from pyzotero import zotero
 
 def unify(text, encoding='utf-8'):
     """Convert `text` to unicode"""
@@ -17,7 +21,7 @@ def unify(text, encoding='utf-8'):
 def _scan_cites(zot_data, item_key):
     """Exports ODT-RTF styled Scannable Cite"""
 
-    for item in zot_data:
+    for item in zot_data.values():
         if item['key'] == item_key:
             # Get YEAR var
             year = item['data']['date']
@@ -43,27 +47,27 @@ def _scan_cites(zot_data, item_key):
     return unify(scannable_cite)
 
 def parse_cite(zot_data, citekey):
-    """"""
+    """NN"""
     id_partial = citekey.split('_')[-1]
     if id_partial.endswith('}'):
         id_partial = id_partial[:-1]
 
-    for item in zot_data:
-        if item['key'][-3:] == id_partial:
-            item_key = item['key']
+    for item in zot_data.keys():
+        if item[-3:] == id_partial:
+            item_key = item
             break
 
-    zot = zotero.Zotero(self.settings['user_id'], 
-                        self.settings['type'], 
-                        self.settings['api_key'])
-    ref = zot.item(item_id, content='bib', style=self.prefs['csl'])
-    uref = unify(ref[0])
+    zot = zotero.Zotero('1140739', 
+                        'user', 
+                        'rf8L5AZdrVlK9NMTXDVuotok')
+    ref = zot.item(item_key, content='bib', style='chicago-author-date')
+    return ref
 
 
 def main(wf_obj):
     """Accept Alfred's args and pipe to proper Class"""
-    key = "XFZRSN7P"
-    data = json_read(wf_obj.datafile("zotero_db.json"))
+    key = "3KFT2HQ9"
+    data = json_read(wf_obj.datafile("zotquery.json"))
     cited = _scan_cites(data, key)
     cite_id = parse_cite(data, cited)
     print cited
