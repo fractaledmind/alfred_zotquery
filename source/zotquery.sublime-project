@@ -1,22 +1,30 @@
 {
-    "build_systems":
-    [
-        {
-            "cmd":
-            [
-                "python",
-                "$file"
-            ],
-            "name": "Relative Python",
-            "working_dir": "/Users/smargh/Dropbox/Alfred.alfredpreferences/workflows/user.workflow.1E307845-0FEA-4CE8-BEA2-7D72B180DE5A/"
-        }
-    ],
-    "folders":
-    [
-        {
-            "file_exclude_patterns": ["*.pyc"],
-            "follow_symlinks": true,
-            "path": "/Users/smargh/Dropbox/Alfred.alfredpreferences/workflows/user.workflow.1E307845-0FEA-4CE8-BEA2-7D72B180DE5A/workflow"
-        },
-    ]
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"python",
+				"$file"
+			],
+			"name": "Relative Python",
+			"working_dir": "/Users/smargh/Dropbox/Alfred.alfredpreferences/workflows/user.workflow.1E307845-0FEA-4CE8-BEA2-7D72B180DE5A/"
+		},
+		{
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "python -u \"$file\""
+		}
+	],
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.pyc"
+			],
+			"follow_symlinks": true,
+			"path": "/Users/smargh/Dropbox/Alfred.alfredpreferences/workflows/user.workflow.1E307845-0FEA-4CE8-BEA2-7D72B180DE5A/workflow"
+		}
+	]
 }

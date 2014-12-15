@@ -307,6 +307,38 @@ class PropertyBase(object):
 
 # DECORATORS  -----------------------------------------------------------------
 
+def store_properties(the_class):
+    class_instance = the_class()
+    # prettify the class name for file name
+    class_name = text.convert_camel(the_class.__name__)
+
+    class NewClass(the_class):
+        # read properties JSON file, if it exists
+        properties = WF.stored_data(class_name)
+        store = False
+        # if no data has been written to disk yet
+        if not properties:
+            properties = {k: getattr(class_instance, k)
+                          for (k, v) in the_class.__dict__.items()
+                          if isinstance(v, property)}
+            store = True
+        # if any property has a null value
+        elif None in properties.values():
+            # re-run properties with null values
+            null_props = {k: getattr(class_instance, k)
+                          for k, v in properties.items()
+                          if not v}
+            properties.update(null_props)
+            store = True
+        # re-store new dictionary?
+        if store:
+            # store generated dictionary in JSON format
+            WF.store_data(class_name, properties,
+                          serializer='json')
+        setattr(the_class, 'properties', properties)
+    return NewClass
+
+
 def stored_property(func):
     """This ``decorator`` adds on-disk functionality to the `property`
     decorator. This decorator is also a Method Decorator.
@@ -349,6 +381,7 @@ def stored_property(func):
     @functools.wraps(func)
     def func_wrapper(self):
         try:
+            # try to get value in `properties` dict
             var = self.properties[func.__name__]
             if var:
                 # property already written to disk
@@ -357,9 +390,9 @@ def stored_property(func):
                 # property written to disk as `null`
                 return func(self)
         except AttributeError:
-            # `self.me` does not yet exist
+            # `self.properties` does not yet exist
             return func(self)
         except KeyError:
-            # `self.me` exists, but property is not a key
+            # `self.properties` exists, but property is not a key
             return func(self)
     return func_wrapper
