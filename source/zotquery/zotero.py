@@ -14,9 +14,9 @@ import os.path
 import subprocess
 
 # Internal Dependencies
-import config
+import setup
 from lib import pashua, utils
-from config import PropertyBase, stored_property
+from setup import PropertyBase, stored_property
 
 # Alfred-Workflow
 from workflow import Workflow, web
@@ -191,7 +191,7 @@ class WebZotero(PropertyBase):
         # Check if values have already been set
         api = self.check_password('api_key')
         uid = self.check_password('user_id')
-        # Prepare `pashua` config string
+        # Prepare `pashua` setup string
         conf = """
             # Set window title
             *.title = Zotero API Settings
@@ -209,7 +209,7 @@ class WebZotero(PropertyBase):
             cb.type=cancelbutton
         """.format(api=api, uid=uid)
         # Run `pashua` dialog and save results to Keychain
-        res_dict = pashua.run(conf, encoding='utf8', pashua_path=config.PASHUA)
+        res_dict = pashua.run(conf, encoding='utf8', pashua_path=setup.PASHUA)
         if res_dict['cb'] != '1':
             self.wf.save_password('api_key', res_dict['api'])
             self.wf.save_password('user_id', res_dict['id'])
@@ -227,7 +227,7 @@ class WebZotero(PropertyBase):
         # generate URL
         full_url = '{}{}'.format(self.base, request)
         # prepare HTTP headers
-        headers = {'User-Agent': "ZotQuery/{}".format(config.__version__),
+        headers = {'User-Agent': "ZotQuery/{}".format(setup.__version__),
                    'Authorization': "Bearer {}".format(self.api_key),
                    'Zotero-API-Version': 3}
                    #'If-Modified-Since-Version': 645}

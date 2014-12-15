@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 # Internal Dependencies
 from lib import utils
 from . import zq
-import config
+import setup
 import export
 
 
@@ -30,5 +30,5 @@ def append_item(cites, wf):
     """
     text = export._prepare_html(cites)
     utils.append_path(text, wf.cachefile('temp_bibliography.html'))
-    config.log.info('HTML appended to temporary bibliography.')
+    setup.log.info('HTML appended to temporary bibliography.')
     return True

@@ -18,10 +18,10 @@ from shutil import copyfile
 from collections import OrderedDict
 
 # Internal Dependencies
-import config
+import setup
 from lib import pashua, utils
 from zotero import zot
-from config import PropertyBase, stored_property
+from setup import PropertyBase, stored_property
 
 # Alfred-Workflow
 from workflow import Workflow
@@ -47,7 +47,7 @@ class ZotqueryBackend(PropertyBase):
     | `fts_sqlite`    | ZotQuery's Full Text Search database         |
     | `folded_sqlite` | ZotQuery's ASCII-only FTS database           |
 
-    Expects information to be stored in :file:`zotquery_data.json`.
+    Expects information to be stored in :file:`zotquery_backend.json`.
     If file does not exist, it creates and stores dictionary.
 
     """
@@ -142,14 +142,14 @@ class ZotqueryBackend(PropertyBase):
                                   self.formatting_properties_setter)
 
     def formatting_properties_setter(self):
-        """Configure ZotQuery formatting perferences."""
+        """setupure ZotQuery formatting perferences."""
         # Check if values have already been set
         defaults = self.wf.cached_data('output_settings', max_age=0)
         if defaults is None:
             defaults = {'app': 'Standalone',
                         'csl': 'chicago-author-date',
                         'fmt': 'Markdown'}
-        # Prepare `pashua` config string
+        # Prepare `pashua` setup string
         conf = """
             # Set window title
             *.title = ZotQuery Output Preferences
@@ -181,7 +181,7 @@ class ZotqueryBackend(PropertyBase):
                    csl=defaults['csl'],
                    fmt=defaults['fmt'])
         # Run `pashua` dialog and save results to storage file
-        res_dict = pashua.run(conf, encoding='utf8', pashua_path=config.PASHUA)
+        res_dict = pashua.run(conf, encoding='utf8', pashua_path=setup.PASHUA)
         if res_dict['cb'] != 1:
             del res_dict['cb']
             self.wf.cache_data('output_settings', res_dict)
@@ -237,7 +237,7 @@ class ZotqueryBackend(PropertyBase):
 
     @staticmethod
     def create_index_db(db):
-        """Create FTS virtual table with data from ``json_data``
+        """Create FTS virtual table
 
         :param db: path to `.db` file
         :type db: :class:`unicode`
@@ -247,7 +247,7 @@ class ZotqueryBackend(PropertyBase):
         with con:
             cur = con.cursor()
             # get search columns from `general` scope
-            columns = config.FILTERS.get('general', None)
+            columns = setup.FILTERS.get('general', None)
             if columns:
                 # convert list to string
                 columns = ', '.join(columns)
@@ -305,11 +305,11 @@ class ZotqueryBackend(PropertyBase):
         for item in json_data.itervalues():
             array = list()
             # get search columns from scope
-            columns = config.FILTERS.get('general', None)
+            columns = setup.FILTERS.get('general', None)
             if columns:
                 for column in columns:
                     # get search map from column
-                    json_map = config.FILTERS_MAP.get(column, None)
+                    json_map = setup.FILTERS_MAP.get(column, None)
                     if json_map:
                         # get data from `item` using search map
                         array.append({column: self.get_datum(item, json_map)})
@@ -465,7 +465,7 @@ class ZotqueryBackend(PropertyBase):
              item_type_id,
              library_id) = basic
             # If user only wants personal library
-            if config.PERSONAL_ONLY is True and library_id is not None:
+            if setup.PERSONAL_ONLY is True and library_id is not None:
                 continue
             library_id = library_id if library_id is not None else '0'
             # place key ids in item's root dict
@@ -743,7 +743,7 @@ class ZotqueryBackend(PropertyBase):
                 if att_path[:8] == "storage:":
                     att_path = att_path[8:]
                     # if right kind of attachment
-                    if True in (att_path.endswith(ext) for ext in config.ATTACH_EXTS):
+                    if True in (att_path.endswith(ext) for ext in setup.ATTACH_EXTS):
                         # get attachment key
                         att_query = ('key',
                                      'items',
@@ -761,7 +761,7 @@ class ZotqueryBackend(PropertyBase):
                 elif att_path[:12] == "attachments:":
                     att_path = att_path[12:]
                     # if right kind of attachment
-                    if True in (att_path.endswith(ext) for ext in config.ATTACH_EXTS):
+                    if True in (att_path.endswith(ext) for ext in setup.ATTACH_EXTS):
                         # get attachment key
                         att_query = ('key',
                                      'items',

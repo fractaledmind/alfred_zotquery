@@ -10,6 +10,7 @@
 from __future__ import unicode_literals
 
 # Standard Library
+import unicodedata
 import subprocess
 import traceback
 import codecs
@@ -30,6 +31,13 @@ def full_stack():
     if not exc is None:
         stackstr += '  ' + traceback.format_exc().lstrip(trc)
     return stackstr
+
+
+def check_value(value):
+    if value:
+        return value
+    else:
+        return 'xxx.'
 
 
 ###########################################################################
@@ -56,7 +64,7 @@ def write_json(data, path):
                                 sort_keys=False,
                                 indent=4,
                                 separators=(',', ': '))
-    u_json = to_unicode(formatted_json)
+    u_json = decode(formatted_json)
     with open(path, 'w') as file_obj:
         file_obj.write(u_json.encode('utf-8'))
         file_obj.close()
@@ -69,14 +77,14 @@ def read_path(path, encoding='utf-8'):
         with codecs.open(path, 'r', encoding=encoding) as file_obj:
             data = file_obj.read()
             file_obj.close()
-        return to_unicode(data)
+        return decode(data)
     else:
         raise Exception("'{}' does not exist.".format(path))
 
 
 def write_path(data, path):
     """Write Unicode `data` to `path`"""
-    u_data = to_unicode(data)
+    u_data = decode(data)
     with open(path, 'w') as file_obj:
         file_obj.write(u_data.encode('utf-8'))
         file_obj.close()
@@ -85,7 +93,7 @@ def write_path(data, path):
 
 def append_path(data, path):
     """Write Unicode `data` to `path`"""
-    u_data = to_unicode(data)
+    u_data = decode(data)
     with open(path, 'a') as file_obj:
         file_obj.write(u_data.encode('utf-8'))
         file_obj.close()
@@ -96,12 +104,12 @@ def append_path(data, path):
 # Type conversion functions                                               #
 ###########################################################################
 
-def to_unicode(text, encoding='utf-8'):
+def decode(text, encoding='utf-8', normalization='NFC'):
     """Convert `text` to unicode"""
     if isinstance(text, basestring):
         if not isinstance(text, unicode):
             text = unicode(text, encoding)
-    return text
+    return unicodedata.normalize(normalization, text)
 
 
 def to_bool(text):
@@ -112,24 +120,31 @@ def to_bool(text):
         return False
 
 
+def strip(obj):
+    try:
+        return obj.strip()
+    except AttributeError:
+        return obj
+
+
 ###########################################################################
 # Clipboard functions                                                     #
 ###########################################################################
 
 def set_clipboard(data):
     """Set clipboard to `data`"""
-    os.environ['__CF_USER_TEXT_ENCODING'] = "0x1F5:0x8000100:0x8000100"
-    text = to_unicode(data)
+    os.environ['LANG'] = 'en_US.UTF-8'
+    text = decode(data)
     proc = subprocess.Popen(['pbcopy', 'w'], stdin=subprocess.PIPE)
     proc.communicate(input=text.encode('utf-8'))
 
 
 def get_clipboard():
     """Retrieve data from clipboard"""
-    os.environ['__CF_USER_TEXT_ENCODING'] = "0x1F5:0x8000100:0x8000100"
+    os.environ['LANG'] = 'en_US.UTF-8'
     proc = subprocess.Popen(['pbpaste'], stdout=subprocess.PIPE)
     (stdout, stderr) = proc.communicate()
-    return to_unicode(stdout)
+    return decode(stdout)
 
 
 ###########################################################################
@@ -138,57 +153,21 @@ def get_clipboard():
 
 def run_filter(trigger, arg):
     """Run Alfred filter."""
-    trigger = applescriptify(trigger)
-    arg = applescriptify(arg)
-    scpt = """tell application "Alfred 2" \
-            to run trigger "{}" \
-            in workflow "com.hackademic.zotquery" \
-            with argument "{}"
-        """.format(trigger, arg)
+    trigger = applescriptify_str(trigger)
+    arg = applescriptify_str(arg)
+    scpt = """tell application "Alfred 2"
+              to run trigger "{}"
+              in workflow "com.hackademic.zotquery"
+              with argument "{}"
+           """.format(trigger, arg)
     run_applescript(scpt)
 
 
 def run_alfred(query):
     """Run Alfred with `query` via AppleScript."""
     alfred_scpt = 'tell application "Alfred 2" to search "{}"'
-    script = alfred_scpt.format(applescriptify(query))
+    script = alfred_scpt.format(applescriptify_str(query))
     return subprocess.call(['osascript', '-e', script])
-
-
-def applescriptify_str(text):
-    """Prepare Applescript string"""
-    text = to_unicode(text)
-    text = text.replace('"', '" & quote & "')
-    text = text.replace('\\', '\\\\')
-    return text
-
-
-def applescriptify_list(_list):
-    """Convert Python list to Applescript list"""
-    quoted_list = []
-    for item in _list:
-        if type(item) is unicode:   # unicode string to AS string
-            _new = '"' + item + '"'
-            quoted_list.append(_new)
-        elif type(item) is str:     # string to AS string
-            _new = '"' + item + '"'
-            quoted_list.append(_new)
-        elif type(item) is int:     # int to AS number
-            _new = str(item)
-            quoted_list.append(_new)
-        elif type(item) is bool:    # bool to AS Boolean
-            _new = str(item).lower()
-            quoted_list.append(_new)
-    quoted_str = ', '.join(quoted_list)
-    return '{' + quoted_str + '}'
-
-
-def run_applescript(scpt_str):
-    """Run an applescript"""
-    proc = subprocess.Popen(['osascript', '-e', scpt_str],
-                            stdout=subprocess.PIPE)
-    out = proc.communicate()[0]
-    return to_unicode(out.strip())
 
 
 ###########################################################################

@@ -7,7 +7,7 @@ import subprocess
 # Internal Dependencies
 from lib import html2text, utils
 from . import zq
-import config
+import setup
 import search
 
 
@@ -48,7 +48,7 @@ def get_export_html(flag, uid, wf):
         elif flag == 'group':
             cites = export_group(uid)
         # Cache exported HTML?
-        if config.CACHE_REFERENCES:
+        if setup.CACHE_REFERENCES:
             cache = {flag: cites}
             wf.cache_data(uid, cache)
     return cites

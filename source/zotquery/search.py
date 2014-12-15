@@ -7,7 +7,7 @@ import sqlite3
 from workflow.workflow import isascii
 from lib import utils
 from . import zq
-import config
+import setup
 
 
 #------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ class ResultsFormatter(object):
         alfred['icon'] = self.format_icon()
         alfred['largetext'] = self.format_largetext()
         alfred['copytext'] = self.format_quickcopy()
-        if config.ALFRED_LEARN:
+        if setup.ALFRED_LEARN:
             alfred['uid'] = str(self.item['id'])
         return alfred
 
@@ -120,7 +120,7 @@ class ResultsFormatter(object):
         alfred['valid'] = True
         alfred['arg'] = '_'.join([self.item['flag'][0], self.item['key']])
         alfred['icon'] = "icons/n_{}.png".format(self.item['flag'][:-1])
-        if config.ALFRED_LEARN:
+        if setup.ALFRED_LEARN:
             alfred['uid'] = str(self.item['key'])
         return alfred
 
@@ -174,14 +174,14 @@ class ResultsFormatter(object):
         """Generate `str` to be displayed by Alfred's large text.
 
         """
-        if isinstance(config.LARGE_TEXT, unicode):
+        if isinstance(setup.LARGE_TEXT, unicode):
             # get search map from column
-            json_map = config.FILTERS_MAP.get(config.LARGE_TEXT, None)
+            json_map = setup.FILTERS_MAP.get(setup.LARGE_TEXT, None)
             if json_map:
                 # get data from `item` using search map
                 largetext = zq.backend.get_datum(self.item, json_map)
-        elif hasattr(config.LARGE_TEXT, '__call__'):
-            largetext = config.LARGE_TEXT(self.item)
+        elif hasattr(setup.LARGE_TEXT, '__call__'):
+            largetext = setup.LARGE_TEXT(self.item)
         else:
             largetext = ''
         return largetext
@@ -190,14 +190,14 @@ class ResultsFormatter(object):
         """Generate `str` to be copied to clipboard by `cmd+c`.
 
         """
-        if isinstance(config.QUICK_COPY, unicode):
+        if isinstance(setup.QUICK_COPY, unicode):
             # get search map from column
-            json_map = config.FILTERS_MAP.get(config.QUICK_COPY, None)
+            json_map = setup.FILTERS_MAP.get(setup.QUICK_COPY, None)
             if json_map:
                 # get data from `item` using search map
                 quickcopy = zq.backend.get_datum(self.item, json_map)
-        elif hasattr(config.QUICK_COPY, '__call__'):
-            quickcopy = config.QUICK_COPY(self.item)
+        elif hasattr(setup.QUICK_COPY, '__call__'):
+            quickcopy = setup.QUICK_COPY(self.item)
         else:
             quickcopy = ''
         return quickcopy
@@ -212,8 +212,11 @@ class ResultsFormatter(object):
         creator_list = []
         # Order last names by index
         for author in self.item['creators']:
-            last = author['family']
             index = author['index']
+            if author['family']:
+                last = author['family']
+            else:
+                last = 'xxx.'
             if author['type'] == 'editor':
                 last = last + ' (ed.)'
             elif author['type'] == 'translator':
@@ -252,7 +255,7 @@ class ResultsFormatter(object):
 def search_for_items(scope, query):
     # Generate appropriate sqlite query
     sqlite_query = make_item_sqlite_query(scope, query)
-    config.log.info('Item sqlite query : {}'.format(sqlite_query))
+    setup.log.info('Item sqlite query : {}'.format(sqlite_query))
     # Run sqlite query and get back item keys
     item_keys = run_item_sqlite_query(sqlite_query)
     # Get JSON data of user's Zotero library
@@ -283,8 +286,8 @@ def make_item_fuzzy(query):
 
 ### 1.1.2  --------------------------------------------------------------------
 def get_item_columns(scope):
-    if scope in config.FILTERS.keys():
-        columns = config.FILTERS.get(scope)
+    if scope in setup.FILTERS.keys():
+        columns = setup.FILTERS.get(scope)
         columns.remove('key')
         return columns
     else:
@@ -314,16 +317,16 @@ def get_item_sql():
 ## 1.2  -----------------------------------------------------------------------
 def run_item_sqlite_query(query):
     db = get_fts_db(query)
-    config.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
+    setup.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
 
     def ranker(con):
-        ranks = [1.0] * len(config.FILTERS['general'])
+        ranks = [1.0] * len(setup.FILTERS['general'])
         con.create_function('rank',
                             1,
                             zq.backend.make_rank_func(ranks))
 
     results = execute_sql(db, query, context=ranker).fetchall()
-    config.log.info('Number of results : {}'.format(len(results)))
+    setup.log.info('Number of results : {}'.format(len(results)))
     # Omit rankings from the returned list
     return [x[0] for x in results]
 
@@ -339,7 +342,6 @@ def get_fts_db(query):
 
 ## 1.3  -----------------------------------------------------------------------
 def get_item_dict(key):
-    
     item = data.get(key, None)
 
 
@@ -351,7 +353,7 @@ def get_item_dict(key):
 def search_for_groups(scope, query):
     # Generate appropriate sqlite query
     sqlite_query = make_group_sqlite_query(scope, query)
-    config.log.info('Item sqlite query : {}'.format(sqlite_query))
+    setup.log.info('Item sqlite query : {}'.format(sqlite_query))
     # Run sqlite query and get back item keys
     coll_data = run_group_sqlite_query(sqlite_query)
     coll_dicts = [{'flag': scope, 'name': coll[0], 'key': coll[1]}
@@ -401,9 +403,9 @@ def get_group_sql():
 ## 2.2  -----------------------------------------------------------------------
 def run_group_sqlite_query(query):
     db = zq.backend.cloned_sqlite
-    config.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
+    setup.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
     results = execute_sql(db, query).fetchall()
-    config.log.info('Number of results : {}'.format(len(results)))
+    setup.log.info('Number of results : {}'.format(len(results)))
     return results
 
 
@@ -415,11 +417,11 @@ def run_group_sqlite_query(query):
 def search_within_group(scope, query):
     group_type = scope.split('-')[-1]
     # Read saved group info
-    path = config.WF.cachefile('{}_query_result.txt'.format(group_type))
+    path = setup.WF.cachefile('{}_query_result.txt'.format(group_type))
     group_id = utils.read_path(path)
     group_name = get_group_name(group_id)
     sqlite_query = make_in_group_sqlite_query(scope, query, group_name)
-    config.log.info('Item sqlite query : {}'.format(sqlite_query))
+    setup.log.info('Item sqlite query : {}'.format(sqlite_query))
     # Run sqlite query and get back item keys
     item_keys = run_item_sqlite_query(sqlite_query)
     # Get JSON data of user's Zotero library
@@ -451,7 +453,7 @@ def get_group_name(group_arg):
 def get_collection_name(uid):
     """Get name of tag from `key`"""
     db = zq.backend.cloned_sqlite
-    config.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
+    setup.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
     sql_query = """SELECT collectionName
                    FROM collections
                    WHERE key = "{}" """.format(uid)
@@ -462,7 +464,7 @@ def get_collection_name(uid):
 ### 3.1.2  --------------------------------------------------------------------
 def get_tag_name(uid):
     db = zq.backend.cloned_sqlite
-    config.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
+    setup.log.info('Connecting to : `{}`'.format(db.split('/')[-1]))
     sql_query = """SELECT name
                    FROM tags
                    WHERE key = "{}" """.format(uid)
@@ -491,8 +493,8 @@ def execute_sql(db, sql, context=None):
             # If the query is invalid,
             # show an appropriate warning and exit
             if b'malformed MATCH' in err.message:
-                config.WF.add_item('Invalid query')
-                config.WF.send_feedback()
+                setup.WF.add_item('Invalid query')
+                setup.WF.send_feedback()
                 return 1
             # Otherwise raise error for Workflow to catch and log
             else:
@@ -526,19 +528,19 @@ def make_conjunctive_item_query(query, column, group):
 #------------------------------------------------------------------------------
 def search(scope, query, wf):
     # Ensure inputs are Unicode
-    scope = config.decode(scope)
-    query = config.decode(query)
+    scope = setup.decode(scope)
+    query = setup.decode(query)
     # Search for individual items
-    if scope in config.SCOPE_TYPES['items']:
+    if scope in setup.SCOPE_TYPES['items']:
         found_items = search_for_items(scope, query)
     # Search for individual groups
-    elif scope in config.SCOPE_TYPES['groups']:
+    elif scope in setup.SCOPE_TYPES['groups']:
         found_items = search_for_groups(scope, query)
     # Search for individual items in an individual group
-    elif scope in config.SCOPE_TYPES['in-groups']:
+    elif scope in setup.SCOPE_TYPES['in-groups']:
         found_items = search_within_group(scope, query)
     # Search for certain debugging options
-    elif scope in config.SCOPE_TYPES['meta']:
+    elif scope in setup.SCOPE_TYPES['meta']:
         if scope == 'debug':
             #search_debug()
             pass

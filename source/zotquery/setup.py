@@ -23,7 +23,7 @@ WF = Workflow()
 log = WF.logger
 decode = WF.decode
 
-__version__ = '10.0'
+__version__ = '10.0.3'
 
 __usage__ = """
 ZotQuery -- An Alfred GUI for `zotero`
@@ -63,19 +63,20 @@ def quick_copy(item):
     if len(item['creators']) == 0:
         last = 'xxx'
     elif len(item['creators']) == 1:
-        last = item['creators'][0]['family']
+        last = utils.check_value(item['creators'][0]['family'])
     elif len(item['creators']) == 2:
-        last1 = item['creators'][0]['family']
-        last2 = item['creators'][1]['family']
+        last1 = utils.check_value(item['creators'][0]['family'])
+        last2 = utils.check_value(item['creators'][1]['family'])
         last = last1 + ', & ' + last2
     elif len(item['creators']) > 2:
         for i in item['creators']:
             if i['type'] == 'author':
-                last = i['family'] + ', et al.'
+                last = utils.check_value(i['family']) + ', et al.'
         try:
             last
         except NameError:
-            last = item['creators'][0]['family'] + ', et al.'
+            last = utils.check_value(item['creators'][0]['family'])
+            last = last + ', et al.'
     scannable_str = '_'.join([last, year, item['key'][-3:]])
     return '{@' + scannable_str + '}'
 
@@ -264,12 +265,12 @@ class PropertyBase(object):
                 properties[prop] = getattr(self, prop)
         # if any property has a null value
         elif None in properties.values():
-                # get names of any null properties
-                null_props = [k for k, v in properties.items()
-                              if not v]
-                for prop in null_props:
-                    # update null property
-                    properties[prop] = getattr(self, prop)
+            # get names of any null properties
+            null_props = [k for k, v in properties.items()
+                          if not v]
+            for prop in null_props:
+                # update null property
+                properties[prop] = getattr(self, prop)
         # if all properties already set
         else:
             return properties
@@ -362,4 +363,3 @@ def stored_property(func):
             # `self.me` exists, but property is not a key
             return func(self)
     return func_wrapper
-

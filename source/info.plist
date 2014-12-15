@@ -1282,9 +1282,9 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string></string>
+	<string>Stephen Margheim</string>
 	<key>description</key>
-	<string>Search your Zotero Library (v. 10.0)</string>
+	<string>Search your Zotero Library (v. 10.0.3)</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -1335,7 +1335,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py config freshen True</string>
+				<string>/usr/bin/python zotquery.py configure freshen True</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -1419,7 +1419,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/python zotquery.py config prefs</string>
+				<string>/usr/bin/python zotquery.py configure prefs</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>

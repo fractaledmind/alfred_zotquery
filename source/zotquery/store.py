@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 # Internal Dependencies
 from lib import utils
-import config
+import setup
 
 
 # 1.  ------------------------------
@@ -16,5 +16,5 @@ def store(flag, arg, wf):
     """
     path = wf.cachefile('{}_query_result.txt'.format(flag))
     utils.write_path(arg, path)
-    config.log.info('Item ID stored in cache file.')
+    setup.log.info('Item ID stored in cache file.')
     return True

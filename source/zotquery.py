@@ -11,7 +11,7 @@ from __future__ import unicode_literals
 import sys
 
 # Internal Dependencies
-from zotquery import config
+from zotquery import setup
 from zotquery.lib.docopt import docopt
 
 # Alfred-Workflow
@@ -21,7 +21,7 @@ from zotquery import search, export, append, store, open, configure, scan
 # create global methods from `Workflow()`
 WF = Workflow(update_settings={
     'github_slug': 'smargh/alfred_zotquery',
-    'version': config.__version__,
+    'version': setup.__version__,
     'frequency': 7
 })
 
@@ -89,10 +89,11 @@ class ZotWorkflow(object):
 
 def main(wf):
     """Accept Alfred's args and pipe to workflow class"""
+
     if wf.update_available:
         wf.start_update()
 
-    config.log.info('- - - NEW RUN - - -')
+    setup.log.info('- - - NEW RUN - - -')
     args = wf.args
     #args = ['search', 'creators', 'margheim']
     #args = ['export', 'bib', '0_3KFT2HQ9']
@@ -100,10 +101,10 @@ def main(wf):
     #args = ['store', 'tag', 't_XK9QHQ6G']
     #args = ['open', 'item', '0_3KFT2HQ9']
     #args = ['configure', 'freshen']
-    argv = docopt(config.__usage__,
+    argv = docopt(setup.__usage__,
                   argv=args,
-                  version=config.__version__)
-    config.log.info('Input arguments : {}'.format(args))
+                  version=setup.__version__)
+    setup.log.info('Input arguments : {}'.format(argv))
     pd = ZotWorkflow(wf)
     res = pd.run(argv)
     if res:
