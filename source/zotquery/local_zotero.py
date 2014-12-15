@@ -6,7 +6,10 @@ import re
 import os.path
 import subprocess
 
+from utils import store_properties, stored_property
 
+
+@store_properties
 class ZoteroPaths(object):
     """Contains all relevant information about user's Zotero installation.
 
@@ -22,7 +25,6 @@ class ZoteroPaths(object):
     """
     def __init__(self):
         pass
-
 
     # Properties --------------------------------------------------------------
 
@@ -87,7 +89,8 @@ class ZoteroPaths(object):
         for path in dirs:
             if 'Zotero' or 'Firefox' in path:
                 # Read text from file at `path`
-                prefs = utils.read_path(path)
+                with open(path, 'r') as f:
+                    prefs = f.read()
                 pref_re = r'{}",\s"(.*?)"'.format(pref)
                 data_dir = re.search(pref_re, prefs)
                 try:
@@ -114,3 +117,7 @@ class ZoteroPaths(object):
         # Convert newline delimited str into clean list
         output = [s.strip() for s in decode(output).split('\n')]
         return filter(None, output)
+
+
+
+

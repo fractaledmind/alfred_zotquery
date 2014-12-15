@@ -23,5 +23,5 @@ if __name__ == '__main__':
     WF = Workflow()
 
     c = ClonedSQlite()
-    print(os.path.exists(c.path))
+    print(c.path)
 
