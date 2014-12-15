@@ -1106,7 +1106,9 @@ class Workflow(object):
         :rtype: ``unicode``
 
         """
-
+        dirpath = '/Users/smargheim/Documents/alfred_zotquery/source/env/cache'
+        return self._create(dirpath)
+        """
         if self.alfred_env.get('workflow_cache'):
             dirpath = self.alfred_env.get('workflow_cache')
 
@@ -1118,6 +1120,7 @@ class Workflow(object):
                 self.bundleid)
 
         return self._create(dirpath)
+        """
 
     @property
     def datadir(self):
@@ -1132,7 +1135,9 @@ class Workflow(object):
         :rtype: ``unicode``
 
         """
-
+        dirpath = '/Users/smargheim/Documents/alfred_zotquery/source/env/data'
+        return self._create(dirpath)
+        """
         if self.alfred_env.get('workflow_data'):
             dirpath = self.alfred_env.get('workflow_data')
 
@@ -1142,6 +1147,7 @@ class Workflow(object):
                 self.bundleid)
 
         return self._create(dirpath)
+        """
 
     @property
     def workflowdir(self):
