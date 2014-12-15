@@ -7,3 +7,4 @@ testing_env/cache_dir/0_MBXHR545.cpickle
 *.pyc
 *.json
 .DS_Store
+source/.DS_Store
