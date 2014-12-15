@@ -8,3 +8,4 @@ testing_env/cache_dir/0_MBXHR545.cpickle
 *.json
 .DS_Store
 source/.DS_Store
+source/zotquery.sublime-workspace
